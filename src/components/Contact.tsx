@@ -14,15 +14,15 @@ function Contact() {
               hello@example.com
             </a>
             <div className="contact-social">
-              <a href="#" className="social-link">LinkedIn</a>
-              <a href="#" className="social-link">GitHub</a>
-              <a href="#" className="social-link">Twitter</a>
+              <span className="social-link">LinkedIn</span>
+              <span className="social-link">GitHub</span>
+              <span className="social-link">Twitter</span>
             </div>
           </div>
         </div>
       </div>
       <footer className="footer">
-        <p>&copy; 2024. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()}. All rights reserved.</p>
       </footer>
     </section>
   )

@@ -16,13 +16,13 @@ A dark, minimal, and premium portfolio website built with React and TypeScript.
 - React 18
 - TypeScript
 - Vite (build tool)
-- CSS Modules
+- Co-located CSS files (per-component `.css` files)
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 16+ and npm
+- Node.js 18+ and npm
 
 ### Installation
 
@@ -107,6 +107,9 @@ Edit `src/components/Contact.tsx` to update your email and social links.
 
 All styling is in dedicated CSS files for each component. Modify the color scheme, typography, and spacing to match your brand.
 
-## License
+## Future Enhancements
 
-MIT
+This project is structured to support future additions:
+- GSAP animations for cinematic transitions
+- React Three Fiber for 3D elements
+- Advanced scroll-based interactions
