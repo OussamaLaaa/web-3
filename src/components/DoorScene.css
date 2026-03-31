@@ -1,0 +1,182 @@
+.door-scene {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Atmospheric background layers */
+.door-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.atmosphere-layer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, #000000 100%);
+  mix-blend-mode: normal;
+}
+
+.atmosphere-layer-1 {
+  background: radial-gradient(
+    ellipse 120% 100% at 50% 50%,
+    rgba(30, 20, 50, 0.4) 0%,
+    rgba(15, 10, 25, 0.3) 50%,
+    transparent 100%
+  );
+}
+
+.atmosphere-layer-2 {
+  background: radial-gradient(
+    circle at 30% 40%,
+    rgba(40, 25, 60, 0.2) 0%,
+    transparent 60%
+  );
+}
+
+.atmosphere-layer-3 {
+  background: radial-gradient(
+    circle at 70% 60%,
+    rgba(25, 30, 50, 0.15) 0%,
+    transparent 50%
+  );
+}
+
+/* Door container */
+.door-container {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.door-left,
+.door-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+.door-left {
+  left: 0;
+  transform-origin: left center;
+}
+
+.door-right {
+  right: 0;
+  transform-origin: right center;
+}
+
+.door-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(20, 20, 25, 0.95) 0%,
+    rgba(15, 15, 20, 0.98) 50%,
+    rgba(10, 10, 15, 1) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.door-left .door-panel {
+  left: 0;
+  border-right: 2px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset -20px 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.door-right .door-panel {
+  right: 0;
+  border-left: 2px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 20px 0 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Light beam through door */
+.light-beam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(200, 180, 255, 0.15) 20%,
+    rgba(180, 160, 240, 0.25) 50%,
+    rgba(200, 180, 255, 0.15) 80%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 40px rgba(200, 180, 255, 0.3),
+    0 0 80px rgba(180, 160, 240, 0.2),
+    0 0 120px rgba(200, 180, 255, 0.1);
+  opacity: 0;
+  transform-origin: top center;
+  filter: blur(2px);
+}
+
+/* Cinematic title */
+.door-title {
+  position: absolute;
+  z-index: 3;
+  text-align: center;
+  pointer-events: none;
+}
+
+.door-title-line {
+  display: block;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow:
+    0 0 20px rgba(255, 255, 255, 0.3),
+    0 0 40px rgba(200, 180, 255, 0.2);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .door-title-line {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+    letter-spacing: 0.15em;
+  }
+
+  .light-beam {
+    box-shadow:
+      0 0 20px rgba(200, 180, 255, 0.3),
+      0 0 40px rgba(180, 160, 240, 0.2);
+  }
+}
+
+/* Reduced motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .door-scene {
+    animation: none;
+  }
+
+  .door-left,
+  .door-right {
+    display: none;
+  }
+
+  .door-title {
+    opacity: 1;
+  }
+
+  .light-beam {
+    opacity: 0.3;
+  }
+}
