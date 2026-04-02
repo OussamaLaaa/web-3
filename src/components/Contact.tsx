@@ -17,42 +17,42 @@ function Contact() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: '.contact',
-          start: 'top 75%',
+          start: 'top 70%',
         },
         defaults: { ease: 'power3.out' },
       })
 
       tl.from(sectionTitleRef.current, {
-        y: 50,
+        y: 40,
         opacity: 0,
-        duration: 1,
+        duration: 1.2,
       })
         .from(
           contactTextRef.current,
           {
-            y: 30,
+            y: 25,
             opacity: 0,
-            duration: 0.8,
+            duration: 1,
           },
-          '-=0.5'
+          '-=0.6'
         )
         .from(
           contactLinkRef.current,
           {
-            y: 30,
+            y: 20,
             opacity: 0,
-            duration: 0.8,
+            duration: 1,
           },
-          '-=0.4'
+          '-=0.5'
         )
         .from(
           socialLinksRef.current,
           {
-            y: 20,
+            y: 15,
             opacity: 0,
-            duration: 0.8,
+            duration: 1,
           },
-          '-=0.4'
+          '-=0.5'
         )
     })
 
@@ -63,11 +63,11 @@ function Contact() {
     <section className="contact">
       <div className="contact-container">
         <h2 className="section-title" ref={sectionTitleRef}>
-          Get In Touch
+          Let's Create Together
         </h2>
         <div className="contact-content">
           <p className="contact-text" ref={contactTextRef}>
-            Let's collaborate on your next project or just have a conversation about design and technology.
+            Ready to bring your vision to life? Let's collaborate on something exceptional.
           </p>
           <div className="contact-links">
             <a
@@ -78,15 +78,15 @@ function Contact() {
               hello@example.com
             </a>
             <div className="contact-social" ref={socialLinksRef}>
-              <span className="social-link">LinkedIn</span>
-              <span className="social-link">GitHub</span>
-              <span className="social-link">Twitter</span>
+              <a href="#" className="social-link">LinkedIn</a>
+              <a href="#" className="social-link">GitHub</a>
+              <a href="#" className="social-link">Twitter</a>
             </div>
           </div>
         </div>
       </div>
       <footer className="footer">
-        <p>&copy; {new Date().getFullYear()}. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Oussama Laaroussi. All rights reserved.</p>
       </footer>
     </section>
   )

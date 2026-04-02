@@ -1,307 +1,222 @@
-/* Cinematic reel container - pinned display area */
-.featured-work-reel {
+.featured-work {
   min-height: 100vh;
-  height: 100vh;
+  padding: 8rem 2rem;
+  background: #0a0a0a;
   position: relative;
-  background: #000000;
   overflow: hidden;
 }
 
-.reel-container {
+.work-container {
+  max-width: 1400px;
+  margin: 0 auto;
   position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
+  z-index: 2;
 }
 
-/* Monitor/projection overlay - maintains in-world display feeling */
-.reel-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0.2;
-  mix-blend-mode: overlay;
-}
-
-/* Subtle scan-line effect */
-.scan-line {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    rgba(255, 255, 255, 0.03) 1px,
-    transparent 2px,
-    transparent 4px
-  );
-  animation: scan 8s linear infinite;
-  opacity: 0.4;
-}
-
-@keyframes scan {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(4px);
-  }
-}
-
-/* Vignette for screen depth */
-.vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 80% 70% at 50% 50%,
-    transparent 0%,
-    transparent 40%,
-    rgba(0, 0, 0, 0.3) 80%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
-}
-
-/* Project frame - each project as a cinematic shot */
-.project-frame {
-  position: absolute;
-  width: 100%;
-  max-width: 1200px;
-  opacity: 0;
+/* Header */
+.work-header {
+  text-align: center;
+  margin-bottom: 6rem;
   will-change: transform, opacity;
 }
 
-.project-content {
+.section-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.section-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+/* Grid */
+.work-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  padding: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Work Cards - cinematic scene-like */
+.work-card {
   background: linear-gradient(
     135deg,
-    rgba(15, 13, 20, 0.6) 0%,
-    rgba(12, 10, 18, 0.8) 50%,
-    rgba(10, 8, 15, 0.9) 100%
+    rgba(20, 18, 25, 0.6) 0%,
+    rgba(15, 13, 20, 0.4) 100%
   );
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 4px;
-  box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.03),
-    0 20px 60px rgba(0, 0, 0, 0.6),
-    0 0 100px rgba(100, 90, 130, 0.08);
-  position: relative;
+  padding: 0;
   overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease;
+  will-change: transform, opacity;
+  position: relative;
 }
 
-.project-content::before {
+.work-card::before {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    45deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.01) 50%,
-    transparent 100%
+    135deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    transparent 50%
   );
+  opacity: 0;
+  transition: opacity 0.4s ease;
   pointer-events: none;
 }
 
-/* Project visual area */
-.project-visual {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  background: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
-  overflow: hidden;
+.work-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
-.project-thumbnail {
+.work-card:hover::before {
+  opacity: 1;
+}
+
+/* Visual Area */
+.work-visual {
+  position: relative;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
   background: linear-gradient(
     135deg,
-    rgba(25, 22, 30, 0.8) 0%,
-    rgba(20, 18, 25, 0.9) 50%,
-    rgba(15, 13, 20, 1) 100%
+    rgba(30, 28, 35, 0.5) 0%,
+    rgba(20, 18, 25, 0.5) 100%
   );
-  position: relative;
 }
 
-.project-thumbnail::before {
-  content: '';
+.work-thumbnail {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(
-      circle at 30% 40%,
-      rgba(110, 95, 140, 0.12) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      circle at 70% 60%,
-      rgba(80, 70, 110, 0.08) 0%,
-      transparent 50%
-    );
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 40%,
+    rgba(80, 75, 95, 0.15) 0%,
+    rgba(60, 55, 75, 0.08) 40%,
+    transparent 70%
+  );
 }
 
-/* Project number badge */
-.project-number {
+.work-number {
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  font-size: clamp(3rem, 5vw, 5rem);
+  font-size: 5rem;
   font-weight: 100;
-  color: rgba(255, 255, 255, 0.15);
-  letter-spacing: -0.05em;
+  color: rgba(255, 255, 255, 0.08);
   line-height: 1;
-  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.05em;
   pointer-events: none;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Project details */
-.project-details {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+/* Content */
+.work-content {
+  padding: 2rem;
 }
 
-.project-meta-top {
+.work-meta {
   display: flex;
-  gap: 2rem;
   align-items: center;
-}
-
-.project-category,
-.project-year {
+  gap: 1rem;
+  margin-bottom: 1rem;
   font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
 }
 
-.project-category {
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 2px;
+.work-category {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
 }
 
-.project-year {
-  opacity: 0.6;
-}
-
-.project-title {
-  font-size: clamp(2.5rem, 4vw, 4rem);
-  font-weight: 200;
-  letter-spacing: -0.03em;
-  color: #ffffff;
-  line-height: 1.1;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.project-description {
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
+.work-year {
+  color: rgba(255, 255, 255, 0.3);
   font-weight: 300;
-  letter-spacing: 0.01em;
-  margin: 0;
-  max-width: 500px;
 }
 
-/* Mobile optimizations */
+.work-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 300;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.work-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Mobile Responsive */
 @media (max-width: 968px) {
-  .reel-container {
-    padding: 2rem 1.5rem;
+  .featured-work {
+    padding: 6rem 1.5rem;
   }
 
-  .project-content {
+  .work-header {
+    margin-bottom: 4rem;
+  }
+
+  .work-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 2rem;
+    gap: 2.5rem;
   }
 
-  .project-visual {
-    aspect-ratio: 16 / 11;
-  }
-
-  .project-number {
+  .work-number {
+    font-size: 4rem;
     top: 1rem;
     right: 1rem;
-    font-size: clamp(2rem, 8vw, 3rem);
   }
 
-  .project-details {
-    gap: 1.5rem;
-  }
-
-  .project-meta-top {
-    gap: 1.5rem;
-  }
-
-  .project-title {
-    font-size: clamp(2rem, 6vw, 3rem);
-  }
-
-  .project-description {
-    font-size: clamp(0.9rem, 3vw, 1.1rem);
-  }
-
-  .scan-line {
-    opacity: 0.2;
-  }
-
-  .vignette {
-    opacity: 0.8;
+  .work-content {
+    padding: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
-  .project-content {
-    padding: 1.5rem;
-    gap: 1.5rem;
+  .featured-work {
+    padding: 5rem 1rem;
   }
 
-  .project-meta-top {
-    flex-wrap: wrap;
-    gap: 1rem;
+  .work-header {
+    margin-bottom: 3rem;
   }
 
-  .project-category {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.7rem;
+  .work-grid {
+    gap: 2rem;
+  }
+
+  .work-number {
+    font-size: 3rem;
   }
 }
 
-/* Reduced motion fallback */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .scan-line {
-    animation: none;
+  .work-card {
+    transition: none;
   }
 
-  .project-frame {
-    will-change: auto;
+  .work-card:hover {
+    transform: none;
   }
 
-  .reel-overlay {
-    opacity: 0.1;
+  .work-card::before {
+    display: none;
   }
-}
-
-/* Additional project frame positioning for absolute layering */
-.project-frame[data-project="1"] {
-  z-index: 3;
-}
-
-.project-frame[data-project="2"] {
-  z-index: 2;
-}
-
-.project-frame[data-project="3"] {
-  z-index: 1;
 }
