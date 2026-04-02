@@ -127,8 +127,22 @@ function WorkGateway() {
   return (
     <div className="work-gateway" ref={gatewayRef}>
       <div className="gateway-content">
+        {/* Desk surface and environment */}
+        <div className="gateway-desk">
+          <div className="desk-surface"></div>
+          <div className="desk-items">
+            <div className="desk-item keyboard"></div>
+            <div className="desk-item mouse"></div>
+            <div className="desk-item notebook"></div>
+            <div className="desk-item coffee"></div>
+          </div>
+        </div>
+
         {/* Monitor/Screen - the portal to work */}
         <div className="gateway-monitor" ref={monitorRef}>
+          {/* Monitor stand */}
+          <div className="monitor-stand"></div>
+
           {/* Monitor frame */}
           <div className="monitor-frame" ref={frameRef}>
             <div className="frame-edge frame-top"></div>
@@ -142,6 +156,7 @@ function WorkGateway() {
             <div className="screen-content">
               <div className="screen-grid"></div>
               <div className="screen-gradient"></div>
+              <div className="screen-reflection"></div>
             </div>
           </div>
 

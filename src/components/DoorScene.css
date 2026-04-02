@@ -2,13 +2,13 @@
   height: 100vh;
   position: relative;
   overflow: hidden;
-  background-color: #000000;
+  background: linear-gradient(180deg, #050505 0%, #0a0a0a 50%, #080808 100%);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Atmospheric background layers */
+/* Atmospheric background layers - hallway/corridor feeling */
 .door-atmosphere {
   position: absolute;
   inset: 0;
@@ -18,31 +18,35 @@
 .atmosphere-layer {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 0%, #000000 100%);
   mix-blend-mode: normal;
 }
 
 .atmosphere-layer-1 {
+  /* Corridor perspective lighting */
   background: radial-gradient(
-    ellipse 120% 100% at 50% 50%,
-    rgba(30, 20, 50, 0.4) 0%,
-    rgba(15, 10, 25, 0.3) 50%,
+    ellipse 100% 120% at 50% 45%,
+    rgba(35, 30, 45, 0.3) 0%,
+    rgba(20, 18, 28, 0.25) 40%,
+    rgba(12, 10, 18, 0.15) 70%,
     transparent 100%
   );
 }
 
 .atmosphere-layer-2 {
+  /* Warm ambient office glow (top left - suggesting hallway light) */
   background: radial-gradient(
-    circle at 30% 40%,
-    rgba(40, 25, 60, 0.2) 0%,
+    circle at 25% 20%,
+    rgba(60, 50, 40, 0.08) 0%,
+    rgba(45, 38, 32, 0.05) 30%,
     transparent 60%
   );
 }
 
 .atmosphere-layer-3 {
+  /* Cool ambient (suggesting office space beyond) */
   background: radial-gradient(
-    circle at 70% 60%,
-    rgba(25, 30, 50, 0.15) 0%,
+    circle at 75% 40%,
+    rgba(35, 40, 55, 0.06) 0%,
     transparent 50%
   );
 }
@@ -81,50 +85,109 @@
   top: 0;
   bottom: 0;
   width: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(20, 20, 25, 0.95) 0%,
-    rgba(15, 15, 20, 0.98) 50%,
-    rgba(10, 10, 15, 1) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  /* Office door material - dark wood/metal with subtle texture */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(25, 23, 28, 0.96) 0%,
+      rgba(20, 18, 23, 0.98) 20%,
+      rgba(18, 16, 21, 0.99) 50%,
+      rgba(16, 14, 19, 1) 80%,
+      rgba(14, 12, 17, 1) 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      rgba(255, 255, 255, 0.005) 1px,
+      transparent 2px,
+      transparent 80px
+    );
+  border: 1px solid rgba(0, 0, 0, 0.8);
 }
 
 .door-left .door-panel {
   left: 0;
-  border-right: 2px solid rgba(255, 255, 255, 0.05);
-  box-shadow: inset -20px 0 40px rgba(0, 0, 0, 0.5);
+  border-right: 3px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset -30px 0 60px rgba(0, 0, 0, 0.6),
+    inset -5px 0 15px rgba(0, 0, 0, 0.4),
+    inset 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.door-left .door-panel::before {
+  content: '';
+  position: absolute;
+  right: 8%;
+  top: 48%;
+  width: 4%;
+  height: 8%;
+  background: linear-gradient(135deg, rgba(80, 75, 70, 0.4), rgba(50, 48, 45, 0.6));
+  border-radius: 2px;
+  box-shadow:
+    inset 1px 1px 2px rgba(255, 255, 255, 0.1),
+    2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .door-right .door-panel {
   right: 0;
-  border-left: 2px solid rgba(255, 255, 255, 0.05);
-  box-shadow: inset 20px 0 40px rgba(0, 0, 0, 0.5);
+  border-left: 3px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 30px 0 60px rgba(0, 0, 0, 0.6),
+    inset 5px 0 15px rgba(0, 0, 0, 0.4),
+    inset 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
-/* Light beam through door */
+.door-right .door-panel::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  top: 48%;
+  width: 4%;
+  height: 8%;
+  background: linear-gradient(135deg, rgba(80, 75, 70, 0.4), rgba(50, 48, 45, 0.6));
+  border-radius: 2px;
+  box-shadow:
+    inset 1px 1px 2px rgba(255, 255, 255, 0.1),
+    2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Light beam through door - warm office interior light */
 .light-beam {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 1px;
+  width: 2px;
   height: 100%;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(200, 180, 255, 0.15) 20%,
-    rgba(180, 160, 240, 0.25) 50%,
-    rgba(200, 180, 255, 0.15) 80%,
+    rgba(255, 240, 200, 0.08) 15%,
+    rgba(240, 220, 180, 0.15) 35%,
+    rgba(220, 200, 160, 0.20) 50%,
+    rgba(240, 220, 180, 0.15) 65%,
+    rgba(255, 240, 200, 0.08) 85%,
     transparent 100%
   );
   box-shadow:
-    0 0 40px rgba(200, 180, 255, 0.3),
-    0 0 80px rgba(180, 160, 240, 0.2),
-    0 0 120px rgba(200, 180, 255, 0.1);
+    0 0 60px rgba(255, 240, 200, 0.15),
+    0 0 120px rgba(240, 220, 180, 0.1),
+    0 0 180px rgba(255, 235, 190, 0.05);
   opacity: 0;
   transform-origin: top center;
-  filter: blur(2px);
+  filter: blur(3px);
+}
+
+.light-beam::before {
+  content: '';
+  position: absolute;
+  inset: 20% -400% 20% -400%;
+  background: radial-gradient(
+    ellipse 50% 100% at 50% 50%,
+    rgba(255, 240, 200, 0.03) 0%,
+    rgba(240, 220, 180, 0.02) 40%,
+    transparent 70%
+  );
 }
 
 /* Cinematic title */

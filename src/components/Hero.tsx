@@ -123,11 +123,17 @@ function Hero() {
       <div className="hero-atmosphere" ref={atmosphereRef}>
         <div className="atmosphere-gradient"></div>
         <div className="atmosphere-particles"></div>
+        <div className="atmosphere-window-light"></div>
       </div>
 
-      {/* Depth layers for parallax */}
-      <div className="hero-depth-layer hero-depth-1" ref={depthLayer1Ref}></div>
-      <div className="hero-depth-layer hero-depth-2" ref={depthLayer2Ref}></div>
+      {/* Depth layers for parallax - workspace environment */}
+      <div className="hero-depth-layer hero-depth-1" ref={depthLayer1Ref}>
+        <div className="workspace-silhouette"></div>
+        <div className="desk-edge"></div>
+      </div>
+      <div className="hero-depth-layer hero-depth-2" ref={depthLayer2Ref}>
+        <div className="ambient-objects"></div>
+      </div>
 
       {/* Main content */}
       <div className="hero-content">
