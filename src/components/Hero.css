@@ -6,14 +6,158 @@
   align-items: center;
   position: relative;
   padding: 4rem 2rem;
-  background: linear-gradient(180deg, #0a0a0a 0%, #0f0f0f 50%, #121212 100%);
+  background: #0a0a0a;
+  overflow: hidden;
 }
 
+.hero-cinematic {
+  height: 100vh;
+  padding: 0;
+}
+
+/* Atmospheric layers */
+.hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  will-change: transform, opacity;
+}
+
+.atmosphere-gradient {
+  position: absolute;
+  inset: 0;
+  /* Office interior ambient lighting */
+  background: radial-gradient(
+    ellipse 90% 70% at 50% 45%,
+    rgba(30, 28, 35, 0.4) 0%,
+    rgba(20, 18, 25, 0.35) 35%,
+    rgba(15, 13, 20, 0.25) 60%,
+    rgba(10, 10, 10, 0.15) 80%,
+    transparent 100%
+  );
+}
+
+.atmosphere-particles {
+  position: absolute;
+  inset: 0;
+  /* Subtle dust particles in room light */
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(120, 110, 140, 0.015) 0%, transparent 40%),
+    radial-gradient(circle at 75% 35%, rgba(100, 95, 120, 0.012) 0%, transparent 45%),
+    radial-gradient(circle at 50% 70%, rgba(110, 100, 130, 0.018) 0%, transparent 50%);
+}
+
+.atmosphere-window-light {
+  position: absolute;
+  inset: 0;
+  /* Simulated window light from upper right */
+  background: linear-gradient(
+    135deg,
+    rgba(80, 75, 90, 0.08) 0%,
+    rgba(60, 58, 70, 0.05) 25%,
+    transparent 50%
+  );
+}
+
+/* Depth layers for parallax */
+.hero-depth-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.hero-depth-1 {
+  z-index: 2;
+  /* Background elements - far workspace wall/shelves */
+  background: linear-gradient(
+    180deg,
+    rgba(25, 23, 30, 0.12) 0%,
+    rgba(22, 20, 27, 0.15) 30%,
+    transparent 50%
+  );
+}
+
+/* Workspace silhouette - suggests room structure */
+.workspace-silhouette {
+  position: absolute;
+  inset: 0;
+  background:
+    /* Subtle shelf/wall structure top left */
+    linear-gradient(
+      90deg,
+      rgba(30, 28, 35, 0.08) 0%,
+      transparent 15%
+    ),
+    /* Right side depth */
+    linear-gradient(
+      270deg,
+      rgba(28, 26, 33, 0.06) 0%,
+      transparent 18%
+    );
+}
+
+/* Desk edge silhouette - lower portion */
+.desk-edge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(18, 16, 22, 0.15) 40%,
+    rgba(15, 13, 20, 0.25) 70%,
+    rgba(12, 10, 18, 0.35) 100%
+  );
+}
+
+.hero-depth-2 {
+  z-index: 3;
+  /* Mid-ground atmospheric depth */
+  background: radial-gradient(
+    ellipse 70% 50% at 35% 40%,
+    rgba(35, 32, 42, 0.06) 0%,
+    transparent 65%
+  );
+}
+
+/* Ambient objects - suggested plants, frames, desk items */
+.ambient-objects {
+  position: absolute;
+  inset: 0;
+  background-image:
+    /* Plant silhouette left side */
+    radial-gradient(
+      ellipse 8% 18% at 8% 55%,
+      rgba(25, 35, 30, 0.12) 0%,
+      rgba(20, 28, 25, 0.08) 40%,
+      transparent 70%
+    ),
+    /* Object on right */
+    radial-gradient(
+      ellipse 5% 12% at 92% 45%,
+      rgba(30, 28, 35, 0.10) 0%,
+      transparent 60%
+    );
+}
+
+/* Main content */
 .hero-content {
   max-width: 1400px;
   width: 100%;
   text-align: center;
   padding: 0 2rem;
+  z-index: 4;
+  position: relative;
+}
+
+.hero-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
 }
 
 .hero-title {
@@ -21,9 +165,10 @@
   font-weight: 200;
   letter-spacing: -0.03em;
   color: #ffffff;
-  margin-bottom: 3rem;
   line-height: 0.95;
   text-transform: uppercase;
+  will-change: transform, opacity;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
 .hero-subtitle {
@@ -34,34 +179,56 @@
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.5;
+  will-change: transform, opacity;
 }
 
+/* Removed scroll indicator for cinematic version */
 .hero-scroll-indicator {
-  position: absolute;
-  bottom: 4rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  font-weight: 400;
+  display: none;
 }
 
+/* Mobile optimizations */
 @media (max-width: 768px) {
   .hero {
     padding: 3rem 1.5rem;
   }
 
+  .hero-cinematic {
+    padding: 0;
+  }
+
   .hero-content {
-    padding: 0 1rem;
+    padding: 0 1.5rem;
+  }
+
+  .hero-identity {
+    gap: 2rem;
   }
 
   .hero-title {
-    margin-bottom: 2rem;
+    margin-bottom: 0;
   }
 
-  .hero-scroll-indicator {
-    bottom: 3rem;
+  .atmosphere-particles {
+    opacity: 0.5;
+  }
+}
+
+/* Reduced motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .hero-atmosphere,
+  .hero-depth-layer,
+  .hero-title,
+  .hero-subtitle {
+    will-change: auto;
+  }
+
+  .hero-atmosphere {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .hero-depth-layer {
+    opacity: 0.5;
   }
 }
