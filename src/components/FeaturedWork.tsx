@@ -94,20 +94,23 @@ function FeaturedWork() {
 
       // Staggered work items reveal
       workItemsRef.current.forEach((item, index) => {
-        if (item && index !== 0) {
-          gsap.from(item, {
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 82%',
-            },
-            y: 100,
-            opacity: 0,
-            scale: 0.95,
-            duration: 1.2,
-            delay: index * 0.12,
-            ease: 'power3.out',
-          })
-        }
+        if (!item) return
+
+        const isFirst = index === 0
+
+        gsap.from(item, {
+          scrollTrigger: {
+            trigger: item,
+            start: isFirst ? 'top 90%' : 'top 82%',
+          },
+          y: isFirst ? 120 : 100,
+          opacity: 0,
+          scale: isFirst ? 0.93 : 0.95,
+          filter: isFirst ? 'blur(8px)' : 'none',
+          duration: 1.2,
+          delay: isFirst ? 0 : index * 0.12,
+          ease: 'power3.out',
+        })
       })
     })
 
