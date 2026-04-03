@@ -10,6 +10,7 @@ interface WorkItem {
   title: string
   category: string
   year: string
+  description: string
 }
 
 function FeaturedWork() {
@@ -22,18 +23,21 @@ function FeaturedWork() {
       title: 'Project Alpha',
       category: 'Web Development',
       year: '2024',
+      description: 'A comprehensive web platform focused on seamless user experience and modern interface design.',
     },
     {
       id: 2,
       title: 'Design System',
       category: 'UI/UX Design',
       year: '2024',
+      description: 'Modular component library built for consistency, accessibility, and scalability across products.',
     },
     {
       id: 3,
       title: 'Mobile Experience',
       category: 'Mobile Development',
       year: '2023',
+      description: 'Native mobile application delivering intuitive interactions and fluid performance.',
     },
   ]
 
@@ -86,10 +90,15 @@ function FeaturedWork() {
               ref={(el) => (workItemsRef.current[index] = el)}
             >
               <div className="work-thumbnail">
-                <div className="work-placeholder"></div>
+                <div className="work-placeholder">
+                  <div className="work-overlay"></div>
+                </div>
               </div>
               <div className="work-info">
-                <h3 className="work-title">{work.title}</h3>
+                <div className="work-text">
+                  <h3 className="work-title">{work.title}</h3>
+                  <p className="work-description">{work.description}</p>
+                </div>
                 <div className="work-meta">
                   <span className="work-category">{work.category}</span>
                   <span className="work-year">{work.year}</span>
