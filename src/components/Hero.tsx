@@ -29,8 +29,11 @@ function Hero() {
 
     const ctx = gsap.context(() => {
       const heroElement = heroRef.current
-      if (reducedMotion || !heroElement) {
+      if (reducedMotion) {
         gsap.set(heroElement, { clearProps: 'all' })
+        return
+      }
+      if (!heroElement) {
         return
       }
 

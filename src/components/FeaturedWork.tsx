@@ -145,9 +145,7 @@ function FeaturedWork() {
               </div>
 
               <div className="work-body">
-                <div
-                  className="work-visual"
-                >
+                <div className="work-visual">
                   <div className="visual-grid"></div>
                   <div className="visual-beam"></div>
                   <div className="visual-band"></div>
