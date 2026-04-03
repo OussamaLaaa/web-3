@@ -7,15 +7,15 @@ import './FramedIdentity.css'
 gsap.registerPlugin(ScrollTrigger)
 
 interface FramedIdentityProps {
-  featuredSectionRef: MutableRefObject<HTMLElement | null>
-  firstWorkItemRef: MutableRefObject<HTMLDivElement | null>
-  firstWorkVisualRef: MutableRefObject<HTMLDivElement | null>
+  sharedSectionRef: MutableRefObject<HTMLElement | null>
+  sharedFirstItemRef: MutableRefObject<HTMLDivElement | null>
+  sharedFirstVisualRef: MutableRefObject<HTMLDivElement | null>
 }
 
 function FramedIdentity({
-  featuredSectionRef,
-  firstWorkItemRef,
-  firstWorkVisualRef,
+  sharedSectionRef,
+  sharedFirstItemRef,
+  sharedFirstVisualRef,
 }: FramedIdentityProps) {
   const sceneRef = useRef<HTMLElement>(null)
   const frameWrapRef = useRef<HTMLDivElement>(null)
@@ -30,9 +30,9 @@ function FramedIdentity({
 
     const ctx = gsap.context(() => {
       const scene = sceneRef.current
-      const featuredSection = featuredSectionRef.current
-      const firstWorkItem = firstWorkItemRef.current
-      const firstVisual = firstWorkVisualRef.current
+      const featuredSection = sharedSectionRef.current
+      const firstWorkItem = sharedFirstItemRef.current
+      const firstVisual = sharedFirstVisualRef.current
 
       if (!scene || reducedMotion) {
         gsap.set(scene, { clearProps: 'all' })
@@ -125,6 +125,8 @@ function FramedIdentity({
           0.66
         )
 
+      let workHandoffPosition = 0.7
+
       if (featuredSection) {
         tl.fromTo(
           featuredSection,
@@ -135,8 +137,9 @@ function FramedIdentity({
             duration: 1,
             ease: 'power2.out',
           },
-          0.7
+          workHandoffPosition
         )
+        workHandoffPosition += 0.02
       }
 
       if (firstWorkItem) {
@@ -149,8 +152,9 @@ function FramedIdentity({
             filter: 'blur(0px)',
             duration: 1.1,
           },
-          0.72
+          workHandoffPosition
         )
+        workHandoffPosition += 0.02
       }
 
       if (firstVisual) {
@@ -162,13 +166,13 @@ function FramedIdentity({
             y: 0,
             duration: 0.95,
           },
-          0.74
+          workHandoffPosition
         )
       }
     })
 
     return () => ctx.revert()
-  }, [featuredSectionRef, firstWorkItemRef, firstWorkVisualRef])
+  }, [sharedSectionRef, sharedFirstItemRef, sharedFirstVisualRef])
 
   return (
     <section className="framed-identity" ref={sceneRef}>

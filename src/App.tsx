@@ -21,14 +21,14 @@ function App() {
       <DoorScene />
       <Hero />
       <FramedIdentity
-        featuredSectionRef={featuredSectionRef}
-        firstWorkItemRef={firstWorkItemRef}
-        firstWorkVisualRef={firstWorkVisualRef}
+        sharedSectionRef={featuredSectionRef}
+        sharedFirstItemRef={firstWorkItemRef}
+        sharedFirstVisualRef={firstWorkVisualRef}
       />
       <FeaturedWork
-        sectionRefExternal={featuredSectionRef}
-        firstItemRefExternal={firstWorkItemRef}
-        firstVisualRefExternal={firstWorkVisualRef}
+        sharedSectionRef={featuredSectionRef}
+        sharedFirstItemRef={firstWorkItemRef}
+        sharedFirstVisualRef={firstWorkVisualRef}
       />
       <Recommendations />
       <Contact />

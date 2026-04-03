@@ -19,15 +19,15 @@ interface WorkItem {
 }
 
 interface FeaturedWorkProps {
-  sectionRefExternal?: MutableRefObject<HTMLElement | null>
-  firstItemRefExternal?: MutableRefObject<HTMLDivElement | null>
-  firstVisualRefExternal?: MutableRefObject<HTMLDivElement | null>
+  sharedSectionRef: MutableRefObject<HTMLElement | null>
+  sharedFirstItemRef: MutableRefObject<HTMLDivElement | null>
+  sharedFirstVisualRef: MutableRefObject<HTMLDivElement | null>
 }
 
 function FeaturedWork({
-  sectionRefExternal,
-  firstItemRefExternal,
-  firstVisualRefExternal,
+  sharedSectionRef,
+  sharedFirstItemRef,
+  sharedFirstVisualRef,
 }: FeaturedWorkProps) {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
@@ -126,22 +126,20 @@ function FeaturedWork({
   }, [])
 
   useEffect(() => {
-    if (sectionRefExternal) {
-      sectionRefExternal.current = sectionRef.current
-    }
-  }, [sectionRefExternal])
+    sharedSectionRef.current = sectionRef.current
+  }, [sharedSectionRef])
 
   const setWorkItemRef = (index: number, el: HTMLDivElement | null) => {
     workItemsRef.current[index] = el
-    if (index === 0 && firstItemRefExternal) {
-      firstItemRefExternal.current = el
+    if (index === 0) {
+      sharedFirstItemRef.current = el
     }
   }
 
   const setWorkVisualRef = (index: number, el: HTMLDivElement | null) => {
     workVisualsRef.current[index] = el
-    if (index === 0 && firstVisualRefExternal) {
-      firstVisualRefExternal.current = el
+    if (index === 0) {
+      sharedFirstVisualRef.current = el
     }
   }
 
