@@ -25,44 +25,62 @@ function DoorScene() {
         return
       }
 
-      // Pinned cinematic sequence: darkness → workspace reveal
+      // Pinned cinematic sequence: darkness → workspace reveal → camera zoom
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: scene,
           start: 'top top',
-          end: mobile ? '+=100%' : '+=150%',
+          end: mobile ? '+=150%' : '+=250%',
           scrub: 1,
           pin: true,
           anticipatePin: 1,
         },
-        defaults: { ease: 'power2.out' },
+        defaults: { ease: 'power2.inOut' },
       })
 
       // Start in complete darkness, gradually reveal the space
       tl.fromTo(
         atmosphereRef.current,
-        { opacity: 0.3 },
-        { opacity: 1, duration: 0.6 }
+        { opacity: 0.2 },
+        { opacity: 1, duration: 0.4 }
       )
         .fromTo(
           roomLightRef.current,
           { opacity: 0 },
-          { opacity: 0.6, duration: 0.8 },
-          0.2
+          { opacity: 0.8, duration: 0.6 },
+          0.1
         )
         .fromTo(
           deskGlowRef.current,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 1 },
-          0.4
+          { opacity: 0, scale: 0.7 },
+          { opacity: 1, scale: 1, duration: 0.8 },
+          0.2
         )
         .to(
           scene,
           {
-            '--door-scene-brightness': 1.1,
-            duration: 0.6,
+            '--door-scene-brightness': 1.2,
+            duration: 0.5,
+          },
+          0.4
+        )
+        // Camera zoom into the workspace
+        .to(
+          scene,
+          {
+            '--door-scene-zoom': mobile ? 1.4 : 1.8,
+            duration: 1,
+            ease: 'power2.in',
           },
           0.6
+        )
+        .to(
+          atmosphereRef.current,
+          {
+            opacity: 0.3,
+            duration: 0.4,
+          },
+          1.4
         )
     })
 

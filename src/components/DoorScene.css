@@ -1,13 +1,14 @@
 .door-scene {
-  --door-scene-brightness: 0.85;
+  --door-scene-brightness: 0.4;
+  --door-scene-zoom: 1;
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(circle at 50% 45%, rgba(10, 12, 16, 0.9), rgba(6, 7, 10, 1) 65%),
-    linear-gradient(180deg, rgba(8, 9, 12, 1) 0%, rgba(11, 13, 17, 1) 100%);
+    radial-gradient(circle at 50% 45%, rgba(3, 4, 6, 0.98), rgba(0, 0, 0, 1) 70%),
+    linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(2, 3, 5, 1) 100%);
   overflow: hidden;
   isolation: isolate;
 }
@@ -17,6 +18,9 @@
   inset: 0;
   pointer-events: none;
   filter: brightness(var(--door-scene-brightness));
+  transform: scale(var(--door-scene-zoom));
+  transform-origin: center 45%;
+  transition: transform 0.3s ease-out;
 }
 
 /* Deep darkness layer */
@@ -24,9 +28,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.85) 70%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.9));
-  opacity: 0.9;
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.95) 60%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 1));
+  opacity: 1;
 }
 
 /* Door/corridor frame silhouette */
@@ -78,28 +82,54 @@
 /* Desk silhouette in the distance */
 .door-desk-silhouette {
   position: absolute;
-  bottom: 25%;
+  bottom: 20%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(280px, 50%);
-  height: 100px;
-  perspective: 800px;
+  width: min(450px, 65%);
+  height: 200px;
+  perspective: 1000px;
 }
 
 /* Monitor/desk glow - the focal point */
 .door-desk-glow {
   position: absolute;
-  top: -40%;
+  top: -80%;
   left: 50%;
   transform: translateX(-50%);
-  width: 140%;
-  height: 180%;
+  width: 180%;
+  height: 250%;
   background:
-    radial-gradient(circle at 50% 45%, rgba(255, 240, 200, 0.22), transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(122, 208, 255, 0.14), transparent 35%);
-  filter: blur(40px);
+    radial-gradient(circle at 50% 50%, rgba(255, 240, 200, 0.45), transparent 35%),
+    radial-gradient(circle at 50% 55%, rgba(122, 208, 255, 0.35), transparent 30%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15), transparent 25%);
+  filter: blur(35px);
   mix-blend-mode: screen;
-  opacity: 0.8;
+  opacity: 1;
+  animation: monitorPulse 4s ease-in-out infinite;
+}
+
+@keyframes monitorPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* Visible monitor screen */
+.door-desk-glow::before {
+  content: '';
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45%;
+  height: 30%;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(122, 208, 255, 0.08)),
+    rgba(20, 25, 35, 0.8);
+  border-radius: 4px;
+  border: 1px solid rgba(122, 208, 255, 0.3);
+  box-shadow:
+    0 0 40px rgba(122, 208, 255, 0.4),
+    inset 0 0 20px rgba(122, 208, 255, 0.1);
 }
 
 /* Desk surface subtle shape */
@@ -107,35 +137,36 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: 10%;
-  right: 10%;
-  height: 12px;
+  left: 5%;
+  right: 5%;
+  height: 20px;
   background: linear-gradient(90deg,
     transparent,
-    rgba(255, 255, 255, 0.04) 20%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0.04) 80%,
+    rgba(255, 255, 255, 0.08) 15%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.08) 85%,
     transparent
   );
-  border-radius: 4px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
 }
 
 /* Keyboard silhouette */
 .door-desk-silhouette::after {
   content: '';
   position: absolute;
-  bottom: 16px;
-  left: 25%;
-  width: 50%;
-  height: 6px;
+  bottom: 25px;
+  left: 30%;
+  width: 40%;
+  height: 12px;
   background: linear-gradient(90deg,
-    rgba(255, 255, 255, 0.025),
-    rgba(255, 255, 255, 0.04) 50%,
-    rgba(255, 255, 255, 0.025)
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.10) 50%,
+    rgba(255, 255, 255, 0.06)
   );
-  border-radius: 2px;
-  opacity: 0.6;
+  border-radius: 3px;
+  opacity: 0.8;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Environmental details */

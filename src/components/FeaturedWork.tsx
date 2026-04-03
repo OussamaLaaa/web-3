@@ -67,14 +67,16 @@ function FeaturedWork() {
         return
       }
 
-      // Section entrance with atmosphere shift
+      // DRAMATIC section entrance with atmosphere shift
       gsap.from(sectionRef.current, {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 90%',
+          start: 'top 85%',
+          end: 'top 40%',
+          scrub: 1,
         },
-        '--work-section-brightness': 0.7,
-        duration: 1.2,
+        '--work-section-brightness': 0.3,
+        duration: 1,
         ease: 'power2.out',
       })
 
@@ -82,11 +84,11 @@ function FeaturedWork() {
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
           trigger: sectionTitleRef.current,
-          start: 'top 80%',
+          start: 'top 75%',
         },
-        y: 50,
+        y: 60,
         opacity: 0,
-        duration: 1,
+        duration: 1.2,
         ease: 'power3.out',
       })
 
@@ -96,12 +98,13 @@ function FeaturedWork() {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,
-              start: 'top 85%',
+              start: 'top 82%',
             },
-            y: 80,
+            y: 100,
             opacity: 0,
-            duration: 1,
-            delay: index * 0.15,
+            scale: 0.95,
+            duration: 1.2,
+            delay: index * 0.12,
             ease: 'power3.out',
           })
         }
