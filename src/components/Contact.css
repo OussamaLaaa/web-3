@@ -1,11 +1,15 @@
 .contact {
+  position: relative;
   min-height: 100vh;
   padding: 8rem 2rem 3rem;
-  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 24%, var(--color-background) 100%);
+  background:
+    radial-gradient(circle at 16% 20%, rgba(255, 255, 255, 0.04), transparent 30%),
+    radial-gradient(circle at 70% 14%, rgba(0, 0, 0, 0.25), transparent 34%),
+    linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 24%, var(--color-background) 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
+  overflow: hidden;
 }
 
 .contact::before {
@@ -20,10 +24,25 @@
   background: linear-gradient(90deg, transparent 0%, var(--color-border-subtle) 50%, transparent 100%);
 }
 
+.contact-atmosphere {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 22% 44%, rgba(122, 208, 255, 0.16), transparent 48%),
+    radial-gradient(circle at 70% 68%, rgba(255, 178, 111, 0.12), transparent 42%),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+  opacity: 0.65;
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .contact-container {
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .section-title {
@@ -148,6 +167,36 @@
   background: linear-gradient(90deg, transparent 0%, var(--color-border-subtle) 50%, transparent 100%);
 }
 
+.scene-transition.contact-transition {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scene-transition.contact-transition .transition-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 42%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+}
+
+.scene-transition.contact-transition .transition-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -25%;
+  height: 120%;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08), transparent 65%);
+  filter: blur(14px);
+  opacity: 0.7;
+}
+
 @media (max-width: 768px) {
   .contact {
     padding: 5rem 1.5rem 2rem;
@@ -171,5 +220,10 @@
 
   .footer {
     margin-top: 4rem;
+  }
+
+  .scene-rail,
+  .scene-transition.contact-transition {
+    display: none;
   }
 }

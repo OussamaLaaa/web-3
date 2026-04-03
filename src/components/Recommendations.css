@@ -1,12 +1,19 @@
 .recommendations {
+  position: relative;
   min-height: 100vh;
   padding: 8rem 2rem;
-  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 22%, var(--color-background) 100%);
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.03), transparent 32%),
+    radial-gradient(circle at 72% 12%, rgba(0, 0, 0, 0.25), transparent 38%),
+    linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 22%, var(--color-background) 100%);
+  overflow: hidden;
 }
 
 .recommendations-container {
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .section-title {
@@ -16,6 +23,19 @@
   color: var(--color-text-primary);
   margin-bottom: 6rem;
   text-transform: uppercase;
+}
+
+.recommendations-atmosphere {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 44%, rgba(255, 178, 111, 0.14), transparent 42%),
+    radial-gradient(circle at 66% 70%, rgba(181, 155, 255, 0.14), transparent 36%),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+  opacity: 0.6;
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .recommendations-grid {
@@ -95,6 +115,25 @@
   font-weight: 400;
 }
 
+.scene-transition.recommendations-transition {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 140px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scene-transition.recommendations-transition .transition-line {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 38%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+}
+
 @media (max-width: 768px) {
   .recommendations {
     padding: 5rem 1.5rem;
@@ -124,6 +163,11 @@
 
   .recommendation-author {
     padding-top: 1.5rem;
+  }
+
+  .scene-rail,
+  .scene-transition.recommendations-transition {
+    display: none;
   }
 }
 

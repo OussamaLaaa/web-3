@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 110vh;
   display: flex;
   align-items: center;
   padding: clamp(3rem, 5vw, 6rem) clamp(1.5rem, 4vw, 3.5rem);
@@ -30,6 +30,16 @@
   inset: 0;
   background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.025), transparent 55%);
   pointer-events: none;
+}
+
+.hero-horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.4));
+  opacity: 0.85;
 }
 
 .hero-atmosphere {
@@ -69,6 +79,43 @@
   opacity: 0.28;
 }
 
+.hero-parallax {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+
+.hero-parallax-line {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 28%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.08));
+}
+
+.hero-parallax-line.thin {
+  top: 46%;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.1));
+}
+
+.hero-parallax-node {
+  position: absolute;
+  right: 18%;
+  top: 36%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent 65%);
+  box-shadow:
+    0 0 24px rgba(255, 255, 255, 0.32),
+    0 0 60px rgba(0, 0, 0, 0.6);
+}
+
 .hero-inner {
   position: relative;
   z-index: 1;
@@ -78,6 +125,22 @@
   grid-template-columns: 1.05fr 0.95fr;
   gap: clamp(2.5rem, 6vw, 5rem);
   align-items: center;
+}
+
+.hero-scene-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero-scene-meta .scene-caption {
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
 }
 
 .hero-content {
@@ -252,6 +315,37 @@
   display: inline-block;
 }
 
+.scene-transition.hero-transition {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scene-transition .transition-line {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 42%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+}
+
+.scene-transition .transition-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -30%;
+  height: 120%;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08), transparent 65%);
+  filter: blur(12px);
+  opacity: 0.7;
+}
+
 @media (max-width: 1024px) {
   .hero-inner {
     grid-template-columns: 1fr;
@@ -280,5 +374,10 @@
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
+  }
+
+  .hero-parallax,
+  .scene-transition.hero-transition {
+    display: none;
   }
 }

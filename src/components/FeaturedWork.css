@@ -1,12 +1,32 @@
 .featured-work {
+  position: relative;
   min-height: 100vh;
   padding: 7rem 2rem;
-  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 26%, var(--color-background) 100%);
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.03), transparent 30%),
+    radial-gradient(circle at 72% 14%, rgba(0, 0, 0, 0.3), transparent 34%),
+    linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 26%, var(--color-background) 100%);
+  overflow: hidden;
 }
 
 .featured-work-container {
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.featured-atmosphere {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 24% 36%, rgba(122, 208, 255, 0.14), transparent 40%),
+    radial-gradient(circle at 74% 62%, rgba(255, 178, 111, 0.12), transparent 36%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+  opacity: 0.6;
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .section-title {
@@ -16,6 +36,27 @@
   color: var(--color-text-primary);
   margin-bottom: 4.5rem;
   text-transform: uppercase;
+}
+
+.scene-rail {
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  top: clamp(2.5rem, 4vw, 4rem);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.scene-rail .scene-caption {
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
 }
 
 .work-grid {
@@ -267,6 +308,25 @@
   text-transform: uppercase;
 }
 
+.scene-transition.work-transition {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 140px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scene-transition.work-transition .transition-line {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 40%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+}
+
 @media (max-width: 768px) {
   .featured-work {
     padding: 5rem 1.5rem;
@@ -296,5 +356,10 @@
 
   .work-visual {
     min-height: 220px;
+  }
+
+  .scene-rail,
+  .scene-transition.work-transition {
+    display: none;
   }
 }

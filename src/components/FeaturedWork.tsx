@@ -18,6 +18,9 @@ interface WorkItem {
 }
 
 function FeaturedWork() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const atmosphereRef = useRef<HTMLDivElement>(null)
+  const railRef = useRef<HTMLDivElement>(null)
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
 
@@ -58,6 +61,9 @@ function FeaturedWork() {
   ]
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+
     const ctx = gsap.context(() => {
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
@@ -70,6 +76,39 @@ function FeaturedWork() {
         duration: 1,
         ease: 'power3.out',
       })
+
+      if (!prefersReducedMotion) {
+        gsap.fromTo(
+          railRef.current,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 82%',
+            },
+          }
+        )
+
+        gsap.fromTo(
+          atmosphereRef.current,
+          { y: 80, opacity: 0.3 },
+          {
+            y: -80,
+            opacity: 0.8,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 1.1,
+            },
+          }
+        )
+      }
 
       // Staggered work items reveal
       workItemsRef.current.forEach((item, index) => {
@@ -85,6 +124,18 @@ function FeaturedWork() {
             delay: index * 0.15,
             ease: 'power3.out',
           })
+
+          if (!prefersReducedMotion && !isMobile) {
+            gsap.to(item, {
+              scrollTrigger: {
+                trigger: item,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1,
+              },
+              yPercent: -6,
+            })
+          }
         }
       })
     })
@@ -93,7 +144,13 @@ function FeaturedWork() {
   }, [])
 
   return (
-    <section className="featured-work">
+    <section className="featured-work" ref={sectionRef}>
+      <div className="featured-atmosphere" ref={atmosphereRef} aria-hidden="true" />
+      <div className="scene-rail" ref={railRef}>
+        <span className="scene-label">Scene 02</span>
+        <span className="scene-divider" />
+        <span className="scene-caption">Selected work — corridor of prototypes</span>
+      </div>
       <div className="featured-work-container">
         <h2 className="section-title" ref={sectionTitleRef}>
           Featured Work
@@ -150,6 +207,9 @@ function FeaturedWork() {
             </div>
           ))}
         </div>
+      </div>
+      <div className="scene-transition work-transition" aria-hidden="true">
+        <div className="transition-line" />
       </div>
     </section>
   )

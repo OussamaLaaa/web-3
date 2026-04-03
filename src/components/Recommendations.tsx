@@ -14,6 +14,9 @@ interface Recommendation {
 }
 
 function Recommendations() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const atmosphereRef = useRef<HTMLDivElement>(null)
+  const railRef = useRef<HTMLDivElement>(null)
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const recommendationItemsRef = useRef<(HTMLDivElement | null)[]>([])
 
@@ -42,6 +45,9 @@ function Recommendations() {
   ]
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+
     const ctx = gsap.context(() => {
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
@@ -54,6 +60,39 @@ function Recommendations() {
         duration: 1,
         ease: 'power3.out',
       })
+
+      if (!prefersReducedMotion) {
+        gsap.fromTo(
+          railRef.current,
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 82%',
+            },
+          }
+        )
+
+        gsap.fromTo(
+          atmosphereRef.current,
+          { y: 60, opacity: 0.3 },
+          {
+            y: -60,
+            opacity: 0.75,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 1.05,
+            },
+          }
+        )
+      }
 
       // Staggered recommendation items reveal
       recommendationItemsRef.current.forEach((item, index) => {
@@ -69,6 +108,18 @@ function Recommendations() {
             delay: index * 0.15,
             ease: 'power3.out',
           })
+
+          if (!prefersReducedMotion && !isMobile) {
+            gsap.to(item, {
+              scrollTrigger: {
+                trigger: item,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1,
+              },
+              yPercent: -5,
+            })
+          }
         }
       })
     })
@@ -77,7 +128,13 @@ function Recommendations() {
   }, [])
 
   return (
-    <section className="recommendations">
+    <section className="recommendations" ref={sectionRef}>
+      <div className="recommendations-atmosphere" ref={atmosphereRef} aria-hidden="true" />
+      <div className="scene-rail" ref={railRef}>
+        <span className="scene-label">Scene 03</span>
+        <span className="scene-divider" />
+        <span className="scene-caption">Recommendations — voices in the studio</span>
+      </div>
       <div className="recommendations-container">
         <h2 className="section-title" ref={sectionTitleRef}>
           Recommendations
@@ -101,6 +158,9 @@ function Recommendations() {
             </div>
           ))}
         </div>
+      </div>
+      <div className="scene-transition recommendations-transition" aria-hidden="true">
+        <div className="transition-line" />
       </div>
     </section>
   )
