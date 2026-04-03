@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { CSSProperties, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './FeaturedWork.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -11,62 +12,99 @@ interface WorkItem {
   category: string
   year: string
   description: string
+  focus: string
+  deliverables: string[]
+  accent: string
+  accentSoft: string
 }
 
 function FeaturedWork() {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const sectionRef = useRef<HTMLElement>(null)
 
   const works: WorkItem[] = [
     {
       id: 1,
-      title: 'Project Alpha',
-      category: 'Web Development',
+      title: 'Lumen Design OS',
+      category: 'Product Systems',
       year: '2024',
-      description: 'A comprehensive web platform focused on seamless user experience and modern interface design.',
+      description: 'Unified design infrastructure for a multi-product platform. Built the visual grammar, interaction model, and multi-device standards that keep teams aligned.',
+      focus: 'Design language & motion grammar',
+      deliverables: ['Design system spine', 'Micro-interactions kit', 'Cinematic walkthrough'],
+      accent: '#7ad0ff',
+      accentSoft: 'rgba(122, 208, 255, 0.2)',
     },
     {
       id: 2,
-      title: 'Design System',
-      category: 'UI/UX Design',
+      title: 'Northwind Commerce',
+      category: 'Experience Lead',
       year: '2024',
-      description: 'Modular component library built for consistency, accessibility, and scalability across products.',
+      description: 'High-touch shopping journey with editorial pacing. Elevated the visual framing, crafted tactile product storytelling, and tuned checkout for momentum.',
+      focus: 'Immersive retail narrative',
+      deliverables: ['Spatial gallery layout', 'Adaptive checkout', 'Art direction system'],
+      accent: '#ffb26f',
+      accentSoft: 'rgba(255, 178, 111, 0.22)',
     },
     {
       id: 3,
-      title: 'Mobile Experience',
-      category: 'Mobile Development',
+      title: 'Oro Studio',
+      category: 'Mobile Craft',
       year: '2023',
-      description: 'Native mobile application delivering intuitive interactions and fluid performance.',
+      description: 'Creative suite for on-the-go teams. Delivered a calming mobile experience with confident typography, guided flows, and responsive motion.',
+      focus: 'Tactile mobile craft',
+      deliverables: ['Motion cues library', 'Guided creation flows', 'Haptic-informed system'],
+      accent: '#b59bff',
+      accentSoft: 'rgba(181, 155, 255, 0.22)',
     },
   ]
 
   useEffect(() => {
+    const reducedMotion = prefersReducedMotion()
+
     const ctx = gsap.context(() => {
+      if (reducedMotion) {
+        return
+      }
+
+      // DRAMATIC section entrance with atmosphere shift
+      gsap.from(sectionRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 92%',
+          end: 'top 48%',
+          scrub: 1,
+        },
+        '--work-section-brightness': 0.45,
+        duration: 1.1,
+        ease: 'power2.out',
+      })
+
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
           trigger: sectionTitleRef.current,
-          start: 'top 80%',
+          start: 'top 75%',
         },
-        y: 50,
+        y: 60,
         opacity: 0,
-        duration: 1,
+        duration: 1.2,
         ease: 'power3.out',
       })
 
       // Staggered work items reveal
       workItemsRef.current.forEach((item, index) => {
-        if (item) {
+        if (item && index !== 0) {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,
-              start: 'top 85%',
+              start: 'top 82%',
             },
-            y: 80,
+            y: 100,
             opacity: 0,
-            duration: 1,
-            delay: index * 0.15,
+            scale: 0.95,
+            duration: 1.2,
+            delay: index * 0.12,
             ease: 'power3.out',
           })
         }
@@ -77,7 +115,7 @@ function FeaturedWork() {
   }, [])
 
   return (
-    <section className="featured-work">
+    <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
         <h2 className="section-title" ref={sectionTitleRef}>
           Featured Work
@@ -88,20 +126,47 @@ function FeaturedWork() {
               key={work.id}
               className="work-item"
               ref={(el) => (workItemsRef.current[index] = el)}
+              style={
+                {
+                  '--accent': work.accent,
+                  '--accent-soft': work.accentSoft,
+                } as CSSProperties
+              }
             >
-              <div className="work-thumbnail">
-                <div className="work-placeholder">
-                  <div className="work-overlay"></div>
+              <div className="work-header">
+                <div className="work-labels">
+                  <span className="work-index">0{index + 1}</span>
+                  <span className="work-pill">{work.category}</span>
+                </div>
+                <div className="work-timestamp">
+                  <span className="work-year">{work.year}</span>
+                  <span className="work-focus">{work.focus}</span>
                 </div>
               </div>
-              <div className="work-info">
-                <div className="work-text">
-                  <h3 className="work-title">{work.title}</h3>
-                  <p className="work-description">{work.description}</p>
+
+              <div className="work-body">
+                <div className="work-visual">
+                  <div className="visual-grid"></div>
+                  <div className="visual-beam"></div>
+                  <div className="visual-band"></div>
+                  <div className="visual-caption">
+                    <span className="caption-label">Focus</span>
+                    <span className="caption-value">{work.focus}</span>
+                  </div>
                 </div>
-                <div className="work-meta">
-                  <span className="work-category">{work.category}</span>
-                  <span className="work-year">{work.year}</span>
+
+                <div className="work-details">
+                  <div className="work-text">
+                    <h3 className="work-title">{work.title}</h3>
+                    <p className="work-description">{work.description}</p>
+                  </div>
+                  <div className="work-deliverables">
+                    {work.deliverables.map((item) => (
+                      <span key={item} className="deliverable-chip">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

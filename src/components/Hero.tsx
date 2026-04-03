@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './Hero.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 function Hero() {
   const heroRef = useRef<HTMLElement>(null)
@@ -16,9 +19,7 @@ function Hero() {
   const panelsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger)
-
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduceMotion = prefersReducedMotion()
 
     const ctx = gsap.context(() => {
       const titleLines = titleRef.current?.querySelectorAll('.hero-title-line') ?? []
