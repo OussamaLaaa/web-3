@@ -94,7 +94,7 @@ function FeaturedWork() {
 
       // Staggered work items reveal
       workItemsRef.current.forEach((item, index) => {
-        if (item && index !== 0) {
+        if (item) {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,
@@ -122,11 +122,11 @@ function FeaturedWork() {
         </h2>
         <div className="work-grid">
           {works.map((work, index) => (
-            <div
-              key={work.id}
-              className="work-item"
-              ref={(el) => (workItemsRef.current[index] = el)}
-              style={
+              <div
+                key={work.id}
+                className="work-item"
+                ref={(el) => (workItemsRef.current[index] = el)}
+                style={
                 {
                   '--accent': work.accent,
                   '--accent-soft': work.accentSoft,
