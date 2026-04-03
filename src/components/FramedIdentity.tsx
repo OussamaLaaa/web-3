@@ -34,7 +34,11 @@ function FramedIdentity({
       const firstWorkItem = sharedFirstItemRef.current
       const firstVisual = sharedFirstVisualRef.current
 
-      if (!scene || reducedMotion) {
+      if (!scene) {
+        return
+      }
+
+      if (reducedMotion) {
         gsap.set(scene, { clearProps: 'all' })
         return
       }
