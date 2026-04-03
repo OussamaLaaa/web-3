@@ -4,7 +4,10 @@
   display: flex;
   align-items: center;
   padding: clamp(3rem, 5vw, 6rem) clamp(1.5rem, 4vw, 3.5rem);
-  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 32%, var(--color-background) 100%);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.05), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(6, 7, 10, 0.42), transparent 36%),
+    linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 34%, var(--color-background) 100%);
   overflow: hidden;
   isolation: isolate;
 }
@@ -14,10 +17,10 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 25%, rgba(255, 255, 255, 0.08), transparent 38%),
-    radial-gradient(circle at 75% 65%, rgba(0, 0, 0, 0.18), transparent 40%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 22%);
-  filter: blur(2px);
+    radial-gradient(circle at 24% 28%, rgba(255, 255, 255, 0.06), transparent 36%),
+    radial-gradient(circle at 70% 65%, rgba(6, 7, 10, 0.24), transparent 40%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 28%);
+  filter: blur(1.5px);
   pointer-events: none;
 }
 
@@ -25,7 +28,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03), transparent 55%);
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.025), transparent 55%);
   pointer-events: none;
 }
 
@@ -63,7 +66,7 @@
     linear-gradient(90deg, var(--color-veil) 1px, transparent 1px),
     linear-gradient(0deg, var(--color-veil) 1px, transparent 1px);
   background-size: 120px 120px;
-  opacity: 0.35;
+  opacity: 0.28;
 }
 
 .hero-inner {
@@ -134,58 +137,16 @@
 }
 
 .hero-chip {
-  padding: 0.55rem 0.95rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-border-subtle);
-  background: linear-gradient(135deg, var(--color-surface), var(--color-elevated));
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-  color: var(--color-text-secondary);
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  background: linear-gradient(145deg, var(--chip-bg), rgba(255, 255, 255, 0.02));
+  border-color: var(--chip-border);
+  color: var(--chip-text);
+  box-shadow: none;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.hero-button {
-  padding: 0.95rem 1.4rem;
-  border-radius: var(--radius-pill);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
-}
-
-.hero-button-primary {
-  background: linear-gradient(135deg, var(--color-elevated), var(--color-surface));
-  color: var(--color-text-primary);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.32);
-  border-color: var(--color-border-strong);
-}
-
-.hero-button-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.36);
-}
-
-.hero-button-secondary {
-  background: transparent;
-  color: var(--color-text-secondary);
-  border-color: var(--color-border-subtle);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-.hero-button-secondary:hover {
-  transform: translateY(-2px);
-  border-color: var(--color-border-strong);
-  background: var(--color-veil);
+  gap: 0.9rem;
 }
 
 .hero-panel {
@@ -196,7 +157,7 @@
   background: linear-gradient(145deg, var(--color-elevated), var(--color-surface));
   border: 1px solid var(--color-border-subtle);
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.45),
+    0 30px 80px rgba(0, 0, 0, 0.5),
     inset 0 0 0 1px var(--color-border-subtle);
   overflow: hidden;
 }
@@ -212,18 +173,18 @@
   inset: 12%;
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(90deg, var(--color-veil) 1px, transparent 1px),
-    linear-gradient(0deg, var(--color-veil) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 90px 90px;
-  opacity: 0.35;
+  opacity: 0.28;
 }
 
 .hero-panel-light {
   position: absolute;
   inset: -20% -10%;
   background:
-    radial-gradient(circle at 70% 35%, rgba(255, 255, 255, 0.12), transparent 45%),
-    radial-gradient(circle at 25% 75%, rgba(0, 0, 0, 0.25), transparent 40%);
+    radial-gradient(circle at 68% 35%, rgba(255, 255, 255, 0.14), transparent 46%),
+    radial-gradient(circle at 24% 76%, rgba(6, 7, 10, 0.32), transparent 40%);
   filter: blur(8px);
   opacity: 0.9;
 }

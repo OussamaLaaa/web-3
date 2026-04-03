@@ -1,7 +1,7 @@
 .recommendations {
   min-height: 100vh;
   padding: 8rem 2rem;
-  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 18%, var(--color-background) 100%);
+  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 22%, var(--color-background) 100%);
 }
 
 .recommendations-container {
@@ -27,7 +27,7 @@
 .recommendation-item {
   position: relative;
   padding: 3rem;
-  background: linear-gradient(145deg, var(--color-surface), var(--color-elevated));
+  background: linear-gradient(150deg, var(--color-elevated), var(--color-surface));
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
   transition: all 0.4s ease;
@@ -49,7 +49,7 @@
 
 .recommendation-item:hover {
   border-color: var(--color-border-strong);
-  background: linear-gradient(145deg, var(--color-elevated), var(--color-surface));
+  background: linear-gradient(150deg, var(--color-elevated), var(--color-elevated));
   transform: translateY(-2px);
 }
 

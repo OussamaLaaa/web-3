@@ -136,7 +136,7 @@ function Hero() {
             {identityChips.map((chip, index) => (
               <span
                 key={chip}
-                className="hero-chip"
+                className="chip hero-chip"
                 ref={(el) => {
                   if (el) {
                     chipsRef.current[index] = el
@@ -150,14 +150,14 @@ function Hero() {
 
           <div className="hero-actions" ref={actionsRef}>
             <button
-              className="hero-button hero-button-primary"
+              className="button button-primary"
               onClick={() => scrollToSection('.featured-work')}
               type="button"
             >
               View Selected Work
             </button>
             <button
-              className="hero-button hero-button-secondary"
+              className="button button-ghost"
               onClick={() => scrollToSection('.contact')}
               type="button"
             >
