@@ -67,34 +67,50 @@ function FeaturedWork() {
         return
       }
 
-      // DRAMATIC section entrance with atmosphere shift
+      // Archive reveal: shift from identity frame into curated work showcase
       gsap.from(sectionRef.current, {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 92%',
-          end: 'top 48%',
+          start: 'top 85%',
+          end: 'top 45%',
           scrub: 1,
         },
-        '--work-section-brightness': 0.45,
-        duration: 1.1,
+        '--work-section-brightness': 0.35,
+        duration: 1.2,
         ease: 'power2.out',
       })
 
-      // Section title reveal
+      // Section title reveal with archive aesthetic
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
           trigger: sectionTitleRef.current,
-          start: 'top 75%',
+          start: 'top 70%',
         },
-        y: 60,
+        y: 50,
         opacity: 0,
-        duration: 1.2,
+        duration: 1.3,
         ease: 'power3.out',
       })
 
-      // Staggered work items reveal
+      // First work item enters as a featured archive piece
+      const firstItem = workItemsRef.current[0]
+      if (firstItem) {
+        gsap.from(firstItem, {
+          scrollTrigger: {
+            trigger: firstItem,
+            start: 'top 78%',
+          },
+          y: 70,
+          opacity: 0,
+          scale: 0.96,
+          duration: 1.4,
+          ease: 'power3.out',
+        })
+      }
+
+      // Subsequent work items reveal with archive stagger
       workItemsRef.current.forEach((item, index) => {
-        if (item && index !== 0) {
+        if (item && index > 0) {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,
