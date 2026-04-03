@@ -1,7 +1,7 @@
 .featured-work {
   min-height: 100vh;
   padding: 8rem 2rem;
-  background-color: #0a0a0a;
+  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 22%, var(--color-background) 100%);
 }
 
 .featured-work-container {
@@ -13,7 +13,7 @@
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 200;
   letter-spacing: -0.03em;
-  color: #ffffff;
+  color: var(--color-text-primary);
   margin-bottom: 6rem;
   text-transform: uppercase;
 }
@@ -27,15 +27,16 @@
   display: grid;
   gap: 2rem;
   transition: all 0.4s ease;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 2px;
-  background: linear-gradient(135deg, rgba(15, 15, 15, 0.3) 0%, rgba(10, 10, 10, 0.2) 100%);
+  padding: 1.75rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, var(--color-surface), var(--color-elevated));
+  box-shadow: var(--shadow-card);
 }
 
 .work-item:hover {
-  border-color: rgba(255, 255, 255, 0.08);
-  background: linear-gradient(135deg, rgba(18, 18, 18, 0.4) 0%, rgba(12, 12, 12, 0.3) 100%);
+  border-color: var(--color-border-strong);
+  background: linear-gradient(145deg, var(--color-elevated), var(--color-surface));
   transform: translateY(-4px);
 }
 
@@ -43,15 +44,16 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 2px;
-  background-color: #1a1a1a;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-elevated);
   position: relative;
+  border: 1px solid var(--color-border-subtle);
 }
 
 .work-placeholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  background: linear-gradient(135deg, var(--color-elevated) 0%, var(--color-surface) 100%);
   position: relative;
 }
 
@@ -63,11 +65,11 @@
       45deg,
       transparent,
       transparent 20px,
-      rgba(255, 255, 255, 0.01) 20px,
-      rgba(255, 255, 255, 0.01) 40px
+      var(--color-veil) 20px,
+      var(--color-veil) 40px
     ),
-    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
-  opacity: 0.6;
+    radial-gradient(circle at 30% 40%, var(--color-veil) 0%, transparent 50%);
+  opacity: 0.75;
 }
 
 .work-info {
@@ -84,7 +86,7 @@
 .work-title {
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 200;
-  color: #ffffff;
+  color: var(--color-text-primary);
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin-bottom: 1rem;
@@ -92,7 +94,7 @@
 
 .work-description {
   font-size: clamp(0.9375rem, 1.8vw, 1.125rem);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--color-text-secondary);
   line-height: 1.6;
   font-weight: 300;
   letter-spacing: 0.01em;
@@ -111,7 +113,7 @@
 .work-category,
 .work-year {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 400;
