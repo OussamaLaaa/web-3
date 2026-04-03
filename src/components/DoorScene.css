@@ -1,0 +1,262 @@
+.door-scene {
+  --door-scene-brightness: 0.5;
+  --door-scene-zoom: 1;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(3, 4, 6, 0.98), rgba(0, 0, 0, 1) 70%),
+    linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(2, 3, 5, 1) 100%);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.door-scene-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter: brightness(var(--door-scene-brightness));
+  transform: scale(var(--door-scene-zoom));
+  transform-origin: center 45%;
+  transition: transform 0.3s ease-out;
+}
+
+/* Deep darkness layer */
+.door-darkness {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.92) 60%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 1));
+  opacity: 1;
+}
+
+/* Door/corridor frame silhouette */
+.door-frame {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, 60%);
+  height: 80%;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(180deg, rgba(20, 22, 28, 0.4), transparent 40%);
+  box-shadow:
+    inset 0 0 100px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(0, 0, 0, 0.4);
+}
+
+.door-handle-left,
+.door-handle-right {
+  position: absolute;
+  top: 48%;
+  width: 3px;
+  height: 32px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border-radius: 2px;
+}
+
+.door-handle-left {
+  left: -12px;
+}
+
+.door-handle-right {
+  right: -12px;
+}
+
+/* Room ambient light (warm office glow) */
+.door-room-light {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 52% 48%, rgba(255, 240, 200, 0.12), transparent 45%),
+    radial-gradient(circle at 30% 60%, rgba(60, 50, 40, 0.08), transparent 35%);
+  filter: blur(60px);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+
+/* Desk silhouette in the distance */
+.door-desk-silhouette {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(450px, 65%);
+  height: 200px;
+  perspective: 1000px;
+}
+
+/* Monitor/desk glow - the focal point */
+.door-desk-glow {
+  position: absolute;
+  top: -80%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180%;
+  height: 250%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 240, 214, 0.52), transparent 36%),
+    radial-gradient(circle at 52% 55%, rgba(200, 210, 220, 0.24), transparent 32%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18), transparent 26%);
+  filter: blur(35px);
+  mix-blend-mode: screen;
+  opacity: 1;
+  animation: monitorPulse 4s ease-in-out infinite;
+}
+
+@keyframes monitorPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* Visible monitor screen */
+.door-desk-glow::before {
+  content: '';
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45%;
+  height: 30%;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(235, 226, 210, 0.12)),
+    rgba(22, 24, 28, 0.85);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 0 38px rgba(255, 236, 214, 0.32),
+    inset 0 0 18px rgba(255, 255, 255, 0.12);
+}
+
+/* Desk surface subtle shape */
+.door-desk-silhouette::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
+  height: 20px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08) 15%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.08) 85%,
+    transparent
+  );
+  border-radius: 6px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Keyboard silhouette */
+.door-desk-silhouette::after {
+  content: '';
+  position: absolute;
+  bottom: 25px;
+  left: 30%;
+  width: 40%;
+  height: 12px;
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.10) 50%,
+    rgba(255, 255, 255, 0.06)
+  );
+  border-radius: 3px;
+  opacity: 0.8;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Environmental details */
+.door-scene-details {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* Shelf silhouette on right */
+.door-shelf-silhouette {
+  position: absolute;
+  top: 20%;
+  right: 8%;
+  width: 80px;
+  height: 140px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 60%);
+  border-left: 1px solid rgba(255, 255, 255, 0.02);
+  opacity: 0.5;
+}
+
+.door-shelf-silhouette::before,
+.door-shelf-silhouette::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.door-shelf-silhouette::before {
+  top: 35%;
+}
+
+.door-shelf-silhouette::after {
+  top: 70%;
+}
+
+/* Plant silhouette on left */
+.door-plant-silhouette {
+  position: absolute;
+  bottom: 30%;
+  left: 12%;
+  width: 40px;
+  height: 60px;
+  background:
+    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.02), transparent 70%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0.4;
+}
+
+.door-plant-silhouette::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent);
+  border-radius: 2px;
+}
+
+/* Subtle noise texture */
+.door-scene-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="120" height="120" filter="url(%23n)" opacity="0.4"/></svg>');
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .door-frame {
+    width: 70%;
+    height: 75%;
+  }
+
+  .door-desk-silhouette {
+    width: 60%;
+    bottom: 30%;
+  }
+
+  .door-shelf-silhouette,
+  .door-plant-silhouette {
+    opacity: 0.2;
+  }
+}

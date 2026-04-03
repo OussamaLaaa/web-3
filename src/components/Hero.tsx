@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion, isMobile } from '../utils/motionUtils'
 import './Hero.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const identityChips = ['Strategic', 'Collaborative', 'Creative', 'Product-minded']
 
@@ -18,33 +21,38 @@ function Hero() {
   const veilRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
-
-  gsap.registerPlugin(ScrollTrigger)
+  const deskItemsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    const reducedMotion = prefersReducedMotion()
+    const mobile = isMobile()
 
     const ctx = gsap.context(() => {
       const heroElement = heroRef.current
       const firstWorkItem = document.querySelector('.featured-work .work-item') as HTMLElement | null
 
-      if (prefersReducedMotion || !heroElement) {
+      if (reducedMotion || !heroElement) {
         gsap.set([heroElement, firstWorkItem], { clearProps: 'all' })
         return
       }
 
       const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
 
-      tl.from(veilRef.current, {
-        opacity: 0.35,
-        duration: 1.2,
+      // Desk items reveal first (subtle workspace atmosphere)
+      tl.from(deskItemsRef.current, {
+        opacity: 0,
+        y: 6,
+        duration: 1.05,
       })
+        .from(veilRef.current, {
+          opacity: 0.35,
+          duration: 1,
+        }, '-=0.9')
         .from(
           gridRef.current,
           {
             opacity: 0,
-            duration: 1.2,
+            duration: 1,
           },
           '-=1'
         )
@@ -124,7 +132,7 @@ function Hero() {
         scrollTrigger: {
           trigger: heroElement,
           start: 'top top',
-          end: prefersReducedMotion ? '+=80%' : isMobile ? '+=120%' : '+=200%',
+          end: reducedMotion ? '+=80%' : mobile ? '+=120%' : '+=180%',
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -135,32 +143,41 @@ function Hero() {
         .to(
           heroElement,
           {
-            '--hero-dim': 0.45,
-            duration: 1.2,
+            '--hero-dim': 0.35,
+            duration: 1.1,
+          },
+          0
+        )
+        .to(
+          deskItemsRef.current,
+          {
+            opacity: 0.45,
+            y: -5,
+            duration: 1,
           },
           0
         )
         .to(
           veilRef.current,
           {
-            opacity: 0.08,
-            duration: 1.2,
+            opacity: 0.12,
+            duration: 1.1,
           },
           0
         )
         .to(
           heroInnerRef.current,
           {
-            scale: isMobile ? 0.985 : 0.94,
-            y: isMobile ? -6 : -14,
-            duration: 1.2,
+            scale: mobile ? 0.99 : 0.95,
+            y: mobile ? -6 : -12,
+            duration: 1.05,
           },
           0
         )
         .to(
           heroContentRef.current,
           {
-            opacity: 0.9,
+            opacity: 0.94,
             duration: 1.1,
           },
           0.1
@@ -168,42 +185,42 @@ function Hero() {
         .to(
           panelRef.current,
           {
-            scale: 1.08,
-            y: -12,
-            duration: 1.2,
+            scale: 1.05,
+            y: -10,
+            duration: 1.05,
           },
           0.2
         )
         .to(
           gridRef.current,
           {
-            opacity: 0.16,
-            duration: 1.1,
+            opacity: 0.18,
+            duration: 1,
           },
           0.2
         )
         .to(
           '.hero-panel-light',
           {
-            opacity: 1.1,
-            duration: 1,
+            opacity: 1,
+            duration: 0.95,
           },
           0.2
         )
         .to(
           heroContentRef.current,
           {
-            opacity: 0.75,
-            y: -10,
-            duration: 1.1,
+            opacity: 0.85,
+            y: -8,
+            duration: 1,
           },
           0.65
         )
         .to(
           heroInnerRef.current,
           {
-            filter: 'saturate(0.9)',
-            duration: 1,
+            filter: 'saturate(0.92)',
+            duration: 0.95,
           },
           0.65
         )
@@ -211,15 +228,15 @@ function Hero() {
       if (firstWorkItem) {
         scrollTl.fromTo(
           firstWorkItem,
-          { opacity: 0, y: 80, filter: 'blur(6px)' },
+          { opacity: 0, y: 80, filter: 'blur(5px)' },
           {
             opacity: 1,
             y: 0,
             filter: 'blur(0px)',
-            duration: 1.4,
+            duration: 1.2,
             ease: 'power2.out',
           },
-          0.48
+          0.52
         )
 
         const firstVisual = firstWorkItem.querySelector('.work-visual')
@@ -227,14 +244,14 @@ function Hero() {
         if (firstVisual) {
           scrollTl.fromTo(
             firstVisual,
-            { scale: 0.96, y: 12 },
+            { scale: 0.97, y: 10 },
             {
               scale: 1,
               y: 0,
-              duration: 1,
+              duration: 0.95,
               ease: 'power2.out',
             },
-            0.48
+            0.52
           )
         }
       }
@@ -246,9 +263,9 @@ function Hero() {
   const scrollToSection = (selector: string) => {
     const target = document.querySelector(selector)
     if (target) {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const reducedMotion = prefersReducedMotion()
       target.scrollIntoView({
-        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        behavior: reducedMotion ? 'auto' : 'smooth',
         block: 'start',
       })
     }
@@ -262,6 +279,14 @@ function Hero() {
         <div className="hero-glow hero-glow-right" />
         <div className="hero-grid-overlay" ref={gridRef} />
         <div className="hero-noise" />
+      </div>
+
+      {/* Workspace desk items */}
+      <div className="hero-desk-items" ref={deskItemsRef}>
+        <div className="desk-keyboard" />
+        <div className="desk-mouse" />
+        <div className="desk-notebook" />
+        <div className="desk-coffee" />
       </div>
 
       <div className="hero-inner" ref={heroInnerRef}>

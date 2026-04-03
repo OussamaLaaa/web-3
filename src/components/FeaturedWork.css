@@ -1,21 +1,25 @@
 .featured-work {
+  --work-section-brightness: 1;
   min-height: 100vh;
   padding: 7rem 2rem;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(6, 7, 10, 0.95) 14%, var(--color-surface) 32%, var(--color-background) 100%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(6, 7, 10, 0.98) 12%, var(--color-surface) 28%, var(--color-background) 100%);
   position: relative;
   z-index: 0;
+  filter: brightness(var(--work-section-brightness));
+  transition: filter 0.5s ease-out;
 }
 
 .featured-work::before {
   content: '';
   position: absolute;
   inset: -12% 0 auto 0;
-  height: 26vh;
+  height: 30vh;
   background:
-    radial-gradient(circle at 50% -10%, rgba(122, 208, 255, 0.14), transparent 40%),
-    linear-gradient(180deg, rgba(6, 7, 10, 0.8) 0%, transparent 70%);
-  opacity: 0.8;
+    radial-gradient(circle at 50% -15%, rgba(225, 230, 236, 0.22), transparent 38%),
+    radial-gradient(circle at 50% 0%, rgba(245, 236, 214, 0.14), transparent 45%),
+    linear-gradient(180deg, rgba(6, 7, 10, 0.9) 0%, transparent 65%);
+  opacity: 1;
   pointer-events: none;
   z-index: -1;
 }
