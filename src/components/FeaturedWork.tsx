@@ -67,6 +67,12 @@ function FeaturedWork() {
         return
       }
 
+      const firstWorkItem = workItemsRef.current[0]
+
+      if (firstWorkItem) {
+        gsap.set(firstWorkItem, { opacity: 1, y: 0, filter: 'blur(0px)' })
+      }
+
       // DRAMATIC section entrance with atmosphere shift
       gsap.from(sectionRef.current, {
         scrollTrigger: {
@@ -92,9 +98,9 @@ function FeaturedWork() {
         ease: 'power3.out',
       })
 
-      // Staggered work items reveal
+      // Staggered work items reveal (keep first card for handoff from framed identity scene)
       workItemsRef.current.forEach((item, index) => {
-        if (item && index !== 0) {
+        if (item && index > 0) {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,

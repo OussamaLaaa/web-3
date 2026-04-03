@@ -29,10 +29,8 @@ function Hero() {
 
     const ctx = gsap.context(() => {
       const heroElement = heroRef.current
-      const firstWorkItem = document.querySelector('.featured-work .work-item') as HTMLElement | null
-
       if (reducedMotion || !heroElement) {
-        gsap.set([heroElement, firstWorkItem], { clearProps: 'all' })
+        gsap.set(heroElement, { clearProps: 'all' })
         return
       }
 
@@ -225,36 +223,6 @@ function Hero() {
           0.65
         )
 
-      if (firstWorkItem) {
-        scrollTl.fromTo(
-          firstWorkItem,
-          { opacity: 0, y: 80, filter: 'blur(5px)' },
-          {
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            duration: 1.2,
-            ease: 'power2.out',
-          },
-          0.52
-        )
-
-        const firstVisual = firstWorkItem.querySelector('.work-visual')
-
-        if (firstVisual) {
-          scrollTl.fromTo(
-            firstVisual,
-            { scale: 0.97, y: 10 },
-            {
-              scale: 1,
-              y: 0,
-              duration: 0.95,
-              ease: 'power2.out',
-            },
-            0.52
-          )
-        }
-      }
     })
 
     return () => ctx.revert()
