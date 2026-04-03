@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { MutableRefObject, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion, isMobile } from '../utils/motionUtils'
@@ -6,7 +6,17 @@ import './FramedIdentity.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-function FramedIdentity() {
+interface FramedIdentityProps {
+  featuredSectionRef: MutableRefObject<HTMLElement | null>
+  firstWorkItemRef: MutableRefObject<HTMLDivElement | null>
+  firstWorkVisualRef: MutableRefObject<HTMLDivElement | null>
+}
+
+function FramedIdentity({
+  featuredSectionRef,
+  firstWorkItemRef,
+  firstWorkVisualRef,
+}: FramedIdentityProps) {
   const sceneRef = useRef<HTMLElement>(null)
   const frameWrapRef = useRef<HTMLDivElement>(null)
   const frameRef = useRef<HTMLElement>(null)
@@ -20,12 +30,12 @@ function FramedIdentity() {
 
     const ctx = gsap.context(() => {
       const scene = sceneRef.current
-      const featuredSection = document.querySelector('.featured-work') as HTMLElement | null
-      const firstWorkItem = document.querySelector('.featured-work .work-item') as HTMLElement | null
-      const firstVisual = firstWorkItem?.querySelector('.work-visual') as HTMLElement | null
+      const featuredSection = featuredSectionRef.current
+      const firstWorkItem = firstWorkItemRef.current
+      const firstVisual = firstWorkVisualRef.current
 
       if (!scene || reducedMotion) {
-        gsap.set([scene, featuredSection, firstWorkItem, firstVisual], { clearProps: 'all' })
+        gsap.set(scene, { clearProps: 'all' })
         return
       }
 
@@ -158,7 +168,7 @@ function FramedIdentity() {
     })
 
     return () => ctx.revert()
-  }, [])
+  }, [featuredSectionRef, firstWorkItemRef, firstWorkVisualRef])
 
   return (
     <section className="framed-identity" ref={sceneRef}>

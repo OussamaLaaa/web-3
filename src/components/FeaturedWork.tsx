@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useRef } from 'react'
+import { CSSProperties, MutableRefObject, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '../utils/motionUtils'
@@ -18,7 +18,17 @@ interface WorkItem {
   accentSoft: string
 }
 
-function FeaturedWork() {
+interface FeaturedWorkProps {
+  sectionRefExternal?: MutableRefObject<HTMLElement | null>
+  firstItemRefExternal?: MutableRefObject<HTMLDivElement | null>
+  firstVisualRefExternal?: MutableRefObject<HTMLDivElement | null>
+}
+
+function FeaturedWork({
+  sectionRefExternal,
+  firstItemRefExternal,
+  firstVisualRefExternal,
+}: FeaturedWorkProps) {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
   const sectionRef = useRef<HTMLElement>(null)
@@ -65,12 +75,6 @@ function FeaturedWork() {
     const ctx = gsap.context(() => {
       if (reducedMotion) {
         return
-      }
-
-      const firstWorkItem = workItemsRef.current[0]
-
-      if (firstWorkItem) {
-        gsap.set(firstWorkItem, { opacity: 1, y: 0, filter: 'blur(0px)' })
       }
 
       // DRAMATIC section entrance with atmosphere shift
@@ -120,6 +124,12 @@ function FeaturedWork() {
     return () => ctx.revert()
   }, [])
 
+  useEffect(() => {
+    if (sectionRefExternal) {
+      sectionRefExternal.current = sectionRef.current
+    }
+  }, [sectionRefExternal])
+
   return (
     <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
@@ -128,11 +138,16 @@ function FeaturedWork() {
         </h2>
         <div className="work-grid">
           {works.map((work, index) => (
-            <div
-              key={work.id}
-              className="work-item"
-              ref={(el) => (workItemsRef.current[index] = el)}
-              style={
+              <div
+                key={work.id}
+                className="work-item"
+                ref={(el) => {
+                  workItemsRef.current[index] = el
+                  if (index === 0 && firstItemRefExternal) {
+                    firstItemRefExternal.current = el
+                  }
+                }}
+                style={
                 {
                   '--accent': work.accent,
                   '--accent-soft': work.accentSoft,
@@ -151,7 +166,14 @@ function FeaturedWork() {
               </div>
 
               <div className="work-body">
-                <div className="work-visual">
+                <div
+                  className="work-visual"
+                  ref={(el) => {
+                    if (index === 0 && firstVisualRefExternal) {
+                      firstVisualRefExternal.current = el
+                    }
+                  }}
+                >
                   <div className="visual-grid"></div>
                   <div className="visual-beam"></div>
                   <div className="visual-band"></div>

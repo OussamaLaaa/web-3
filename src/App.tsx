@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import './App.css'
 import DoorScene from './components/DoorScene'
 import Hero from './components/Hero'
@@ -10,14 +11,25 @@ import { useTheme } from './hooks/useTheme'
 
 function App() {
   const { theme, toggleTheme } = useTheme()
+  const featuredSectionRef = useRef<HTMLElement>(null)
+  const firstWorkItemRef = useRef<HTMLDivElement>(null)
+  const firstWorkVisualRef = useRef<HTMLDivElement>(null)
 
   return (
     <div className="app">
       <ThemeToggle theme={theme} onToggle={toggleTheme} />
       <DoorScene />
       <Hero />
-      <FramedIdentity />
-      <FeaturedWork />
+      <FramedIdentity
+        featuredSectionRef={featuredSectionRef}
+        firstWorkItemRef={firstWorkItemRef}
+        firstWorkVisualRef={firstWorkVisualRef}
+      />
+      <FeaturedWork
+        sectionRefExternal={featuredSectionRef}
+        firstItemRefExternal={firstWorkItemRef}
+        firstVisualRefExternal={firstWorkVisualRef}
+      />
       <Recommendations />
       <Contact />
     </div>
