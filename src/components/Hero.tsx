@@ -2,26 +2,74 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import './Hero.css'
 
+const identityChips = ['Strategic', 'Collaborative', 'Creative', 'Product-minded']
+
 function Hero() {
+  const roleRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
+  const chipsRef = useRef<HTMLSpanElement[]>([])
+  const actionsRef = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero entrance timeline
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-      tl.from(titleRef.current, {
-        y: 100,
+      tl.from(roleRef.current, {
+        y: 40,
         opacity: 0,
-        duration: 1.2,
-        delay: 0.3,
+        duration: 0.9,
+        delay: 0.2,
       })
+        .from(
+          titleRef.current,
+          {
+            y: 80,
+            opacity: 0,
+            duration: 1.1,
+          },
+          '-=0.4'
+        )
         .from(
           subtitleRef.current,
           {
             y: 50,
+            opacity: 0,
+            duration: 0.9,
+          },
+          '-=0.5'
+        )
+
+      const chipElements = chipsRef.current.filter(Boolean)
+
+      if (chipElements.length) {
+        tl.from(
+          chipElements,
+          {
+            y: 25,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.08,
+          },
+          '-=0.4'
+        )
+      }
+
+      tl.from(
+        actionsRef.current,
+        {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+        },
+        '-=0.3'
+      )
+        .from(
+          panelRef.current,
+          {
+            y: 60,
             opacity: 0,
             duration: 1,
           },
@@ -30,14 +78,13 @@ function Hero() {
         .from(
           scrollIndicatorRef.current,
           {
-            y: 30,
+            y: 20,
             opacity: 0,
             duration: 0.8,
           },
-          '-=0.4'
+          '-=0.5'
         )
 
-      // Scroll indicator animation (continuous)
       gsap.to(scrollIndicatorRef.current, {
         y: 10,
         duration: 1.5,
@@ -50,18 +97,89 @@ function Hero() {
     return () => ctx.revert()
   }, [])
 
+  const scrollToSection = (selector: string) => {
+    const target = document.querySelector(selector)
+    if (target) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      target.scrollIntoView({
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'start',
+      })
+    }
+  }
+
   return (
     <section className="hero">
-      <div className="hero-content">
-        <h1 className="hero-title" ref={titleRef}>
-          Creating Digital
-          <br />
-          Experiences
-        </h1>
-        <p className="hero-subtitle" ref={subtitleRef}>
-          A creative developer crafting elegant solutions through design and code
-        </p>
+      <div className="hero-atmosphere">
+        <div className="hero-glow hero-glow-left" />
+        <div className="hero-glow hero-glow-right" />
+        <div className="hero-grid-overlay" />
       </div>
+
+      <div className="hero-inner">
+        <div className="hero-content">
+          <div className="hero-role" ref={roleRef}>
+            <span className="hero-role-accent" />
+            <span className="hero-role-label">UX/UI &amp; Product Designer</span>
+          </div>
+
+          <h1 className="hero-title" ref={titleRef}>
+            Understanding your users,
+            <span className="hero-title-emphasis"> designing your success.</span>
+          </h1>
+
+          <p className="hero-subtitle" ref={subtitleRef}>
+            Powered by AI-driven insight, product thinking, and user-centered design.
+          </p>
+
+          <div className="hero-chips">
+            {identityChips.map((chip, index) => (
+              <span
+                key={chip}
+                className="hero-chip"
+                ref={(el) => {
+                  if (el) {
+                    chipsRef.current[index] = el
+                  }
+                }}
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
+
+          <div className="hero-actions" ref={actionsRef}>
+            <button
+              className="hero-button hero-button-primary"
+              onClick={() => scrollToSection('.featured-work')}
+              type="button"
+            >
+              View Selected Work
+            </button>
+            <button
+              className="hero-button hero-button-secondary"
+              onClick={() => scrollToSection('.contact')}
+              type="button"
+            >
+              Let’s Work Together
+            </button>
+          </div>
+        </div>
+
+        <div className="hero-panel" ref={panelRef} aria-hidden="true">
+          <div className="hero-panel-frame">
+            <div className="hero-panel-grid" />
+            <div className="hero-panel-light" />
+            <div className="hero-panel-outline" />
+            <div className="hero-panel-core">
+              <div className="hero-panel-bar" />
+              <div className="hero-panel-bar thin" />
+              <div className="hero-panel-dot" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="hero-scroll-indicator" ref={scrollIndicatorRef}>
         <span>Scroll to explore</span>
       </div>
