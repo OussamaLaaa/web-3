@@ -1,6 +1,6 @@
 .featured-work {
-  min-height: 100vh;
-  padding: 8rem 2rem;
+  min-height: auto;
+  padding: 6rem 2rem 8rem;
   background: #0a0a0a;
   position: relative;
   overflow: hidden;
@@ -13,10 +13,62 @@
   z-index: 2;
 }
 
+/* Atmospheric workspace layers */
+.work-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.atmosphere-ambient {
+  position: absolute;
+  inset: 0;
+  /* Subtle office interior ambient lighting */
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    rgba(28, 26, 33, 0.15) 0%,
+    rgba(22, 20, 27, 0.1) 40%,
+    transparent 70%
+  );
+}
+
+.atmosphere-desk-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25%;
+  /* Subtle desk surface gradient */
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(18, 16, 21, 0.2) 60%,
+    rgba(15, 13, 18, 0.35) 100%
+  );
+}
+
+.atmosphere-side-glow {
+  position: absolute;
+  inset: 0;
+  /* Subtle screen/monitor glow from sides */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(60, 55, 75, 0.04) 0%,
+      transparent 25%
+    ),
+    linear-gradient(
+      270deg,
+      rgba(55, 50, 70, 0.04) 0%,
+      transparent 25%
+    );
+}
+
 /* Header */
 .work-header {
   text-align: center;
-  margin-bottom: 6rem;
+  margin-bottom: 4rem;
   will-change: transform, opacity;
 }
 
@@ -36,27 +88,29 @@
   letter-spacing: 0.05em;
 }
 
-/* Grid */
+/* Grid - cinematic workspace display layout */
 .work-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 3rem;
-  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-/* Work Cards - cinematic scene-like */
+/* Work Cards - cinematic workspace panels */
 .work-card {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 0;
   background: linear-gradient(
     135deg,
-    rgba(20, 18, 25, 0.6) 0%,
-    rgba(15, 13, 20, 0.4) 100%
+    rgba(22, 20, 27, 0.5) 0%,
+    rgba(16, 14, 21, 0.35) 100%
   );
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 4px;
-  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
   overflow: hidden;
-  transition: transform 0.4s ease, border-color 0.4s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
   position: relative;
 }
@@ -67,63 +121,103 @@
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.02) 0%,
-    transparent 50%
+    rgba(255, 255, 255, 0.015) 0%,
+    transparent 60%
   );
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.work-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 50%,
+    rgba(70, 65, 85, 0.08) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
   pointer-events: none;
 }
 
 .work-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(8px);
+  border-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(25, 23, 30, 0.55) 0%,
+    rgba(18, 16, 23, 0.4) 100%
+  );
 }
 
 .work-card:hover::before {
   opacity: 1;
 }
 
+.work-card:hover::after {
+  opacity: 0.6;
+}
+
 /* Visual Area */
 .work-visual {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  min-height: 280px;
   overflow: hidden;
   background: linear-gradient(
     135deg,
-    rgba(30, 28, 35, 0.5) 0%,
-    rgba(20, 18, 25, 0.5) 100%
+    rgba(28, 26, 33, 0.4) 0%,
+    rgba(20, 18, 25, 0.45) 100%
   );
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .work-thumbnail {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 70% 60% at 50% 40%,
-    rgba(80, 75, 95, 0.15) 0%,
-    rgba(60, 55, 75, 0.08) 40%,
-    transparent 70%
-  );
+  /* Subtle monitor/screen glow effect */
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 50% 45%,
+      rgba(75, 70, 90, 0.12) 0%,
+      rgba(60, 55, 75, 0.06) 35%,
+      transparent 65%
+    ),
+    /* Subtle vignette */
+    radial-gradient(
+      ellipse 100% 100% at 50% 50%,
+      transparent 40%,
+      rgba(10, 10, 10, 0.3) 100%
+    );
 }
 
 .work-number {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  font-size: 5rem;
+  top: 1.25rem;
+  right: 1.25rem;
+  font-size: 4rem;
   font-weight: 100;
-  color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.06);
   line-height: 1;
   letter-spacing: -0.05em;
   pointer-events: none;
   font-family: 'Inter', sans-serif;
+  transition: color 0.5s ease;
+}
+
+.work-card:hover .work-number {
+  color: rgba(255, 255, 255, 0.1);
 }
 
 /* Content */
 .work-content {
-  padding: 2rem;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .work-meta {
@@ -165,32 +259,7 @@
 /* Mobile Responsive */
 @media (max-width: 968px) {
   .featured-work {
-    padding: 6rem 1.5rem;
-  }
-
-  .work-header {
-    margin-bottom: 4rem;
-  }
-
-  .work-grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .work-number {
-    font-size: 4rem;
-    top: 1rem;
-    right: 1rem;
-  }
-
-  .work-content {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .featured-work {
-    padding: 5rem 1rem;
+    padding: 5rem 1.5rem 6rem;
   }
 
   .work-header {
@@ -201,14 +270,59 @@
     gap: 2rem;
   }
 
+  .work-card {
+    grid-template-columns: 1fr;
+  }
+
+  .work-visual {
+    min-height: 240px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  }
+
+  .work-number {
+    font-size: 3.5rem;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .work-content {
+    padding: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-work {
+    padding: 4rem 1rem 5rem;
+  }
+
+  .work-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .work-grid {
+    gap: 1.75rem;
+  }
+
+  .work-visual {
+    min-height: 200px;
+  }
+
   .work-number {
     font-size: 3rem;
+  }
+
+  .work-content {
+    padding: 1.5rem;
   }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .work-card {
+  .work-card,
+  .work-card::before,
+  .work-card::after,
+  .work-number {
     transition: none;
   }
 
@@ -216,7 +330,8 @@
     transform: none;
   }
 
-  .work-card::before {
+  .work-card::before,
+  .work-card::after {
     display: none;
   }
 }

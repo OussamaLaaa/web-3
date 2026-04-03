@@ -16,6 +16,7 @@ interface WorkItem {
 
 function FeaturedWork() {
   const sectionRef = useRef<HTMLElement>(null)
+  const atmosphereRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const project1Ref = useRef<HTMLDivElement>(null)
   const project2Ref = useRef<HTMLDivElement>(null)
@@ -66,40 +67,54 @@ function FeaturedWork() {
 
       const parallaxIntensity = getParallaxIntensity(1)
 
-      // Scroll-triggered entrance animation (not pinned)
+      // Subtle atmosphere fade-in
+      gsap.from(atmosphereRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 85%',
+          end: 'top 40%',
+          scrub: 1,
+        },
+        opacity: 0,
+      })
+
+      // Refined entrance animation timeline
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 75%',
-          end: 'top 25%',
-          scrub: 1,
+          start: 'top 70%',
+          end: 'top 30%',
+          scrub: 1.2,
         },
       })
 
       tl
-        // Header fades in
+        // Header elegant entrance
         .from(headerRef.current, {
           opacity: 0,
-          y: 40 * parallaxIntensity,
-          duration: 0.8,
+          y: 30 * parallaxIntensity,
+          duration: 0.6,
         }, 0)
 
-        // Projects stagger in
+        // Projects with elegant stagger and subtle horizontal shift
         .from(project1Ref.current, {
           opacity: 0,
-          y: 60 * parallaxIntensity,
-          duration: 1,
-        }, 0.3)
+          x: -20 * parallaxIntensity,
+          y: 40 * parallaxIntensity,
+          duration: 0.8,
+        }, 0.25)
         .from(project2Ref.current, {
           opacity: 0,
-          y: 60 * parallaxIntensity,
-          duration: 1,
-        }, 0.5)
+          x: -15 * parallaxIntensity,
+          y: 40 * parallaxIntensity,
+          duration: 0.8,
+        }, 0.4)
         .from(project3Ref.current, {
           opacity: 0,
-          y: 60 * parallaxIntensity,
-          duration: 1,
-        }, 0.7)
+          x: -10 * parallaxIntensity,
+          y: 40 * parallaxIntensity,
+          duration: 0.8,
+        }, 0.55)
     })
 
     return () => ctx.revert()
@@ -107,6 +122,13 @@ function FeaturedWork() {
 
   return (
     <section className="featured-work" ref={sectionRef}>
+      {/* Atmospheric layers */}
+      <div className="work-atmosphere" ref={atmosphereRef}>
+        <div className="atmosphere-ambient"></div>
+        <div className="atmosphere-desk-hint"></div>
+        <div className="atmosphere-side-glow"></div>
+      </div>
+
       <div className="work-container">
         <div className="work-header" ref={headerRef}>
           <h2 className="section-title">Selected Work</h2>
