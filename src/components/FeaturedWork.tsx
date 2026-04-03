@@ -33,6 +33,19 @@ function FeaturedWork({
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
   const sectionRef = useRef<HTMLElement>(null)
 
+  const setWorkItemRef = (index: number) => (el: HTMLDivElement | null) => {
+    workItemsRef.current[index] = el
+    if (index === 0 && sharedFirstItemRef) {
+      sharedFirstItemRef.current = el
+    }
+  }
+
+  const setWorkVisualRef = (index: number) => (el: HTMLDivElement | null) => {
+    if (index === 0 && sharedFirstVisualRef) {
+      sharedFirstVisualRef.current = el
+    }
+  }
+
   const works: WorkItem[] = [
     {
       id: 1,
@@ -128,6 +141,8 @@ function FeaturedWork({
     if (sharedSectionRef) {
       sharedSectionRef.current = sectionRef.current
     }
+    // sectionRef object identity is stable; we only sync current node to the shared ref.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sharedSectionRef])
 
   return (
@@ -141,12 +156,7 @@ function FeaturedWork({
               <div
                 key={work.id}
                 className="work-item"
-                ref={(el) => {
-                  workItemsRef.current[index] = el
-                  if (index === 0 && sharedFirstItemRef) {
-                    sharedFirstItemRef.current = el
-                  }
-                }}
+                ref={setWorkItemRef(index)}
                 style={
                 {
                   '--accent': work.accent,
@@ -168,11 +178,7 @@ function FeaturedWork({
               <div className="work-body">
                 <div
                   className="work-visual"
-                  ref={(el) => {
-                    if (index === 0 && sharedFirstVisualRef) {
-                      sharedFirstVisualRef.current = el
-                    }
-                  }}
+                  ref={setWorkVisualRef(index)}
                 >
                   <div className="visual-grid"></div>
                   <div className="visual-beam"></div>
