@@ -1,7 +1,7 @@
 .contact {
   min-height: 100vh;
   padding: 8rem 2rem 3rem;
-  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 20%, var(--color-background) 100%);
+  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 24%, var(--color-background) 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -64,6 +64,7 @@
   display: inline-block;
   line-height: 1.2;
   position: relative;
+  padding-bottom: 0.35rem;
 }
 
 .contact-link::after {
@@ -82,7 +83,7 @@
 }
 
 .contact-link:hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .contact-social {
