@@ -128,13 +128,7 @@ function FeaturedWork({
     if (sharedSectionRef) {
       sharedSectionRef.current = sectionRef.current
     }
-    if (sharedFirstItemRef) {
-      sharedFirstItemRef.current = workItemsRef.current[0] ?? null
-    }
-    if (sharedFirstVisualRef) {
-      sharedFirstVisualRef.current = sectionRef.current?.querySelector('.work-item:first-child .work-visual') ?? null
-    }
-  }, [sharedSectionRef, sharedFirstItemRef, sharedFirstVisualRef])
+  }, [sharedSectionRef])
 
   return (
     <section className="featured-work" ref={sectionRef}>
