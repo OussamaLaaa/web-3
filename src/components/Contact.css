@@ -5,6 +5,19 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+}
+
+.contact::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 800px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
 }
 
 .contact-container {
@@ -28,7 +41,7 @@
 
 .contact-text {
   font-size: clamp(1.25rem, 2.5vw, 1.875rem);
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.6);
   line-height: 1.6;
   margin-bottom: 4rem;
   font-weight: 300;
@@ -76,6 +89,8 @@
   display: flex;
   gap: 3rem;
   flex-wrap: wrap;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .social-link {
@@ -118,6 +133,18 @@
   margin-top: 6rem;
   font-weight: 400;
   text-transform: uppercase;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%);
 }
 
 @media (max-width: 768px) {
