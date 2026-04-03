@@ -31,6 +31,7 @@ function FeaturedWork({
 }: FeaturedWorkProps) {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const workVisualsRef = useRef<(HTMLDivElement | null)[]>([])
   const sectionRef = useRef<HTMLElement>(null)
 
   const works: WorkItem[] = [
@@ -130,6 +131,20 @@ function FeaturedWork({
     }
   }, [sectionRefExternal])
 
+  const setWorkItemRef = (index: number, el: HTMLDivElement | null) => {
+    workItemsRef.current[index] = el
+    if (index === 0 && firstItemRefExternal) {
+      firstItemRefExternal.current = el
+    }
+  }
+
+  const setWorkVisualRef = (index: number, el: HTMLDivElement | null) => {
+    workVisualsRef.current[index] = el
+    if (index === 0 && firstVisualRefExternal) {
+      firstVisualRefExternal.current = el
+    }
+  }
+
   return (
     <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
@@ -141,12 +156,7 @@ function FeaturedWork({
               <div
                 key={work.id}
                 className="work-item"
-                ref={(el) => {
-                  workItemsRef.current[index] = el
-                  if (index === 0 && firstItemRefExternal) {
-                    firstItemRefExternal.current = el
-                  }
-                }}
+                ref={(el) => setWorkItemRef(index, el)}
                 style={
                 {
                   '--accent': work.accent,
@@ -168,11 +178,7 @@ function FeaturedWork({
               <div className="work-body">
                 <div
                   className="work-visual"
-                  ref={(el) => {
-                    if (index === 0 && firstVisualRefExternal) {
-                      firstVisualRefExternal.current = el
-                    }
-                  }}
+                  ref={(el) => setWorkVisualRef(index, el)}
                 >
                   <div className="visual-grid"></div>
                   <div className="visual-beam"></div>
