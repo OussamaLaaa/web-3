@@ -130,7 +130,7 @@ function Hero() {
         scrollTrigger: {
           trigger: heroElement,
           start: 'top top',
-          end: reducedMotion ? '+=80%' : mobile ? '+=120%' : '+=180%',
+          end: reducedMotion ? '+=80%' : mobile ? '+=110%' : '+=160%',
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -141,7 +141,7 @@ function Hero() {
         .to(
           heroElement,
           {
-            '--hero-dim': 0.35,
+            '--hero-dim': 0.28,
             duration: 1.1,
           },
           0
@@ -149,8 +149,8 @@ function Hero() {
         .to(
           deskItemsRef.current,
           {
-            opacity: 0.45,
-            y: -5,
+            opacity: 0.4,
+            y: -6,
             duration: 1,
           },
           0
@@ -158,7 +158,7 @@ function Hero() {
         .to(
           veilRef.current,
           {
-            opacity: 0.12,
+            opacity: 0.18,
             duration: 1.1,
           },
           0
@@ -166,8 +166,8 @@ function Hero() {
         .to(
           heroInnerRef.current,
           {
-            scale: mobile ? 0.99 : 0.95,
-            y: mobile ? -6 : -12,
+            scale: mobile ? 0.99 : 0.96,
+            y: mobile ? -6 : -10,
             duration: 1.05,
           },
           0
@@ -175,7 +175,7 @@ function Hero() {
         .to(
           heroContentRef.current,
           {
-            opacity: 0.94,
+            opacity: 0.96,
             duration: 1.1,
           },
           0.1
@@ -183,8 +183,8 @@ function Hero() {
         .to(
           panelRef.current,
           {
-            scale: 1.05,
-            y: -10,
+            scale: 1.03,
+            y: -8,
             duration: 1.05,
           },
           0.2
@@ -192,7 +192,7 @@ function Hero() {
         .to(
           gridRef.current,
           {
-            opacity: 0.18,
+            opacity: 0.16,
             duration: 1,
           },
           0.2
@@ -200,7 +200,7 @@ function Hero() {
         .to(
           '.hero-panel-light',
           {
-            opacity: 1,
+            opacity: 0.9,
             duration: 0.95,
           },
           0.2
@@ -208,19 +208,42 @@ function Hero() {
         .to(
           heroContentRef.current,
           {
-            opacity: 0.85,
-            y: -8,
+            opacity: 0.9,
+            y: -6,
             duration: 1,
           },
-          0.65
+          0.62
         )
         .to(
           heroInnerRef.current,
           {
-            filter: 'saturate(0.92)',
+            filter: 'saturate(0.95)',
             duration: 0.95,
           },
-          0.65
+          0.62
+        )
+        .fromTo(
+          '.featured-work',
+          { y: 56, opacity: 0.74 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.95,
+            ease: 'power2.out',
+          },
+          0.74
+        )
+        .fromTo(
+          '.featured-work .work-item:first-child',
+          { opacity: 0, y: 72, filter: 'blur(4px)' },
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 1,
+            ease: 'power2.out',
+          },
+          0.76
         )
 
     })

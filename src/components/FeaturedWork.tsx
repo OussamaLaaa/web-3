@@ -1,4 +1,4 @@
-import { CSSProperties, MutableRefObject, useEffect, useRef } from 'react'
+import { CSSProperties, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '../utils/motionUtils'
@@ -18,20 +18,9 @@ interface WorkItem {
   accentSoft: string
 }
 
-interface FeaturedWorkProps {
-  sharedSectionRef: MutableRefObject<HTMLElement | null>
-  sharedFirstItemRef: MutableRefObject<HTMLDivElement | null>
-  sharedFirstVisualRef: MutableRefObject<HTMLDivElement | null>
-}
-
-function FeaturedWork({
-  sharedSectionRef,
-  sharedFirstItemRef,
-  sharedFirstVisualRef,
-}: FeaturedWorkProps) {
+function FeaturedWork() {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
-  const workVisualsRef = useRef<(HTMLDivElement | null)[]>([])
   const sectionRef = useRef<HTMLElement>(null)
 
   const works: WorkItem[] = [
@@ -103,9 +92,9 @@ function FeaturedWork({
         ease: 'power3.out',
       })
 
-      // Staggered work items reveal (keep first card for handoff from framed identity scene)
+      // Staggered work items reveal
       workItemsRef.current.forEach((item, index) => {
-        if (item && index > 0) {
+        if (item) {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,
@@ -125,24 +114,6 @@ function FeaturedWork({
     return () => ctx.revert()
   }, [])
 
-  useEffect(() => {
-    sharedSectionRef.current = sectionRef.current
-  }, [sharedSectionRef])
-
-  const setWorkItemRef = (index: number, el: HTMLDivElement | null) => {
-    workItemsRef.current[index] = el
-    if (index === 0) {
-      sharedFirstItemRef.current = el
-    }
-  }
-
-  const setWorkVisualRef = (index: number, el: HTMLDivElement | null) => {
-    workVisualsRef.current[index] = el
-    if (index === 0) {
-      sharedFirstVisualRef.current = el
-    }
-  }
-
   return (
     <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
@@ -154,7 +125,7 @@ function FeaturedWork({
               <div
                 key={work.id}
                 className="work-item"
-                ref={(el) => setWorkItemRef(index, el)}
+                ref={(el) => (workItemsRef.current[index] = el)}
                 style={
                 {
                   '--accent': work.accent,
@@ -176,7 +147,6 @@ function FeaturedWork({
               <div className="work-body">
                 <div
                   className="work-visual"
-                  ref={(el) => setWorkVisualRef(index, el)}
                 >
                   <div className="visual-grid"></div>
                   <div className="visual-beam"></div>

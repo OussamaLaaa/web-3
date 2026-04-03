@@ -11,6 +11,7 @@ function DoorScene() {
   const atmosphereRef = useRef<HTMLDivElement>(null)
   const deskGlowRef = useRef<HTMLDivElement>(null)
   const roomLightRef = useRef<HTMLDivElement>(null)
+  const darknessRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const reducedMotion = prefersReducedMotion()
@@ -30,7 +31,7 @@ function DoorScene() {
         scrollTrigger: {
           trigger: scene,
           start: 'top top',
-          end: mobile ? '+=120%' : '+=200%',
+          end: mobile ? '+=98%' : '+=150%',
           scrub: 1,
           pin: true,
           anticipatePin: 1,
@@ -41,46 +42,63 @@ function DoorScene() {
       // Start in complete darkness, gradually reveal the space
       tl.fromTo(
         atmosphereRef.current,
-        { opacity: 0.35 },
+        { opacity: 0.46 },
         { opacity: 1, duration: 0.32 }
       )
         .fromTo(
           roomLightRef.current,
-          { opacity: 0.2 },
-          { opacity: 0.9, duration: 0.5 },
-          0.08
+          { opacity: 0.24 },
+          { opacity: 0.88, duration: 0.45 },
+          0.06
         )
         .fromTo(
           deskGlowRef.current,
-          { opacity: 0.35, scale: 0.84 },
-          { opacity: 1.05, scale: 1, duration: 0.65 },
-          0.16
+          { opacity: 0.48, scale: 0.9 },
+          { opacity: 0.96, scale: 1, duration: 0.58 },
+          0.14
+        )
+        .to(
+          darknessRef.current,
+          {
+            opacity: 0.82,
+            duration: 0.42,
+          },
+          0.24
         )
         .to(
           scene,
           {
-            '--door-scene-brightness': 1.08,
-            duration: 0.45,
+            '--door-scene-brightness': 1.06,
+            duration: 0.4,
           },
-          0.22
+          0.26
         )
         // Camera zoom into the workspace
         .to(
           scene,
           {
-            '--door-scene-zoom': mobile ? 1.28 : 1.6,
-            duration: 0.9,
+            '--door-scene-zoom': mobile ? 1.2 : 1.44,
+            duration: 0.78,
             ease: 'power2.inOut',
           },
-          0.45
+          0.42
         )
         .to(
           atmosphereRef.current,
           {
-            opacity: 0.45,
-            duration: 0.36,
+            opacity: 0.6,
+            duration: 0.28,
           },
-          0.95
+          0.9
+        )
+        .to(
+          scene,
+          {
+            yPercent: -4,
+            opacity: 0.94,
+            duration: 0.32,
+          },
+          0.9
         )
     })
 
@@ -91,7 +109,7 @@ function DoorScene() {
     <section className="door-scene" ref={sceneRef}>
       <div className="door-scene-atmosphere" ref={atmosphereRef}>
         {/* Darkness and depth */}
-        <div className="door-darkness" />
+        <div className="door-darkness" ref={darknessRef} />
 
         {/* Corridor/threshold silhouette */}
         <div className="door-frame">
