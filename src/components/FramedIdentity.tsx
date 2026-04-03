@@ -132,7 +132,7 @@ function FramedIdentity() {
       if (firstWorkItem) {
         tl.fromTo(
           firstWorkItem,
-          { opacity: 0, y: 90, filter: 'blur(5px)' },
+          { opacity: 0, y: 80, filter: 'blur(5px)' },
           {
             opacity: 1,
             y: 0,
