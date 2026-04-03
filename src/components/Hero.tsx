@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion, isMobile } from '../utils/motionUtils'
 import './Hero.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const identityChips = ['Strategic', 'Collaborative', 'Creative', 'Product-minded']
 
@@ -18,28 +21,33 @@ function Hero() {
   const veilRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
-
-  gsap.registerPlugin(ScrollTrigger)
+  const deskItemsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    const reducedMotion = prefersReducedMotion()
+    const mobile = isMobile()
 
     const ctx = gsap.context(() => {
       const heroElement = heroRef.current
       const firstWorkItem = document.querySelector('.featured-work .work-item') as HTMLElement | null
 
-      if (prefersReducedMotion || !heroElement) {
+      if (reducedMotion || !heroElement) {
         gsap.set([heroElement, firstWorkItem], { clearProps: 'all' })
         return
       }
 
       const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
 
-      tl.from(veilRef.current, {
-        opacity: 0.35,
-        duration: 1.2,
+      // Desk items reveal first (subtle workspace atmosphere)
+      tl.from(deskItemsRef.current, {
+        opacity: 0,
+        y: 8,
+        duration: 1.4,
       })
+        .from(veilRef.current, {
+          opacity: 0.35,
+          duration: 1.2,
+        }, '-=1.2')
         .from(
           gridRef.current,
           {
@@ -124,7 +132,7 @@ function Hero() {
         scrollTrigger: {
           trigger: heroElement,
           start: 'top top',
-          end: prefersReducedMotion ? '+=80%' : isMobile ? '+=120%' : '+=200%',
+          end: reducedMotion ? '+=80%' : mobile ? '+=120%' : '+=200%',
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -141,6 +149,15 @@ function Hero() {
           0
         )
         .to(
+          deskItemsRef.current,
+          {
+            opacity: 0.3,
+            y: -6,
+            duration: 1.1,
+          },
+          0
+        )
+        .to(
           veilRef.current,
           {
             opacity: 0.08,
@@ -151,8 +168,8 @@ function Hero() {
         .to(
           heroInnerRef.current,
           {
-            scale: isMobile ? 0.985 : 0.94,
-            y: isMobile ? -6 : -14,
+            scale: mobile ? 0.985 : 0.94,
+            y: mobile ? -6 : -14,
             duration: 1.2,
           },
           0
@@ -246,9 +263,9 @@ function Hero() {
   const scrollToSection = (selector: string) => {
     const target = document.querySelector(selector)
     if (target) {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const reducedMotion = prefersReducedMotion()
       target.scrollIntoView({
-        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        behavior: reducedMotion ? 'auto' : 'smooth',
         block: 'start',
       })
     }
@@ -262,6 +279,14 @@ function Hero() {
         <div className="hero-glow hero-glow-right" />
         <div className="hero-grid-overlay" ref={gridRef} />
         <div className="hero-noise" />
+      </div>
+
+      {/* Workspace desk items */}
+      <div className="hero-desk-items" ref={deskItemsRef}>
+        <div className="desk-keyboard" />
+        <div className="desk-mouse" />
+        <div className="desk-notebook" />
+        <div className="desk-coffee" />
       </div>
 
       <div className="hero-inner" ref={heroInnerRef}>

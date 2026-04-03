@@ -1,6 +1,7 @@
 import { CSSProperties, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './FeaturedWork.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -20,6 +21,7 @@ interface WorkItem {
 function FeaturedWork() {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const sectionRef = useRef<HTMLElement>(null)
 
   const works: WorkItem[] = [
     {
@@ -58,7 +60,24 @@ function FeaturedWork() {
   ]
 
   useEffect(() => {
+    const reducedMotion = prefersReducedMotion()
+
     const ctx = gsap.context(() => {
+      if (reducedMotion) {
+        return
+      }
+
+      // Section entrance with atmosphere shift
+      gsap.from(sectionRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 90%',
+        },
+        '--work-section-brightness': 0.7,
+        duration: 1.2,
+        ease: 'power2.out',
+      })
+
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
@@ -93,7 +112,7 @@ function FeaturedWork() {
   }, [])
 
   return (
-    <section className="featured-work">
+    <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
         <h2 className="section-title" ref={sectionTitleRef}>
           Featured Work

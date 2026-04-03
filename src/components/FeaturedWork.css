@@ -1,10 +1,13 @@
 .featured-work {
+  --work-section-brightness: 1;
   min-height: 100vh;
   padding: 7rem 2rem;
   background:
     linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(6, 7, 10, 0.95) 14%, var(--color-surface) 32%, var(--color-background) 100%);
   position: relative;
   z-index: 0;
+  filter: brightness(var(--work-section-brightness));
+  transition: filter 0.8s ease;
 }
 
 .featured-work::before {
