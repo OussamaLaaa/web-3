@@ -12,17 +12,22 @@ function Hero() {
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const chipsRef = useRef<HTMLSpanElement[]>([])
   const actionsRef = useRef<HTMLDivElement>(null)
+  const heroInnerRef = useRef<HTMLDivElement>(null)
+  const heroContentRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  const veilRef = useRef<HTMLDivElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
 
   gsap.registerPlugin(ScrollTrigger)
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
 
     const ctx = gsap.context(() => {
       const heroElement = heroRef.current
-      const firstWorkItem = document.querySelector('.featured-work .work-item')
+      const firstWorkItem = document.querySelector('.featured-work .work-item') as HTMLElement | null
 
       if (prefersReducedMotion || !heroElement) {
         gsap.set([heroElement, firstWorkItem], { clearProps: 'all' })
@@ -31,11 +36,27 @@ function Hero() {
 
       const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
 
-      tl.from(roleRef.current, {
-        y: 16,
-        opacity: 0,
-        duration: 0.9,
+      tl.from(veilRef.current, {
+        opacity: 0.35,
+        duration: 1.2,
       })
+        .from(
+          gridRef.current,
+          {
+            opacity: 0,
+            duration: 1.2,
+          },
+          '-=1'
+        )
+        .from(
+          roleRef.current,
+          {
+            y: 16,
+            opacity: 0,
+            duration: 0.9,
+          },
+          '-=0.8'
+        )
         .from(
           titleRef.current,
           {
@@ -52,7 +73,7 @@ function Hero() {
             opacity: 0,
             duration: 0.9,
           },
-          '+=0.3'
+          '+=0.25'
         )
 
       const chipElements = chipsRef.current.filter(Boolean)
@@ -66,7 +87,7 @@ function Hero() {
             duration: 0.8,
             stagger: 0.08,
           },
-          '-=0.4'
+          '-=0.35'
         )
       }
 
@@ -77,16 +98,16 @@ function Hero() {
           opacity: 0,
           duration: 0.9,
         },
-        '+=0.2'
+        '+=0.25'
       )
         .from(
           panelRef.current,
           {
-            y: 20,
+            y: 18,
             opacity: 0,
             duration: 1.1,
           },
-          '-=0.5'
+          '-=0.55'
         )
         .from(
           scrollIndicatorRef.current,
@@ -103,7 +124,7 @@ function Hero() {
         scrollTrigger: {
           trigger: heroElement,
           start: 'top top',
-          end: '+=120%',
+          end: prefersReducedMotion ? '+=80%' : isMobile ? '+=120%' : '+=200%',
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -114,33 +135,108 @@ function Hero() {
         .to(
           heroElement,
           {
-            '--hero-dim': 0.35,
+            '--hero-dim': 0.45,
             duration: 1.2,
           },
           0
         )
         .to(
-          '.hero-inner',
+          veilRef.current,
           {
-            scale: 0.96,
-            opacity: 0.7,
+            opacity: 0.08,
             duration: 1.2,
           },
           0
+        )
+        .to(
+          heroInnerRef.current,
+          {
+            scale: isMobile ? 0.985 : 0.94,
+            y: isMobile ? -6 : -14,
+            duration: 1.2,
+          },
+          0
+        )
+        .to(
+          heroContentRef.current,
+          {
+            opacity: 0.9,
+            duration: 1.1,
+          },
+          0.1
+        )
+        .to(
+          panelRef.current,
+          {
+            scale: 1.08,
+            y: -12,
+            duration: 1.2,
+          },
+          0.2
+        )
+        .to(
+          gridRef.current,
+          {
+            opacity: 0.16,
+            duration: 1.1,
+          },
+          0.2
+        )
+        .to(
+          '.hero-panel-light',
+          {
+            opacity: 1.1,
+            duration: 1,
+          },
+          0.2
+        )
+        .to(
+          heroContentRef.current,
+          {
+            opacity: 0.75,
+            y: -10,
+            duration: 1.1,
+          },
+          0.65
+        )
+        .to(
+          heroInnerRef.current,
+          {
+            filter: 'saturate(0.9)',
+            duration: 1,
+          },
+          0.65
         )
 
       if (firstWorkItem) {
         scrollTl.fromTo(
           firstWorkItem,
-          { opacity: 0, y: 30 },
+          { opacity: 0, y: 80, filter: 'blur(6px)' },
           {
             opacity: 1,
             y: 0,
-            duration: 1.1,
+            filter: 'blur(0px)',
+            duration: 1.4,
             ease: 'power2.out',
           },
-          0.35
+          0.48
         )
+
+        const firstVisual = firstWorkItem.querySelector('.work-visual')
+
+        if (firstVisual) {
+          scrollTl.fromTo(
+            firstVisual,
+            { scale: 0.96, y: 12 },
+            {
+              scale: 1,
+              y: 0,
+              duration: 1,
+              ease: 'power2.out',
+            },
+            0.48
+          )
+        }
       }
     })
 
@@ -161,13 +257,15 @@ function Hero() {
   return (
     <section className="hero" ref={heroRef}>
       <div className="hero-atmosphere">
+        <div className="hero-veil" ref={veilRef} />
         <div className="hero-glow hero-glow-left" />
         <div className="hero-glow hero-glow-right" />
-        <div className="hero-grid-overlay" />
+        <div className="hero-grid-overlay" ref={gridRef} />
+        <div className="hero-noise" />
       </div>
 
-      <div className="hero-inner">
-        <div className="hero-content">
+      <div className="hero-inner" ref={heroInnerRef}>
+        <div className="hero-content" ref={heroContentRef}>
           <div className="hero-role" ref={roleRef}>
             <span className="hero-role-accent" />
             <span className="hero-role-label">UX/UI &amp; Product Designer</span>
