@@ -20,11 +20,7 @@ function App() {
       <ThemeToggle theme={theme} onToggle={toggleTheme} />
       <DoorScene />
       <Hero />
-      <FramedIdentity
-        sharedSectionRef={featuredSectionRef}
-        sharedFirstItemRef={featuredFirstItemRef}
-        sharedFirstVisualRef={featuredFirstVisualRef}
-      />
+      <FramedIdentity />
       <FeaturedWork
         sharedSectionRef={featuredSectionRef}
         sharedFirstItemRef={featuredFirstItemRef}
