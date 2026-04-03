@@ -71,12 +71,12 @@ function FeaturedWork() {
       gsap.from(sectionRef.current, {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 85%',
-          end: 'top 40%',
+          start: 'top 92%',
+          end: 'top 48%',
           scrub: 1,
         },
-        '--work-section-brightness': 0.3,
-        duration: 1,
+        '--work-section-brightness': 0.45,
+        duration: 1.1,
         ease: 'power2.out',
       })
 

@@ -30,7 +30,7 @@ function DoorScene() {
         scrollTrigger: {
           trigger: scene,
           start: 'top top',
-          end: mobile ? '+=150%' : '+=250%',
+          end: mobile ? '+=120%' : '+=200%',
           scrub: 1,
           pin: true,
           anticipatePin: 1,
@@ -41,46 +41,46 @@ function DoorScene() {
       // Start in complete darkness, gradually reveal the space
       tl.fromTo(
         atmosphereRef.current,
-        { opacity: 0.2 },
-        { opacity: 1, duration: 0.4 }
+        { opacity: 0.35 },
+        { opacity: 1, duration: 0.32 }
       )
         .fromTo(
           roomLightRef.current,
-          { opacity: 0 },
-          { opacity: 0.8, duration: 0.6 },
-          0.1
+          { opacity: 0.2 },
+          { opacity: 0.9, duration: 0.5 },
+          0.08
         )
         .fromTo(
           deskGlowRef.current,
-          { opacity: 0, scale: 0.7 },
-          { opacity: 1, scale: 1, duration: 0.8 },
-          0.2
+          { opacity: 0.35, scale: 0.84 },
+          { opacity: 1.05, scale: 1, duration: 0.65 },
+          0.16
         )
         .to(
           scene,
           {
-            '--door-scene-brightness': 1.2,
-            duration: 0.5,
+            '--door-scene-brightness': 1.08,
+            duration: 0.45,
           },
-          0.4
+          0.22
         )
         // Camera zoom into the workspace
         .to(
           scene,
           {
-            '--door-scene-zoom': mobile ? 1.4 : 1.8,
-            duration: 1,
-            ease: 'power2.in',
+            '--door-scene-zoom': mobile ? 1.28 : 1.6,
+            duration: 0.9,
+            ease: 'power2.inOut',
           },
-          0.6
+          0.45
         )
         .to(
           atmosphereRef.current,
           {
-            opacity: 0.3,
-            duration: 0.4,
+            opacity: 0.45,
+            duration: 0.36,
           },
-          1.4
+          0.95
         )
     })
 
