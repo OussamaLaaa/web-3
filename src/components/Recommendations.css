@@ -20,34 +20,57 @@
 
 .recommendations-grid {
   display: grid;
-  gap: 4rem;
+  gap: 3rem;
   max-width: 1200px;
 }
 
 .recommendation-item {
-  padding: 3rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  transition: border-color 0.3s ease;
+  position: relative;
+  padding: 3rem;
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.4) 0%, rgba(15, 15, 15, 0.2) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  transition: all 0.4s ease;
+}
+
+.recommendation-item::before {
+  content: '"';
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  font-size: 6rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.04);
+  font-family: Georgia, serif;
+  font-weight: 700;
+  pointer-events: none;
 }
 
 .recommendation-item:hover {
-  border-top-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(135deg, rgba(22, 22, 22, 0.5) 0%, rgba(18, 18, 18, 0.3) 100%);
+  transform: translateY(-2px);
 }
 
 .recommendation-text {
+  position: relative;
   font-size: clamp(1.125rem, 2.2vw, 1.5rem);
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 300;
   letter-spacing: 0.01em;
   margin-bottom: 2.5rem;
   font-style: italic;
+  padding-left: 0.5rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 .recommendation-author {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .author-info {
@@ -57,16 +80,16 @@
 }
 
 .author-name {
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: 1.125rem;
+  font-weight: 500;
   color: #ffffff;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 .author-role {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 0.1em;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 400;
 }
@@ -81,15 +104,25 @@
   }
 
   .recommendations-grid {
-    gap: 3rem;
+    gap: 2.5rem;
   }
 
   .recommendation-item {
-    padding: 2.5rem 0;
+    padding: 2.5rem 2rem;
+  }
+
+  .recommendation-item::before {
+    font-size: 5rem;
+    top: 1.5rem;
+    left: 1.5rem;
   }
 
   .recommendation-text {
     margin-bottom: 2rem;
+  }
+
+  .recommendation-author {
+    padding-top: 1.5rem;
   }
 }
 
@@ -103,14 +136,34 @@
   }
 
   .recommendations-grid {
-    gap: 2.5rem;
+    gap: 2rem;
   }
 
   .recommendation-item {
-    padding: 2rem 0;
+    padding: 2rem 1.5rem;
+  }
+
+  .recommendation-item::before {
+    font-size: 4rem;
+    top: 1.25rem;
+    left: 1.25rem;
   }
 
   .recommendation-text {
     margin-bottom: 1.5rem;
+    font-size: 1.0625rem;
+    padding-left: 0.4rem;
+  }
+
+  .recommendation-author {
+    padding-top: 1.25rem;
+  }
+
+  .author-name {
+    font-size: 1rem;
+  }
+
+  .author-role {
+    font-size: 0.75rem;
   }
 }
