@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Hero.css'
 
 const identityChips = ['Strategic', 'Collaborative', 'Creative', 'Product-minded']
 
 function Hero() {
+  const heroRef = useRef<HTMLElement>(null)
   const roleRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
@@ -13,20 +15,31 @@ function Hero() {
   const panelRef = useRef<HTMLDivElement>(null)
   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
 
+  gsap.registerPlugin(ScrollTrigger)
+
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      const heroElement = heroRef.current
+      const firstWorkItem = document.querySelector('.featured-work .work-item')
+
+      if (prefersReducedMotion || !heroElement) {
+        gsap.set([heroElement, firstWorkItem], { clearProps: 'all' })
+        return
+      }
+
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
 
       tl.from(roleRef.current, {
-        y: 40,
+        y: 16,
         opacity: 0,
         duration: 0.9,
-        delay: 0.2,
       })
         .from(
           titleRef.current,
           {
-            y: 80,
+            y: 20,
             opacity: 0,
             duration: 1.1,
           },
@@ -35,11 +48,11 @@ function Hero() {
         .from(
           subtitleRef.current,
           {
-            y: 50,
+            y: 20,
             opacity: 0,
             duration: 0.9,
           },
-          '-=0.5'
+          '+=0.3'
         )
 
       const chipElements = chipsRef.current.filter(Boolean)
@@ -48,9 +61,9 @@ function Hero() {
         tl.from(
           chipElements,
           {
-            y: 25,
+            y: 16,
             opacity: 0,
-            duration: 0.6,
+            duration: 0.8,
             stagger: 0.08,
           },
           '-=0.4'
@@ -60,38 +73,75 @@ function Hero() {
       tl.from(
         actionsRef.current,
         {
-          y: 30,
+          y: 20,
           opacity: 0,
-          duration: 0.8,
+          duration: 0.9,
         },
-        '-=0.3'
+        '+=0.2'
       )
         .from(
           panelRef.current,
           {
-            y: 60,
+            y: 20,
             opacity: 0,
-            duration: 1,
+            duration: 1.1,
           },
-          '-=0.6'
+          '-=0.5'
         )
         .from(
           scrollIndicatorRef.current,
           {
-            y: 20,
+            y: 10,
             opacity: 0,
             duration: 0.8,
           },
-          '-=0.5'
+          '-=0.4'
         )
 
-      gsap.to(scrollIndicatorRef.current, {
-        y: 10,
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'power1.inOut',
+      const scrollTl = gsap.timeline({
+        defaults: { ease: 'power2.out' },
+        scrollTrigger: {
+          trigger: heroElement,
+          start: 'top top',
+          end: '+=120%',
+          scrub: true,
+          pin: true,
+          anticipatePin: 1,
+        },
       })
+
+      scrollTl
+        .to(
+          heroElement,
+          {
+            '--hero-dim': 0.35,
+            duration: 1.2,
+          },
+          0
+        )
+        .to(
+          '.hero-inner',
+          {
+            scale: 0.96,
+            opacity: 0.7,
+            duration: 1.2,
+          },
+          0
+        )
+
+      if (firstWorkItem) {
+        scrollTl.fromTo(
+          firstWorkItem,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.1,
+            ease: 'power2.out',
+          },
+          0.35
+        )
+      }
     })
 
     return () => ctx.revert()
@@ -109,7 +159,7 @@ function Hero() {
   }
 
   return (
-    <section className="hero">
+    <section className="hero" ref={heroRef}>
       <div className="hero-atmosphere">
         <div className="hero-glow hero-glow-left" />
         <div className="hero-glow hero-glow-right" />

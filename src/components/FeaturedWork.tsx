@@ -73,7 +73,7 @@ function FeaturedWork() {
 
       // Staggered work items reveal
       workItemsRef.current.forEach((item, index) => {
-        if (item) {
+        if (item && index !== 0) {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,
