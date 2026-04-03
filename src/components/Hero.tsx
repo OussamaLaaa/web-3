@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './Hero.css'
 
 const identityChips = ['Strategic', 'Collaborative', 'Creative', 'Product-minded']
 
 function Hero() {
+  const heroRef = useRef<HTMLElement>(null)
   const roleRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
@@ -13,29 +15,47 @@ function Hero() {
   const panelRef = useRef<HTMLDivElement>(null)
   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
 
+  gsap.registerPlugin(ScrollTrigger)
+
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+
     const ctx = gsap.context(() => {
+      const heroElement = heroRef.current
+      const select = gsap.utils.selector(heroElement)
+
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-      tl.from(roleRef.current, {
+      tl.from(select('.hero-layer'), {
         y: 40,
         opacity: 0,
-        duration: 0.9,
-        delay: 0.2,
+        duration: 1.1,
+        stagger: 0.08,
+        delay: 0.1,
       })
         .from(
-          titleRef.current,
+          roleRef.current,
           {
-            y: 80,
+            y: 40,
             opacity: 0,
-            duration: 1.1,
+            duration: 0.9,
           },
           '-=0.4'
         )
         .from(
+          titleRef.current,
+          {
+            y: 90,
+            opacity: 0,
+            duration: 1.1,
+          },
+          '-=0.35'
+        )
+        .from(
           subtitleRef.current,
           {
-            y: 50,
+            y: 60,
             opacity: 0,
             duration: 0.9,
           },
@@ -62,36 +82,62 @@ function Hero() {
         {
           y: 30,
           opacity: 0,
-          duration: 0.8,
+          duration: 0.85,
         },
-        '-=0.3'
+        '-=0.35'
       )
         .from(
           panelRef.current,
           {
-            y: 60,
+            y: 70,
             opacity: 0,
             duration: 1,
           },
-          '-=0.6'
+          '-=0.7'
         )
         .from(
           scrollIndicatorRef.current,
           {
             y: 20,
             opacity: 0,
-            duration: 0.8,
+            duration: 0.9,
           },
-          '-=0.5'
+          '-=0.55'
         )
 
-      gsap.to(scrollIndicatorRef.current, {
-        y: 10,
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'power1.inOut',
-      })
+      if (!prefersReducedMotion) {
+        gsap.to(scrollIndicatorRef.current, {
+          y: 10,
+          duration: 1.6,
+          repeat: -1,
+          yoyo: true,
+          ease: 'power1.inOut',
+        })
+
+        const scrollTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: heroElement,
+            start: 'top top',
+            end: isMobile ? '+=90%' : '+=140%',
+            scrub: true,
+            pin: !isMobile,
+            anticipatePin: 1,
+          },
+        })
+
+        scrollTl
+          .to(select('.hero-atmosphere'), { y: -60, opacity: 0.95 }, 0)
+          .to(select('.hero-foreground'), { y: -40, opacity: 0.85 }, 0)
+          .to(panelRef.current, { scale: 1.04, yPercent: -4, transformOrigin: '50% 40%' }, 0)
+          .to(select('.hero-content'), { yPercent: -6 }, 0)
+          .to(scrollIndicatorRef.current, { opacity: 0, y: -12 }, 0.05)
+          .to(select('.hero-transition'), { opacity: 1, y: 0 }, 0.2)
+          .to(select('.hero-panel-frame'), { filter: 'saturate(1.05) brightness(1.05)' }, 0.15)
+          .to(select('.hero-grid-overlay'), { opacity: 0.16 }, 0.1)
+          .to(select('.hero-ambient-lines'), { opacity: 0.4, y: -30 }, 0.1)
+          .to(select('.hero-transition-line'), { scaleX: 1, transformOrigin: '0% 50%' }, 0.35)
+          .to(select('.hero-transition-glow'), { opacity: 0.85 }, 0.35)
+      }
     })
 
     return () => ctx.revert()
@@ -109,11 +155,21 @@ function Hero() {
   }
 
   return (
-    <section className="hero">
-      <div className="hero-atmosphere">
+    <section className="hero" ref={heroRef}>
+      <div className="hero-atmosphere hero-layer">
         <div className="hero-glow hero-glow-left" />
         <div className="hero-glow hero-glow-right" />
         <div className="hero-grid-overlay" />
+        <div className="hero-ambient-lines" />
+        <div className="hero-lens-veil" />
+        <div className="hero-noise" />
+      </div>
+
+      <div className="hero-foreground hero-layer">
+        <div className="hero-desk-horizon" />
+        <div className="hero-desk-lights" />
+        <div className="hero-screen-glow" />
+        <div className="hero-focus-arc" />
       </div>
 
       <div className="hero-inner">
@@ -182,6 +238,11 @@ function Hero() {
 
       <div className="hero-scroll-indicator" ref={scrollIndicatorRef}>
         <span>Scroll to explore</span>
+      </div>
+
+      <div className="hero-transition hero-layer">
+        <div className="hero-transition-glow" />
+        <div className="hero-transition-line" />
       </div>
     </section>
   )
