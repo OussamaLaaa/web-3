@@ -125,7 +125,9 @@ function FramedIdentity({
           0.66
         )
 
-      let workHandoffPosition = 0.7
+      const handoffStartTime = 0.7
+      const timelineStaggerOffset = 0.02
+      let timelinePosition = handoffStartTime
 
       if (featuredSection) {
         tl.fromTo(
@@ -137,9 +139,9 @@ function FramedIdentity({
             duration: 1,
             ease: 'power2.out',
           },
-          workHandoffPosition
+          timelinePosition
         )
-        workHandoffPosition += 0.02
+        timelinePosition += timelineStaggerOffset
       }
 
       if (firstWorkItem) {
@@ -152,9 +154,9 @@ function FramedIdentity({
             filter: 'blur(0px)',
             duration: 1.1,
           },
-          workHandoffPosition
+          timelinePosition
         )
-        workHandoffPosition += 0.02
+        timelinePosition += timelineStaggerOffset
       }
 
       if (firstVisual) {
@@ -166,7 +168,7 @@ function FramedIdentity({
             y: 0,
             duration: 0.95,
           },
-          workHandoffPosition
+          timelinePosition
         )
       }
     })
