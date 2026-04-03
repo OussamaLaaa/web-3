@@ -7,13 +7,9 @@ import Recommendations from './components/Recommendations'
 import Contact from './components/Contact'
 import ThemeToggle from './components/ThemeToggle'
 import { useTheme } from './hooks/useTheme'
-import { useRef } from 'react'
 
 function App() {
   const { theme, toggleTheme } = useTheme()
-  const featuredSectionRef = useRef<HTMLElement | null>(null)
-  const featuredFirstItemRef = useRef<HTMLDivElement | null>(null)
-  const featuredFirstVisualRef = useRef<HTMLDivElement | null>(null)
 
   return (
     <div className="app">
@@ -21,11 +17,7 @@ function App() {
       <DoorScene />
       <Hero />
       <FramedIdentity />
-      <FeaturedWork
-        sharedSectionRef={featuredSectionRef}
-        sharedFirstItemRef={featuredFirstItemRef}
-        sharedFirstVisualRef={featuredFirstVisualRef}
-      />
+      <FeaturedWork />
       <Recommendations />
       <Contact />
     </div>

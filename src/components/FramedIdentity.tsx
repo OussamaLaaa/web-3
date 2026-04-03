@@ -22,13 +22,9 @@ function FramedIdentity() {
       const scene = sceneRef.current
       const featuredSection = document.querySelector('.featured-work') as HTMLElement | null
       const firstWorkItem = document.querySelector('.featured-work .work-item:first-child') as HTMLDivElement | null
-      const firstVisual = document.querySelector('.featured-work .work-item:first-child .work-visual') as HTMLDivElement | null
+      const firstVisual = firstWorkItem?.querySelector('.work-visual') as HTMLDivElement | null
 
-      if (!scene) {
-        return
-      }
-
-      if (reducedMotion) {
+      if (!scene || reducedMotion) {
         gsap.set(scene, { clearProps: 'all' })
         return
       }
