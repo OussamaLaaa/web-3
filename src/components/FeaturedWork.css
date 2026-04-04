@@ -200,7 +200,7 @@
   display: grid;
   gap: 2.4rem;
   position: relative;
-  padding-inline: clamp(0rem, 2.6vw, 2rem);
+  padding-inline: clamp(0, 2.6vw, 2rem);
 }
 
 .work-grid::before {
