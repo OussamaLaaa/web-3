@@ -1,10 +1,11 @@
 import { CSSProperties, MutableRefObject, useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { CSSPlugin } from 'gsap/CSSPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '../utils/motionUtils'
 import './FeaturedWork.css'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, CSSPlugin)
 
 interface WorkItem {
   id: number
@@ -14,6 +15,9 @@ interface WorkItem {
   description: string
   focus: string
   deliverables: string[]
+  artifactLabel: string
+  material: string
+  code: string
   accent: string
   accentSoft: string
 }
@@ -55,6 +59,9 @@ function FeaturedWork({
       description: 'Unified design infrastructure for a multi-product platform. Built the visual grammar, interaction model, and multi-device standards that keep teams aligned.',
       focus: 'Design language & motion grammar',
       deliverables: ['Design system spine', 'Micro-interactions kit', 'Cinematic walkthrough'],
+      artifactLabel: 'System Artifact',
+      material: 'Glass + paper composite',
+      code: 'ARCH-01',
       accent: '#7ad0ff',
       accentSoft: 'rgba(122, 208, 255, 0.2)',
     },
@@ -66,6 +73,9 @@ function FeaturedWork({
       description: 'High-touch shopping journey with editorial pacing. Elevated the visual framing, crafted tactile product storytelling, and tuned checkout for momentum.',
       focus: 'Immersive retail narrative',
       deliverables: ['Spatial gallery layout', 'Adaptive checkout', 'Art direction system'],
+      artifactLabel: 'Narrative Board',
+      material: 'Matte film + steel pin',
+      code: 'ARCH-02',
       accent: '#ffb26f',
       accentSoft: 'rgba(255, 178, 111, 0.22)',
     },
@@ -77,6 +87,9 @@ function FeaturedWork({
       description: 'Creative suite for on-the-go teams. Delivered a calming mobile experience with confident typography, guided flows, and responsive motion.',
       focus: 'Tactile mobile craft',
       deliverables: ['Motion cues library', 'Guided creation flows', 'Haptic-informed system'],
+      artifactLabel: 'Preserved Piece',
+      material: 'Smoked acrylic',
+      code: 'ARCH-03',
       accent: '#b59bff',
       accentSoft: 'rgba(181, 155, 255, 0.22)',
     },
@@ -99,8 +112,20 @@ function FeaturedWork({
           scrub: 1,
         },
         '--work-section-brightness': 0.45,
+        '--archive-handoff': 0,
         duration: 1.1,
         ease: 'power2.out',
+      })
+
+      gsap.to(sectionRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 88%',
+          end: 'top 36%',
+          scrub: 1,
+        },
+        '--archive-focus': 1,
+        ease: 'none',
       })
 
       // Section title reveal
@@ -130,6 +155,17 @@ function FeaturedWork({
             delay: index * 0.12,
             ease: 'power3.out',
           })
+
+          gsap.to(item, {
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 80%',
+              end: 'top 38%',
+              scrub: 1,
+            },
+            '--artifact-active': 1,
+            ease: 'none',
+          })
         }
       })
     })
@@ -148,9 +184,12 @@ function FeaturedWork({
   return (
     <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
-        <h2 className="section-title" ref={sectionTitleRef}>
-          Featured Work
-        </h2>
+        <div className="archive-header">
+          <p className="archive-kicker">Workspace Archive</p>
+          <h2 className="section-title" ref={sectionTitleRef}>
+            Featured Work
+          </h2>
+        </div>
         <div className="work-grid">
           {works.map((work, index) => (
               <div
@@ -180,6 +219,7 @@ function FeaturedWork({
                   className="work-visual"
                   ref={setWorkVisualRef(index)}
                 >
+                  <span className="artifact-tag">{work.artifactLabel}</span>
                   <div className="visual-grid"></div>
                   <div className="visual-beam"></div>
                   <div className="visual-band"></div>
@@ -193,6 +233,11 @@ function FeaturedWork({
                   <div className="work-text">
                     <h3 className="work-title">{work.title}</h3>
                     <p className="work-description">{work.description}</p>
+                  </div>
+                  <div className="artifact-meta" aria-label="Archive metadata">
+                    <span className="artifact-meta-item">{work.material}</span>
+                    <span className="artifact-meta-divider" aria-hidden="true">•</span>
+                    <span className="artifact-meta-item">{work.code}</span>
                   </div>
                   <div className="work-deliverables">
                     {work.deliverables.map((item) => (
