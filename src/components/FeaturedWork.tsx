@@ -30,8 +30,6 @@ function FeaturedWork() {
     workItemsRef.current[index] = el
   }
 
-  const setWorkVisualRef = (_index: number) => (_el: HTMLDivElement | null) => {}
-
   const works: WorkItem[] = [
     {
       id: 1,
@@ -167,7 +165,6 @@ function FeaturedWork() {
               <div className="work-body">
                 <div
                   className="work-visual"
-                  ref={setWorkVisualRef(index)}
                 >
                   <span className="artifact-pin artifact-pin-left" aria-hidden="true" />
                   <span className="artifact-pin artifact-pin-right" aria-hidden="true" />
