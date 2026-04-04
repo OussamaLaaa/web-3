@@ -57,6 +57,25 @@
   pointer-events: none;
 }
 
+.framed-wall-rail {
+  position: absolute;
+  left: clamp(1rem, 5vw, 3.5rem);
+  right: clamp(1rem, 5vw, 3.5rem);
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0.42;
+}
+
+.framed-wall-rail-top {
+  top: clamp(3.2rem, 7vw, 5.2rem);
+}
+
+.framed-wall-rail-bottom {
+  bottom: clamp(3rem, 7vw, 4.8rem);
+  opacity: 0.28;
+}
+
 .identity-frame-wrap {
   position: relative;
   z-index: 2;
@@ -65,6 +84,27 @@
   gap: 1rem;
   justify-items: center;
   will-change: transform, filter;
+}
+
+.identity-mount-shadow {
+  position: absolute;
+  inset: 3% 8% -5%;
+  background: radial-gradient(circle at 50% 78%, rgba(0, 0, 0, 0.45), transparent 62%);
+  filter: blur(22px);
+  pointer-events: none;
+}
+
+.identity-mount-bracket {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0.35));
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .identity-frame-glow {
@@ -235,5 +275,10 @@
 
   .identity-frame-glow {
     inset: -10%;
+  }
+
+  .framed-wall-rail-bottom,
+  .identity-mount-bracket {
+    display: none;
   }
 }

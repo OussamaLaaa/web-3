@@ -103,9 +103,13 @@ function FramedIdentity() {
   return (
     <section className="framed-identity" ref={sceneRef}>
       <div className="framed-identity-atmosphere" />
+      <div className="framed-wall-rail framed-wall-rail-top" aria-hidden="true" />
+      <div className="framed-wall-rail framed-wall-rail-bottom" aria-hidden="true" />
       <div className="framed-wall-grid" />
 
       <div className="identity-frame-wrap" ref={frameWrapRef}>
+        <div className="identity-mount-shadow" aria-hidden="true" />
+        <div className="identity-mount-bracket" aria-hidden="true" />
         <div className="identity-frame-glow" ref={frameGlowRef} />
         <article className="identity-frame" ref={frameRef}>
           <div className="identity-frame-inner">
