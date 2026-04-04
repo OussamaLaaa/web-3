@@ -90,6 +90,9 @@ function Recommendations() {
               ref={(el) => (recommendationItemsRef.current[index] = el)}
             >
               <p className="recommendation-text">{rec.text}</p>
+              <p className="recommendation-tag">
+                Feedback Slip {String(index + 1).padStart(2, '0')}
+              </p>
               <div className="recommendation-author">
                 <div className="author-info">
                   <p className="author-name">{rec.name}</p>
