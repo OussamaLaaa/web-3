@@ -365,6 +365,7 @@
 }
 
 .hero-panel {
+  --monitor-ground-shadow-height: 26px;
   position: relative;
   width: 100%;
   min-height: 330px;
@@ -391,7 +392,7 @@
   bottom: -42px;
   transform: translateX(-50%);
   width: 62%;
-  height: 26px;
+  height: var(--monitor-ground-shadow-height);
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0) 72%);
   filter: blur(6px);
@@ -608,10 +609,16 @@
   .desk-surface,
   .desk-edge,
   .desk-lamp,
-  .hero-monitor-shadow,
   .hero-monitor-stand,
   .hero-monitor-base {
     display: none;
+  }
+
+  .hero-monitor-shadow {
+    width: 44%;
+    bottom: -20px;
+    opacity: 0.45;
+    filter: blur(4px);
   }
 
   .desk-keyboard {
