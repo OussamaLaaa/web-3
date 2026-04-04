@@ -17,6 +17,7 @@
   transition: filter 0.5s ease-out;
   transform-origin: top center;
   will-change: transform;
+  isolation: isolate;
 }
 
 .featured-work::before {
@@ -50,10 +51,72 @@
 .featured-work-container {
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+}
+
+.archive-transition-anchor {
+  position: absolute;
+  left: clamp(1rem, 5vw, 4rem);
+  top: clamp(-1rem, 1vw, 1rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  opacity: calc(0.3 + (var(--archive-handoff) * 0.68));
+  transform: translateY(calc((1 - var(--archive-handoff)) * -14px));
+  pointer-events: none;
+}
+
+.archive-handoff-rail {
+  width: clamp(70px, 9vw, 138px);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 243, 224, 0.72), transparent);
+}
+
+.archive-handoff-lens {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 244, 226, 0.9);
+  box-shadow: 0 0 18px rgba(255, 236, 214, 0.55);
+}
+
+.archive-room-shell {
+  position: absolute;
+  inset: clamp(-1rem, -0.5vw, -0.25rem) clamp(-0.5rem, 0.5vw, 1rem) auto;
+  height: 180px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.shell-edge {
+  position: absolute;
+  top: 12%;
+  bottom: 8%;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent);
+}
+
+.shell-edge-left {
+  left: 0;
+}
+
+.shell-edge-right {
+  right: 0;
+}
+
+.shell-top-light {
+  position: absolute;
+  top: 0;
+  left: 22%;
+  right: 22%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 240, 214, 0.45), transparent);
+  opacity: calc(0.4 + (var(--archive-focus) * 0.3));
 }
 
 .archive-header {
-  margin-bottom: 4.5rem;
+  margin-bottom: 4rem;
+  max-width: 860px;
 }
 
 .archive-kicker {
@@ -74,9 +137,31 @@
   text-transform: uppercase;
 }
 
+.archive-subline {
+  margin-top: 1rem;
+  max-width: 62ch;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  letter-spacing: 0.01em;
+}
+
 .work-grid {
   display: grid;
-  gap: 3rem;
+  gap: 2.4rem;
+  position: relative;
+}
+
+.work-grid::before {
+  content: '';
+  position: absolute;
+  left: clamp(0.65rem, 1.8vw, 1.3rem);
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.02));
+  opacity: 0.65;
+  pointer-events: none;
 }
 
 .work-item {
@@ -89,20 +174,27 @@
   display: grid;
   gap: 1.5rem;
   transition: transform 0.5s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-  padding: 2rem;
+  padding: 1.85rem;
   border: 1px solid var(--color-border-subtle);
-  border-radius: calc(var(--radius-lg) + 2px);
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)), var(--color-elevated);
-  box-shadow: var(--shadow-card);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
+    linear-gradient(150deg, rgba(8, 10, 14, 0.84), rgba(12, 15, 20, 0.92));
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.38),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
   position: relative;
   overflow: hidden;
   transform-origin: center center;
+  margin-left: clamp(1.2rem, 3vw, 2.6rem);
 }
 
 .work-item:hover {
   border-color: var(--color-border-strong);
-  transform: translateY(-6px);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  transform: translateY(-4px);
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .work-item::before {
@@ -118,9 +210,9 @@
 .work-item::after {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: 8px;
   border: 1px solid var(--color-border-subtle);
-  border-radius: calc(var(--radius-lg) + 2px);
+  border-radius: 7px;
   pointer-events: none;
 }
 
@@ -202,7 +294,7 @@
 .work-visual {
   position: relative;
   min-height: 240px;
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
   overflow: hidden;
   background: radial-gradient(circle at 20% 30%, var(--accent-soft), transparent 70%),
     radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08), transparent 45%),
@@ -213,6 +305,26 @@
   isolation: isolate;
   transform: translateY(calc((1 - var(--artifact-active)) * var(--artifact-rise-distance)));
   filter: saturate(calc(var(--artifact-base-saturation) + (var(--artifact-active) * var(--artifact-saturation-gain))));
+}
+
+.artifact-pin {
+  position: absolute;
+  top: 0.8rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(28, 33, 44, 0.85);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.42);
+  z-index: 3;
+}
+
+.artifact-pin-left {
+  left: 0.9rem;
+}
+
+.artifact-pin-right {
+  right: 0.9rem;
 }
 
 .work-visual::before {
@@ -239,7 +351,7 @@
 .artifact-tag {
   position: absolute;
   top: 1rem;
-  left: 1rem;
+  left: 2.05rem;
   z-index: 2;
   display: inline-flex;
   align-items: center;
@@ -386,15 +498,20 @@
   }
 
   .archive-header {
-    margin-bottom: 4rem;
+    margin-bottom: 3.4rem;
   }
 
   .work-grid {
     gap: 3rem;
   }
 
+  .work-grid::before {
+    display: none;
+  }
+
   .work-item {
     padding: 1.5rem;
+    margin-left: 0;
   }
 
   .work-header {
@@ -417,6 +534,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .archive-transition-anchor {
+    transform: none;
+  }
+
   .featured-work::before,
   .featured-work::after,
   .work-visual {
