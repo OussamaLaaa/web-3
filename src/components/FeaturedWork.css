@@ -179,7 +179,7 @@
   border-radius: 10px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
-    linear-gradient(150deg, rgba(8, 10, 14, 0.84), rgba(12, 15, 20, 0.92));
+    linear-gradient(150deg, var(--color-background), var(--color-surface));
   box-shadow:
     0 20px 56px rgba(0, 0, 0, 0.38),
     inset 0 0 0 1px rgba(255, 255, 255, 0.03);
