@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './Recommendations.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -16,6 +17,8 @@ interface Recommendation {
 function Recommendations() {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const recommendationItemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const sectionRef = useRef<HTMLElement>(null)
+  const atmosphereRef = useRef<HTMLDivElement>(null)
 
   const recommendations: Recommendation[] = [
     {
@@ -42,7 +45,26 @@ function Recommendations() {
   ]
 
   useEffect(() => {
+    const reducedMotion = prefersReducedMotion()
+
     const ctx = gsap.context(() => {
+      if (reducedMotion) {
+        return
+      }
+
+      // Cinematic entrance: atmosphere reveal
+      gsap.from(atmosphereRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+          end: 'top 30%',
+          scrub: 1.2,
+        },
+        opacity: 0,
+        scale: 0.88,
+        ease: 'power2.out',
+      })
+
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
@@ -77,7 +99,8 @@ function Recommendations() {
   }, [])
 
   return (
-    <section className="recommendations">
+    <section className="recommendations" ref={sectionRef}>
+      <div className="recommendations-atmosphere" ref={atmosphereRef} aria-hidden="true" />
       <div className="recommendations-container">
         <h2 className="section-title" ref={sectionTitleRef}>
           Recommendations

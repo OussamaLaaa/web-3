@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { prefersReducedMotion } from '../utils/motionUtils'
+import { prefersReducedMotion, getParallaxIntensity } from '../utils/motionUtils'
 import './FramedIdentity.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -16,6 +16,7 @@ function FramedIdentity() {
 
   useEffect(() => {
     const reducedMotion = prefersReducedMotion()
+    const parallaxIntensity = getParallaxIntensity(1)
 
     const ctx = gsap.context(() => {
       const scene = sceneRef.current
@@ -95,6 +96,42 @@ function FramedIdentity() {
           },
           0.66
         )
+
+      // Cinematic exit: dim the frame as we scroll toward FeaturedWork
+      ScrollTrigger.create({
+        trigger: scene,
+        start: 'bottom 80%',
+        end: 'bottom 20%',
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress
+          gsap.to(frameRef.current, {
+            scale: 1.02 - progress * 0.06,
+            opacity: 1 - progress * 0.3,
+            duration: 0.3,
+            ease: 'none',
+          })
+          gsap.to(scene, {
+            '--identity-room-dim': 0.35 + progress * 0.4,
+            duration: 0.3,
+            ease: 'none',
+          })
+        },
+      })
+
+      // Parallax effects for depth
+      if (parallaxIntensity > 0) {
+        gsap.to(frameWrapRef.current, {
+          scrollTrigger: {
+            trigger: scene,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.8,
+          },
+          y: -35 * parallaxIntensity,
+          ease: 'none',
+        })
+      }
     })
 
     return () => ctx.revert()

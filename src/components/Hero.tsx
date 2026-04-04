@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { prefersReducedMotion } from '../utils/motionUtils'
+import { prefersReducedMotion, getParallaxIntensity } from '../utils/motionUtils'
 import './Hero.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -25,6 +25,7 @@ function Hero() {
 
   useEffect(() => {
     const reducedMotion = prefersReducedMotion()
+    const parallaxIntensity = getParallaxIntensity(1)
 
     const ctx = gsap.context(() => {
       const heroElement = heroRef.current
@@ -127,6 +128,48 @@ function Hero() {
           '-=0.4'
         )
 
+      // Cinematic exit: Hero dims and pulls back as scroll progresses
+      ScrollTrigger.create({
+        trigger: heroElement,
+        start: 'bottom 85%',
+        end: 'bottom 25%',
+        scrub: 0.8,
+        onUpdate: (self) => {
+          const progress = self.progress
+          gsap.to(heroElement, {
+            '--hero-dim': progress * 0.6,
+            scale: 1 - progress * 0.04,
+            y: progress * -20,
+            duration: 0.3,
+            ease: 'none',
+          })
+        },
+      })
+
+      // Parallax effects for depth
+      if (parallaxIntensity > 0) {
+        gsap.to(panelRef.current, {
+          scrollTrigger: {
+            trigger: heroElement,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+          y: -40 * parallaxIntensity,
+          ease: 'none',
+        })
+
+        gsap.to(heroContentRef.current, {
+          scrollTrigger: {
+            trigger: heroElement,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.2,
+          },
+          y: -25 * parallaxIntensity,
+          ease: 'none',
+        })
+      }
     })
 
     return () => ctx.revert()
