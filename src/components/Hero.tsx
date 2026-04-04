@@ -1,12 +1,13 @@
-import { useEffect, useRef } from 'react'
+import { lazy, Suspense, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { prefersReducedMotion, getParallaxIntensity } from '../utils/motionUtils'
+import { prefersReducedMotion, getParallaxIntensity, isMobile } from '../utils/motionUtils'
 import './Hero.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const identityChips = ['Strategic', 'Collaborative', 'Creative', 'Product-minded']
+const HeroMonitor3D = lazy(() => import('./HeroMonitor3D'))
 
 function Hero() {
   const heroRef = useRef<HTMLElement>(null)
@@ -22,6 +23,7 @@ function Hero() {
   const gridRef = useRef<HTMLDivElement>(null)
   const scrollIndicatorRef = useRef<HTMLDivElement>(null)
   const deskItemsRef = useRef<HTMLDivElement>(null)
+  const monitorCanvasRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const reducedMotion = prefersReducedMotion()
@@ -170,6 +172,19 @@ function Hero() {
           ease: 'none',
         })
       }
+
+      if (!isMobile()) {
+        gsap.to(monitorCanvasRef.current, {
+          scrollTrigger: {
+            trigger: heroElement,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.1,
+          },
+          y: -15 * parallaxIntensity,
+          ease: 'none',
+        })
+      }
     })
 
     return () => ctx.revert()
@@ -185,6 +200,8 @@ function Hero() {
       })
     }
   }
+
+  const useMonitorFallback = prefersReducedMotion() || isMobile()
 
   return (
     <section className="hero" ref={heroRef}>
@@ -264,11 +281,27 @@ function Hero() {
             <div className="hero-panel-grid" />
             <div className="hero-panel-light" />
             <div className="hero-panel-outline" />
-            <div className="hero-panel-core">
-              <div className="hero-panel-bar" />
-              <div className="hero-panel-bar thin" />
-              <div className="hero-panel-dot" />
-            </div>
+            {useMonitorFallback ? (
+              <div className="hero-panel-core">
+                <div className="hero-panel-bar" />
+                <div className="hero-panel-bar thin" />
+                <div className="hero-panel-dot" />
+              </div>
+            ) : (
+              <div className="hero-monitor-webgl" ref={monitorCanvasRef}>
+                <Suspense
+                  fallback={(
+                    <div className="hero-panel-core">
+                      <div className="hero-panel-bar" />
+                      <div className="hero-panel-bar thin" />
+                      <div className="hero-panel-dot" />
+                    </div>
+                  )}
+                >
+                  <HeroMonitor3D />
+                </Suspense>
+              </div>
+            )}
           </div>
         </div>
       </div>
