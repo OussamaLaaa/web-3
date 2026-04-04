@@ -381,6 +381,7 @@
   overflow: hidden;
   transform-origin: center;
   will-change: transform, opacity;
+  isolation: isolate;
 }
 
 .hero-monitor-stand {
@@ -411,6 +412,9 @@
   position: absolute;
   inset: 0;
   isolation: isolate;
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .hero-panel-grid {

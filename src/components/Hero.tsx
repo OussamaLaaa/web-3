@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion, getParallaxIntensity } from '../utils/motionUtils'
+import Monitor3DCanvas from './Monitor3DCanvas'
 import './Hero.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -270,6 +271,7 @@ function Hero() {
               <div className="hero-panel-dot" />
             </div>
           </div>
+          <Monitor3DCanvas />
         </div>
       </div>
 
