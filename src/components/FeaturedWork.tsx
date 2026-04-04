@@ -25,6 +25,8 @@ function FeaturedWork() {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
   const sectionRef = useRef<HTMLElement>(null)
+  const archiveTransitionRef = useRef<HTMLDivElement>(null)
+  const archiveRoomRef = useRef<HTMLDivElement>(null)
 
   const setWorkItemRef = (index: number) => (el: HTMLDivElement | null) => {
     workItemsRef.current[index] = el
@@ -83,6 +85,33 @@ function FeaturedWork() {
         return
       }
 
+      // Cinematic entrance: archive room reveal and light transition
+      const archiveEntrance = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          end: 'top 35%',
+          scrub: 0.9,
+        },
+      })
+
+      archiveEntrance
+        .from(archiveRoomRef.current, {
+          opacity: 0,
+          scale: 0.92,
+          y: 40,
+          ease: 'power2.out',
+        })
+        .from(
+          archiveTransitionRef.current,
+          {
+            opacity: 0,
+            x: -30,
+            ease: 'power2.out',
+          },
+          '-=0.5'
+        )
+
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
@@ -120,11 +149,11 @@ function FeaturedWork() {
   return (
     <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
-        <div className="archive-transition-anchor" aria-hidden="true">
+        <div className="archive-transition-anchor" aria-hidden="true" ref={archiveTransitionRef}>
           <span className="archive-handoff-rail" />
           <span className="archive-handoff-lens" />
         </div>
-        <div className="archive-room-shell" aria-hidden="true">
+        <div className="archive-room-shell" aria-hidden="true" ref={archiveRoomRef}>
           <span className="shell-edge shell-edge-left" />
           <span className="shell-edge shell-edge-right" />
           <span className="shell-top-light" />

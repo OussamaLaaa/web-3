@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './Contact.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -10,13 +11,35 @@ function Contact() {
   const contactTextRef = useRef<HTMLParagraphElement>(null)
   const contactLinkRef = useRef<HTMLAnchorElement>(null)
   const socialLinksRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const handoffRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const reducedMotion = prefersReducedMotion()
+
     const ctx = gsap.context(() => {
+      if (reducedMotion) {
+        return
+      }
+
+      // Cinematic handoff entrance
+      gsap.from(handoffRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 65%',
+          end: 'top 25%',
+          scrub: 1.4,
+        },
+        scaleX: 0,
+        opacity: 0,
+        transformOrigin: 'left center',
+        ease: 'power2.out',
+      })
+
       // Contact section entrance timeline
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: '.contact',
+          trigger: sectionRef.current,
           start: 'top 75%',
         },
         defaults: { ease: 'power3.out' },
@@ -60,7 +83,11 @@ function Contact() {
   }, [])
 
   return (
-    <section className="contact">
+    <section className="contact" ref={sectionRef}>
+      <div className="contact-handoff" ref={handoffRef} aria-hidden="true">
+        <span className="handoff-trail" />
+        <span className="handoff-glow" />
+      </div>
       <div className="contact-container">
         <h2 className="section-title" ref={sectionTitleRef}>
           Get In Touch
