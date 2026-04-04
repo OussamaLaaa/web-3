@@ -6,6 +6,14 @@ import './FeaturedWork.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const WORK_SCROLL = {
+  sectionStart: 'top bottom',
+  sectionEnd: '38% top',
+  titleStart: 'top 75%',
+  itemRevealStart: 'top 82%',
+  itemFocusEnd: 'top 36%',
+} as const
+
 interface WorkItem {
   id: number
   title: string
@@ -27,6 +35,8 @@ function FeaturedWork() {
   const sectionRef = useRef<HTMLElement>(null)
   const handoffAnchorRef = useRef<HTMLDivElement>(null)
   const roomShellRef = useRef<HTMLDivElement>(null)
+  const workVisualsRef = useRef<(HTMLDivElement | null)[]>([])
+  const workDetailsRef = useRef<(HTMLDivElement | null)[]>([])
 
   const setWorkItemRef = (index: number) => (el: HTMLDivElement | null) => {
     workItemsRef.current[index] = el
@@ -88,8 +98,8 @@ function FeaturedWork() {
       gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top bottom',
-          end: '38% top',
+          start: WORK_SCROLL.sectionStart,
+          end: WORK_SCROLL.sectionEnd,
           scrub: 1,
         },
       })
@@ -137,7 +147,7 @@ function FeaturedWork() {
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
           trigger: sectionTitleRef.current,
-          start: 'top 75%',
+          start: WORK_SCROLL.titleStart,
         },
         y: 60,
         opacity: 0,
@@ -151,7 +161,7 @@ function FeaturedWork() {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,
-              start: 'top 82%',
+              start: WORK_SCROLL.itemRevealStart,
             },
             y: 100,
             opacity: 0,
@@ -161,15 +171,15 @@ function FeaturedWork() {
             ease: 'power3.out',
           })
 
-          const visual = item.querySelector('.work-visual')
-          const details = item.querySelector('.work-details')
+          const visual = workVisualsRef.current[index]
+          const details = workDetailsRef.current[index]
 
           if (visual || details) {
             gsap.timeline({
               scrollTrigger: {
                 trigger: item,
-                start: 'top 82%',
-                end: 'top 36%',
+                start: WORK_SCROLL.itemRevealStart,
+                end: WORK_SCROLL.itemFocusEnd,
                 scrub: 1,
               },
             })
@@ -268,6 +278,9 @@ function FeaturedWork() {
               <div className="work-body">
                 <div
                   className="work-visual"
+                  ref={(el) => {
+                    workVisualsRef.current[index] = el
+                  }}
                 >
                   <span className="artifact-pin artifact-pin-left" aria-hidden="true" />
                   <span className="artifact-pin artifact-pin-right" aria-hidden="true" />
@@ -281,7 +294,12 @@ function FeaturedWork() {
                   </div>
                 </div>
 
-                <div className="work-details">
+                <div
+                  className="work-details"
+                  ref={(el) => {
+                    workDetailsRef.current[index] = el
+                  }}
+                >
                   <div className="work-text">
                     <h3 className="work-title">{work.title}</h3>
                     <p className="work-description">{work.description}</p>

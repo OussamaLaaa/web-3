@@ -6,6 +6,20 @@ import './Recommendations.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const RECOMMENDATIONS_SCROLL = {
+  sectionStart: 'top bottom',
+  sectionEnd: '34% top',
+  titleStart: 'top 80%',
+  itemRevealStart: 'top 85%',
+  itemParallaxStart: 'top 88%',
+  itemParallaxEnd: 'bottom 22%',
+} as const
+
+const RECOMMENDATION_PARALLAX = {
+  fromY: 28,
+  toY: -4,
+} as const
+
 interface Recommendation {
   id: number
   name: string
@@ -56,8 +70,8 @@ function Recommendations() {
       gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top bottom',
-          end: '34% top',
+          start: RECOMMENDATIONS_SCROLL.sectionStart,
+          end: RECOMMENDATIONS_SCROLL.sectionEnd,
           scrub: 1,
         },
       })
@@ -105,7 +119,7 @@ function Recommendations() {
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
           trigger: sectionTitleRef.current,
-          start: 'top 80%',
+          start: RECOMMENDATIONS_SCROLL.titleStart,
         },
         y: 50,
         opacity: 0,
@@ -119,7 +133,7 @@ function Recommendations() {
           gsap.from(item, {
             scrollTrigger: {
               trigger: item,
-              start: 'top 85%',
+              start: RECOMMENDATIONS_SCROLL.itemRevealStart,
             },
             y: 60,
             opacity: 0,
@@ -131,15 +145,15 @@ function Recommendations() {
           gsap.fromTo(
             item,
             {
-              y: 28,
+              y: RECOMMENDATION_PARALLAX.fromY,
             },
             {
-              y: -4,
+              y: RECOMMENDATION_PARALLAX.toY,
               ease: 'none',
               scrollTrigger: {
                 trigger: item,
-                start: 'top 88%',
-                end: 'bottom 22%',
+                start: RECOMMENDATIONS_SCROLL.itemParallaxStart,
+                end: RECOMMENDATIONS_SCROLL.itemParallaxEnd,
                 scrub: 1,
               },
             }

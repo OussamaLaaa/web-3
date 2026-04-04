@@ -6,6 +6,12 @@ import './Contact.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const CONTACT_SCROLL = {
+  sectionStart: 'top bottom',
+  sectionEnd: '34% top',
+  revealStart: 'top 75%',
+} as const
+
 function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
@@ -26,8 +32,8 @@ function Contact() {
       gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top bottom',
-          end: '34% top',
+          start: CONTACT_SCROLL.sectionStart,
+          end: CONTACT_SCROLL.sectionEnd,
           scrub: 1,
         },
       })
@@ -75,7 +81,7 @@ function Contact() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 75%',
+          start: CONTACT_SCROLL.revealStart,
         },
         defaults: { ease: 'power3.out' },
       })

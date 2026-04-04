@@ -6,6 +6,15 @@ import './FramedIdentity.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const IDENTITY_SCROLL = {
+  entryStart: 'top 88%',
+  revealStart: 'top 78%',
+  handoffStart: 'top bottom',
+  handoffEnd: '42% top',
+  exitStart: '56% bottom',
+  exitEnd: 'bottom top',
+} as const
+
 function FramedIdentity() {
   const sceneRef = useRef<HTMLElement>(null)
   const frameWrapRef = useRef<HTMLDivElement>(null)
@@ -30,7 +39,7 @@ function FramedIdentity() {
       gsap.from(frameWrapRef.current, {
         scrollTrigger: {
           trigger: scene,
-          start: 'top 88%',
+          start: IDENTITY_SCROLL.entryStart,
         },
         y: 80,
         opacity: 0,
@@ -41,7 +50,7 @@ function FramedIdentity() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: scene,
-          start: 'top 78%',
+          start: IDENTITY_SCROLL.revealStart,
         },
         defaults: { ease: 'power2.out' },
       })
@@ -101,8 +110,8 @@ function FramedIdentity() {
       gsap.timeline({
         scrollTrigger: {
           trigger: scene,
-          start: 'top bottom',
-          end: '42% top',
+          start: IDENTITY_SCROLL.handoffStart,
+          end: IDENTITY_SCROLL.handoffEnd,
           scrub: 1,
         },
       })
@@ -145,8 +154,8 @@ function FramedIdentity() {
       gsap.timeline({
         scrollTrigger: {
           trigger: scene,
-          start: '56% bottom',
-          end: 'bottom top',
+          start: IDENTITY_SCROLL.exitStart,
+          end: IDENTITY_SCROLL.exitEnd,
           scrub: 1,
         },
       })
