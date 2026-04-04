@@ -184,11 +184,23 @@ function FeaturedWork({
   return (
     <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
+        <div className="archive-transition-anchor" aria-hidden="true">
+          <span className="archive-handoff-rail" />
+          <span className="archive-handoff-lens" />
+        </div>
+        <div className="archive-room-shell" aria-hidden="true">
+          <span className="shell-edge shell-edge-left" />
+          <span className="shell-edge shell-edge-right" />
+          <span className="shell-top-light" />
+        </div>
         <div className="archive-header">
           <p className="archive-kicker">Workspace Archive</p>
           <h2 className="section-title" ref={sectionTitleRef}>
             Featured Work
           </h2>
+          <p className="archive-subline">
+            Preserved case artifacts arranged on the studio presentation wall.
+          </p>
         </div>
         <div className="work-grid">
           {works.map((work, index) => (
@@ -219,6 +231,8 @@ function FeaturedWork({
                   className="work-visual"
                   ref={setWorkVisualRef(index)}
                 >
+                  <span className="artifact-pin artifact-pin-left" aria-hidden="true" />
+                  <span className="artifact-pin artifact-pin-right" aria-hidden="true" />
                   <span className="artifact-tag">{work.artifactLabel}</span>
                   <div className="visual-grid"></div>
                   <div className="visual-beam"></div>
