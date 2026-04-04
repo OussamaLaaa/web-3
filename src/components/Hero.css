@@ -366,7 +366,7 @@
 
 .hero-panel {
   --monitor-aspect-ratio: 21 / 9;
-  --monitor-ground-shadow-height: 26px;
+  --monitor-shadow-height: 26px;
   --monitor-bezel-outer-inset: 3.8%;
   --monitor-bezel-inner-inset: 5.4%;
   --monitor-screen-inset: 7.4%;
@@ -398,7 +398,7 @@
   bottom: -42px;
   transform: translateX(-50%);
   width: 62%;
-  height: var(--monitor-ground-shadow-height);
+  height: var(--monitor-shadow-height);
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0) 72%);
   filter: blur(6px);
@@ -621,7 +621,7 @@
   }
 
   .hero-monitor-shadow {
-    /* Keep a lighter grounding cue on mobile to preserve monitor identity without visual heaviness. */
+    /* Lighter shadow on mobile for reduced visual weight. */
     width: 44%;
     bottom: -20px;
     opacity: 0.45;
