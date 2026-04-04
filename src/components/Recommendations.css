@@ -2,11 +2,39 @@
   min-height: 100vh;
   padding: 8rem 2rem;
   background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 22%, var(--color-background) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.recommendations::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(255, 240, 200, 0.06) 0%, transparent 46%),
+    radial-gradient(circle at 82% 78%, rgba(35, 40, 55, 0.28) 0%, transparent 56%);
+  pointer-events: none;
+}
+
+.recommendations::after {
+  content: '';
+  position: absolute;
+  top: 4.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90%, 1240px);
+  height: calc(100% - 8.5rem);
+  border: 1px solid color-mix(in srgb, var(--color-border-subtle) 82%, transparent);
+  border-radius: 1.5rem;
+  opacity: 0.45;
+  pointer-events: none;
 }
 
 .recommendations-container {
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .section-title {
@@ -22,34 +50,63 @@
   display: grid;
   gap: 3rem;
   max-width: 1200px;
+  position: relative;
+  padding: 2rem 0.35rem;
+}
+
+.recommendations-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 100%),
+    linear-gradient(rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 100%);
+  background-size: 100% 100%, 100% 2.6rem;
+  opacity: 0.2;
+  pointer-events: none;
 }
 
 .recommendation-item {
   position: relative;
   padding: 3rem;
-  background: linear-gradient(150deg, var(--color-elevated), var(--color-surface));
+  background: linear-gradient(148deg, color-mix(in srgb, var(--color-elevated) 86%, #f8f2e4 14%), var(--color-surface));
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
   transition: all 0.4s ease;
   box-shadow: var(--shadow-card);
+  isolation: isolate;
 }
 
 .recommendation-item::before {
-  content: '"';
+  content: '';
   position: absolute;
-  top: 2rem;
-  left: 2rem;
-  font-size: 6rem;
-  line-height: 1;
-  color: var(--color-veil);
-  font-family: Georgia, serif;
-  font-weight: 700;
+  top: -0.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5.5rem;
+  height: 1.4rem;
+  border-radius: 0 0 0.6rem 0.6rem;
+  background: linear-gradient(180deg, rgba(255, 240, 200, 0.2) 0%, rgba(15, 15, 17, 0.25) 100%);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.22);
+  pointer-events: none;
+}
+
+.recommendation-item::after {
+  content: '';
+  position: absolute;
+  inset: 1.2rem;
+  border: 1px dashed color-mix(in srgb, var(--color-border-subtle) 88%, transparent);
+  border-radius: calc(var(--radius-lg) - 0.45rem);
+  opacity: 0.38;
   pointer-events: none;
 }
 
 .recommendation-item:hover {
   border-color: var(--color-border-strong);
-  background: linear-gradient(150deg, var(--color-elevated), var(--color-elevated));
+  background: linear-gradient(150deg, color-mix(in srgb, var(--color-elevated) 94%, #f8f2e4 6%), var(--color-elevated));
   transform: translateY(-2px);
 }
 
@@ -61,9 +118,20 @@
   font-weight: 300;
   letter-spacing: 0.01em;
   margin-bottom: 2.5rem;
-  font-style: italic;
+  font-style: normal;
   padding-left: 0.5rem;
   border-left: 2px solid var(--color-border-subtle);
+  z-index: 1;
+}
+
+.recommendation-tag {
+  margin: 0 0 2rem;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.85;
 }
 
 .recommendation-author {
@@ -100,12 +168,19 @@
     padding: 5rem 1.5rem;
   }
 
+  .recommendations::after {
+    top: 3rem;
+    height: calc(100% - 6rem);
+    border-radius: 1.2rem;
+  }
+
   .section-title {
     margin-bottom: 4rem;
   }
 
   .recommendations-grid {
     gap: 2.5rem;
+    padding: 1.5rem 0.2rem;
   }
 
   .recommendation-item {
@@ -113,9 +188,16 @@
   }
 
   .recommendation-item::before {
-    font-size: 5rem;
-    top: 1.5rem;
-    left: 1.5rem;
+    width: 4.5rem;
+    height: 1.15rem;
+  }
+
+  .recommendation-item::after {
+    inset: 1rem;
+  }
+
+  .recommendation-tag {
+    margin-bottom: 1.5rem;
   }
 
   .recommendation-text {
@@ -145,9 +227,12 @@
   }
 
   .recommendation-item::before {
-    font-size: 4rem;
-    top: 1.25rem;
-    left: 1.25rem;
+    width: 4rem;
+    height: 1rem;
+  }
+
+  .recommendation-item::after {
+    inset: 0.85rem;
   }
 
   .recommendation-text {
@@ -158,6 +243,11 @@
 
   .recommendation-author {
     padding-top: 1.25rem;
+  }
+
+  .recommendation-tag {
+    margin-bottom: 1.25rem;
+    font-size: 0.68rem;
   }
 
   .author-name {

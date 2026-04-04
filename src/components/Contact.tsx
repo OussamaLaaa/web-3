@@ -66,6 +66,7 @@ function Contact() {
           Get In Touch
         </h2>
         <div className="contact-content">
+          <p className="contact-note-label">Final Workspace Note</p>
           <p className="contact-text" ref={contactTextRef}>
             Let's collaborate on your next project or just have a conversation about design and technology.
           </p>
