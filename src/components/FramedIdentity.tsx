@@ -13,6 +13,8 @@ function FramedIdentity() {
   const frameGlowRef = useRef<HTMLDivElement>(null)
   const handoffRef = useRef<HTMLDivElement>(null)
   const plaqueRef = useRef<HTMLDivElement>(null)
+  const atmosphereRef = useRef<HTMLDivElement>(null)
+  const wallGridRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const reducedMotion = prefersReducedMotion()
@@ -95,6 +97,92 @@ function FramedIdentity() {
           },
           0.66
         )
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: scene,
+          start: 'top bottom',
+          end: '42% top',
+          scrub: 1,
+        },
+      })
+        .to(
+          scene,
+          {
+            '--identity-room-dim': 0.46,
+            '--identity-light-handoff': 0.62,
+            ease: 'none',
+          },
+          0
+        )
+        .fromTo(
+          frameWrapRef.current,
+          {
+            yPercent: 6,
+            scale: 0.985,
+          },
+          {
+            yPercent: -4,
+            scale: 1.01,
+            ease: 'none',
+          },
+          0
+        )
+        .fromTo(
+          handoffRef.current,
+          {
+            xPercent: -12,
+            opacity: 0.36,
+          },
+          {
+            xPercent: 12,
+            opacity: 0.9,
+            ease: 'none',
+          },
+          0
+        )
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: scene,
+          start: '56% bottom',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      })
+        .to(
+          frameWrapRef.current,
+          {
+            yPercent: -10,
+            opacity: 0.7,
+            ease: 'none',
+          },
+          0
+        )
+        .to(
+          frameGlowRef.current,
+          {
+            opacity: 0.28,
+            ease: 'none',
+          },
+          0
+        )
+        .to(
+          atmosphereRef.current,
+          {
+            opacity: 0.58,
+            ease: 'none',
+          },
+          0
+        )
+        .to(
+          wallGridRef.current,
+          {
+            opacity: 0.08,
+            ease: 'none',
+          },
+          0
+        )
     })
 
     return () => ctx.revert()
@@ -102,10 +190,10 @@ function FramedIdentity() {
 
   return (
     <section className="framed-identity" ref={sceneRef}>
-      <div className="framed-identity-atmosphere" />
+      <div className="framed-identity-atmosphere" ref={atmosphereRef} />
       <div className="framed-wall-rail framed-wall-rail-top" aria-hidden="true" />
       <div className="framed-wall-rail framed-wall-rail-bottom" aria-hidden="true" />
-      <div className="framed-wall-grid" />
+      <div className="framed-wall-grid" ref={wallGridRef} />
 
       <div className="identity-frame-wrap" ref={frameWrapRef}>
         <div className="identity-mount-shadow" aria-hidden="true" />

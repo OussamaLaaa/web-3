@@ -1,12 +1,83 @@
 .recommendations {
+  --recommendation-room-dim: 0;
+  --recommendation-room-focus: 0;
   min-height: 100vh;
   padding: 8rem 2rem;
-  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 22%, var(--color-background) 100%);
+  background:
+    radial-gradient(circle at 16% 10%, rgba(255, 239, 212, calc(0.04 + (var(--recommendation-room-focus) * 0.07))), transparent 38%),
+    radial-gradient(circle at 84% 4%, rgba(255, 255, 255, calc(0.02 + (var(--recommendation-room-focus) * 0.04))), transparent 34%),
+    linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 22%, var(--color-background) 100%);
+  position: relative;
+  isolation: isolate;
+  filter: brightness(calc(0.94 + (var(--recommendation-room-dim) * 0.14)));
+}
+
+.recommendations::before {
+  content: '';
+  position: absolute;
+  inset: -14% 0 auto 0;
+  height: 30vh;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 241, 216, 0.24), transparent 38%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.22), transparent 64%);
+  opacity: calc(0.08 + (var(--recommendation-room-dim) * 0.52));
+  transform: translateY(calc((1 - var(--recommendation-room-dim)) * 24px));
+  pointer-events: none;
+  z-index: -1;
+}
+
+.recommendations::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 74% 24%, rgba(255, 255, 255, 0.08), transparent 30%),
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.16) 100%);
+  opacity: calc(0.2 + (var(--recommendation-room-focus) * 0.22));
+  pointer-events: none;
+  z-index: -1;
 }
 
 .recommendations-container {
   max-width: 1400px;
   margin: 0 auto;
+}
+
+.recommendations-handoff {
+  position: absolute;
+  left: clamp(1.2rem, 5vw, 4rem);
+  top: clamp(1.2rem, 3.5vw, 2.6rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  pointer-events: none;
+  opacity: calc(0.3 + (var(--recommendation-room-focus) * 0.54));
+}
+
+.recommendations-handoff-line {
+  width: clamp(66px, 8vw, 118px);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 244, 226, 0.72), transparent);
+}
+
+.recommendations-handoff-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 244, 226, 0.92);
+  box-shadow: 0 0 16px rgba(255, 236, 214, 0.52);
+}
+
+.recommendations-room-glow {
+  position: absolute;
+  inset: -10% -8%;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 240, 214, 0.15), transparent 44%),
+    radial-gradient(circle at 72% 68%, rgba(20, 23, 31, 0.32), transparent 42%);
+  filter: blur(34px);
+  opacity: calc(0.2 + (var(--recommendation-room-focus) * 0.42));
+  pointer-events: none;
+  z-index: -1;
 }
 
 .section-title {
@@ -108,6 +179,11 @@
     gap: 2.5rem;
   }
 
+  .recommendations-handoff {
+    top: 1rem;
+    left: 1rem;
+  }
+
   .recommendation-item {
     padding: 2.5rem 2rem;
   }
@@ -140,6 +216,10 @@
     gap: 2rem;
   }
 
+  .recommendations-handoff-line {
+    width: 56px;
+  }
+
   .recommendation-item {
     padding: 2rem 1.5rem;
   }
@@ -166,5 +246,11 @@
 
   .author-role {
     font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recommendations-handoff {
+    transform: none;
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './Recommendations.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -14,8 +15,11 @@ interface Recommendation {
 }
 
 function Recommendations() {
+  const sectionRef = useRef<HTMLElement>(null)
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const recommendationItemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const handoffRef = useRef<HTMLDivElement>(null)
+  const roomGlowRef = useRef<HTMLDivElement>(null)
 
   const recommendations: Recommendation[] = [
     {
@@ -42,7 +46,61 @@ function Recommendations() {
   ]
 
   useEffect(() => {
+    const reducedMotion = prefersReducedMotion()
+
     const ctx = gsap.context(() => {
+      if (reducedMotion) {
+        return
+      }
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: '34% top',
+          scrub: 1,
+        },
+      })
+        .fromTo(
+          sectionRef.current,
+          {
+            '--recommendation-room-dim': 0.1,
+            '--recommendation-room-focus': 0.2,
+          },
+          {
+            '--recommendation-room-dim': 0.42,
+            '--recommendation-room-focus': 1,
+            ease: 'none',
+          },
+          0
+        )
+        .fromTo(
+          handoffRef.current,
+          {
+            xPercent: -16,
+            opacity: 0.36,
+          },
+          {
+            xPercent: 0,
+            opacity: 0.82,
+            ease: 'none',
+          },
+          0
+        )
+        .fromTo(
+          roomGlowRef.current,
+          {
+            yPercent: 6,
+            opacity: 0.22,
+          },
+          {
+            yPercent: 0,
+            opacity: 0.95,
+            ease: 'none',
+          },
+          0
+        )
+
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
@@ -69,6 +127,23 @@ function Recommendations() {
             delay: index * 0.15,
             ease: 'power3.out',
           })
+
+          gsap.fromTo(
+            item,
+            {
+              y: 28,
+            },
+            {
+              y: -4,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: item,
+                start: 'top 88%',
+                end: 'bottom 22%',
+                scrub: 1,
+              },
+            }
+          )
         }
       })
     })
@@ -77,7 +152,12 @@ function Recommendations() {
   }, [])
 
   return (
-    <section className="recommendations">
+    <section className="recommendations" ref={sectionRef}>
+      <div className="recommendations-handoff" ref={handoffRef} aria-hidden="true">
+        <span className="recommendations-handoff-line" />
+        <span className="recommendations-handoff-dot" />
+      </div>
+      <div className="recommendations-room-glow" ref={roomGlowRef} aria-hidden="true" />
       <div className="recommendations-container">
         <h2 className="section-title" ref={sectionTitleRef}>
           Recommendations

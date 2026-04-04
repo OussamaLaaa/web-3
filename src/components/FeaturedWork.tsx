@@ -25,6 +25,8 @@ function FeaturedWork() {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
   const sectionRef = useRef<HTMLElement>(null)
+  const handoffAnchorRef = useRef<HTMLDivElement>(null)
+  const roomShellRef = useRef<HTMLDivElement>(null)
 
   const setWorkItemRef = (index: number) => (el: HTMLDivElement | null) => {
     workItemsRef.current[index] = el
@@ -83,6 +85,54 @@ function FeaturedWork() {
         return
       }
 
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: '38% top',
+          scrub: 1,
+        },
+      })
+        .fromTo(
+          sectionRef.current,
+          {
+            '--archive-handoff': 0.25,
+            '--archive-focus': 0.12,
+            '--work-section-brightness': 0.9,
+          },
+          {
+            '--archive-handoff': 1,
+            '--archive-focus': 0.8,
+            '--work-section-brightness': 1,
+            ease: 'none',
+          },
+          0
+        )
+        .fromTo(
+          handoffAnchorRef.current,
+          {
+            xPercent: -10,
+          },
+          {
+            xPercent: 8,
+            ease: 'none',
+          },
+          0
+        )
+        .fromTo(
+          roomShellRef.current,
+          {
+            yPercent: 8,
+            opacity: 0.74,
+          },
+          {
+            yPercent: 0,
+            opacity: 1,
+            ease: 'none',
+          },
+          0
+        )
+
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
@@ -110,6 +160,55 @@ function FeaturedWork() {
             delay: index * 0.12,
             ease: 'power3.out',
           })
+
+          const visual = item.querySelector('.work-visual')
+          const details = item.querySelector('.work-details')
+
+          if (visual || details) {
+            gsap.timeline({
+              scrollTrigger: {
+                trigger: item,
+                start: 'top 82%',
+                end: 'top 36%',
+                scrub: 1,
+              },
+            })
+              .fromTo(
+                item,
+                {
+                  '--artifact-active': 0.2,
+                },
+                {
+                  '--artifact-active': 1,
+                  ease: 'none',
+                },
+                0
+              )
+              .fromTo(
+                visual,
+                {
+                  yPercent: 8,
+                },
+                {
+                  yPercent: -3,
+                  ease: 'none',
+                },
+                0
+              )
+              .fromTo(
+                details,
+                {
+                  yPercent: 5,
+                  opacity: 0.82,
+                },
+                {
+                  yPercent: -1,
+                  opacity: 1,
+                  ease: 'none',
+                },
+                0
+              )
+          }
         }
       })
     })
@@ -120,11 +219,11 @@ function FeaturedWork() {
   return (
     <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
-        <div className="archive-transition-anchor" aria-hidden="true">
+        <div className="archive-transition-anchor" ref={handoffAnchorRef} aria-hidden="true">
           <span className="archive-handoff-rail" />
           <span className="archive-handoff-lens" />
         </div>
-        <div className="archive-room-shell" aria-hidden="true">
+        <div className="archive-room-shell" ref={roomShellRef} aria-hidden="true">
           <span className="shell-edge shell-edge-left" />
           <span className="shell-edge shell-edge-right" />
           <span className="shell-top-light" />

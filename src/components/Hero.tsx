@@ -127,6 +127,68 @@ function Hero() {
           '-=0.4'
         )
 
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: heroElement,
+          start: '68% 44%',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      })
+        .to(
+          heroElement,
+          {
+            '--hero-dim': 0.32,
+            ease: 'none',
+          },
+          0
+        )
+        .to(
+          heroInnerRef.current,
+          {
+            yPercent: -7,
+            scale: 0.975,
+            ease: 'none',
+          },
+          0
+        )
+        .to(
+          heroContentRef.current,
+          {
+            yPercent: -9,
+            opacity: 0.74,
+            ease: 'none',
+          },
+          0
+        )
+        .to(
+          panelRef.current,
+          {
+            yPercent: -4,
+            scale: 1.025,
+            opacity: 0.9,
+            ease: 'none',
+          },
+          0
+        )
+        .to(
+          deskItemsRef.current,
+          {
+            yPercent: 16,
+            opacity: 0.38,
+            ease: 'none',
+          },
+          0
+        )
+        .to(
+          scrollIndicatorRef.current,
+          {
+            opacity: 0,
+            ease: 'none',
+          },
+          0.08
+        )
+
     })
 
     return () => ctx.revert()

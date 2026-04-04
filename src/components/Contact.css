@@ -1,11 +1,31 @@
 .contact {
+  --contact-handoff: 0;
+  --contact-focus: 0;
   min-height: 100vh;
   padding: 8rem 2rem 3rem;
-  background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 24%, var(--color-background) 100%);
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 240, 214, calc(0.04 + (var(--contact-focus) * 0.08))), transparent 40%),
+    radial-gradient(circle at 80% 6%, rgba(255, 255, 255, calc(0.02 + (var(--contact-focus) * 0.05))), transparent 34%),
+    linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 24%, var(--color-background) 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  isolation: isolate;
+}
+
+.contact::after {
+  content: '';
+  position: absolute;
+  inset: -14% 0 auto;
+  height: 30vh;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 239, 210, 0.22), transparent 40%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.24), transparent 68%);
+  opacity: calc(0.08 + (var(--contact-handoff) * 0.5));
+  transform: translateY(calc((1 - var(--contact-handoff)) * 24px));
+  pointer-events: none;
+  z-index: -1;
 }
 
 .contact::before {
@@ -26,6 +46,43 @@
   width: 100%;
 }
 
+.contact-handoff {
+  position: absolute;
+  left: clamp(1.2rem, 5vw, 4rem);
+  top: clamp(1.2rem, 3.2vw, 2.5rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  pointer-events: none;
+  opacity: calc(0.28 + (var(--contact-handoff) * 0.6));
+}
+
+.contact-handoff-line {
+  width: clamp(66px, 8vw, 122px);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 243, 224, 0.72), transparent);
+}
+
+.contact-handoff-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 244, 226, 0.92);
+  box-shadow: 0 0 16px rgba(255, 236, 214, 0.52);
+}
+
+.contact-final-glow {
+  position: absolute;
+  inset: -12% -6%;
+  background:
+    radial-gradient(circle at 26% 24%, rgba(255, 240, 214, 0.16), transparent 44%),
+    radial-gradient(circle at 74% 60%, rgba(20, 23, 31, 0.32), transparent 42%);
+  filter: blur(36px);
+  opacity: calc(0.2 + (var(--contact-focus) * 0.4));
+  pointer-events: none;
+  z-index: -1;
+}
+
 .section-title {
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 200;
@@ -37,6 +94,7 @@
 
 .contact-content {
   max-width: 900px;
+  opacity: calc(0.84 + (var(--contact-focus) * 0.16));
 }
 
 .contact-text {
@@ -165,11 +223,22 @@
     gap: 2.5rem;
   }
 
+  .contact-handoff {
+    top: 1rem;
+    left: 1rem;
+  }
+
   .contact-social {
     gap: 2rem;
   }
 
   .footer {
     margin-top: 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-handoff {
+    transform: none;
   }
 }
