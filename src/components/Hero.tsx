@@ -258,9 +258,14 @@ function Hero() {
         </div>
 
         <div className="hero-panel" ref={panelRef} aria-hidden="true">
+          <div className="hero-monitor-shadow" />
           <div className="hero-monitor-stand" />
           <div className="hero-monitor-base" />
+          <div className="hero-monitor-base-reflection" />
           <div className="hero-panel-frame">
+            <div className="hero-panel-bezel-outer" />
+            <div className="hero-panel-bezel-inner" />
+            <div className="hero-panel-screen" />
             <div className="hero-panel-grid" />
             <div className="hero-panel-light" />
             <div className="hero-panel-outline" />
