@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { prefersReducedMotion, isMobile } from '../utils/motionUtils'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './Hero.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -25,7 +25,6 @@ function Hero() {
 
   useEffect(() => {
     const reducedMotion = prefersReducedMotion()
-    const mobile = isMobile()
 
     const ctx = gsap.context(() => {
       const heroElement = heroRef.current
@@ -126,127 +125,6 @@ function Hero() {
             duration: 0.8,
           },
           '-=0.4'
-        )
-
-      const scrollTl = gsap.timeline({
-        defaults: { ease: 'power2.out' },
-        scrollTrigger: {
-          trigger: heroElement,
-          start: 'top top',
-          end: reducedMotion ? '+=80%' : mobile ? '+=110%' : '+=160%',
-          scrub: true,
-          pin: true,
-          anticipatePin: 1,
-        },
-      })
-
-      scrollTl
-        .to(
-          heroElement,
-          {
-            '--hero-dim': 0.28,
-            duration: 1.1,
-          },
-          0
-        )
-        .to(
-          deskItemsRef.current,
-          {
-            opacity: 0.4,
-            y: -6,
-            duration: 1,
-          },
-          0
-        )
-        .to(
-          veilRef.current,
-          {
-            opacity: 0.18,
-            duration: 1.1,
-          },
-          0
-        )
-        .to(
-          heroInnerRef.current,
-          {
-            scale: mobile ? 0.99 : 0.96,
-            y: mobile ? -6 : -10,
-            duration: 1.05,
-          },
-          0
-        )
-        .to(
-          heroContentRef.current,
-          {
-            opacity: 0.96,
-            duration: 1.1,
-          },
-          0.1
-        )
-        .to(
-          panelRef.current,
-          {
-            scale: 1.03,
-            y: -8,
-            duration: 1.05,
-          },
-          0.2
-        )
-        .to(
-          gridRef.current,
-          {
-            opacity: 0.16,
-            duration: 1,
-          },
-          0.2
-        )
-        .to(
-          '.hero-panel-light',
-          {
-            opacity: 0.9,
-            duration: 0.95,
-          },
-          0.2
-        )
-        .to(
-          heroContentRef.current,
-          {
-            opacity: 0.9,
-            y: -6,
-            duration: 1,
-          },
-          0.62
-        )
-        .to(
-          heroInnerRef.current,
-          {
-            filter: 'saturate(0.95)',
-            duration: 0.95,
-          },
-          0.62
-        )
-        .fromTo(
-          '.framed-identity',
-          { y: 56, opacity: 0.74 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.95,
-            ease: 'power2.out',
-          },
-          0.74
-        )
-        .fromTo(
-          '.framed-identity .identity-frame-wrap',
-          { opacity: 0, y: 72, filter: 'blur(4px)' },
-          {
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            duration: 1,
-            ease: 'power2.out',
-          },
-          0.76
         )
 
     })
