@@ -128,6 +128,10 @@ function FeaturedWork() {
           <span className="shell-edge shell-edge-left" />
           <span className="shell-edge shell-edge-right" />
           <span className="shell-top-light" />
+          <span className="archive-shelf archive-shelf-left" />
+          <span className="archive-shelf archive-shelf-right" />
+          <span className="archive-cabinet archive-cabinet-left" />
+          <span className="archive-cabinet archive-cabinet-right" />
         </div>
         <div className="archive-header">
           <p className="archive-kicker">Workspace Archive</p>

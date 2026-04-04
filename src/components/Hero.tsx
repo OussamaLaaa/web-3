@@ -155,10 +155,13 @@ function Hero() {
 
       {/* Workspace desk items */}
       <div className="hero-desk-items" ref={deskItemsRef}>
+        <div className="desk-surface" />
+        <div className="desk-edge" />
         <div className="desk-keyboard" />
         <div className="desk-mouse" />
         <div className="desk-notebook" />
         <div className="desk-coffee" />
+        <div className="desk-lamp" />
       </div>
 
       <div className="hero-inner" ref={heroInnerRef}>
@@ -212,6 +215,8 @@ function Hero() {
         </div>
 
         <div className="hero-panel" ref={panelRef} aria-hidden="true">
+          <div className="hero-monitor-stand" />
+          <div className="hero-monitor-base" />
           <div className="hero-panel-frame">
             <div className="hero-panel-grid" />
             <div className="hero-panel-light" />
