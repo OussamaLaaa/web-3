@@ -1,10 +1,11 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { CSSPlugin } from 'gsap/CSSPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion, isMobile } from '../utils/motionUtils'
 import './FramedIdentity.css'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, CSSPlugin)
 
 interface FramedIdentityProps {
   sharedSectionRef: MutableRefObject<HTMLElement | null>
@@ -132,10 +133,12 @@ function FramedIdentity({
       if (featuredSection) {
         tl.fromTo(
           featuredSection,
-          { y: 100, opacity: 0.35 },
+          { y: 100, opacity: 0.35, scale: 0.985, '--archive-handoff': 0 },
           {
             y: 0,
             opacity: 1,
+            scale: 1,
+            '--archive-handoff': 1,
             duration: 1,
             ease: 'power2.out',
           },
