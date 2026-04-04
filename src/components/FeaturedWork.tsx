@@ -174,7 +174,7 @@ function FeaturedWork() {
           const visual = workVisualsRef.current[index]
           const details = workDetailsRef.current[index]
 
-          if (visual || details) {
+          if (visual && details) {
             gsap.timeline({
               scrollTrigger: {
                 trigger: item,

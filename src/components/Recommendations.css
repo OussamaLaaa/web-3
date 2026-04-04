@@ -1,11 +1,33 @@
 .recommendations {
   --recommendation-room-dim: 0;
   --recommendation-room-focus: 0;
+  --recommendation-glow-base-alpha: 0.04;
+  --recommendation-glow-focus-gain: 0.07;
+  --recommendation-secondary-glow-base-alpha: 0.02;
+  --recommendation-secondary-glow-focus-gain: 0.04;
   min-height: 100vh;
   padding: 8rem 2rem;
   background:
-    radial-gradient(circle at 16% 10%, rgba(255, 239, 212, calc(0.04 + (var(--recommendation-room-focus) * 0.07))), transparent 38%),
-    radial-gradient(circle at 84% 4%, rgba(255, 255, 255, calc(0.02 + (var(--recommendation-room-focus) * 0.04))), transparent 34%),
+    radial-gradient(
+      circle at 16% 10%,
+      rgba(
+        255,
+        239,
+        212,
+        calc(var(--recommendation-glow-base-alpha) + (var(--recommendation-room-focus) * var(--recommendation-glow-focus-gain)))
+      ),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 84% 4%,
+      rgba(
+        255,
+        255,
+        255,
+        calc(var(--recommendation-secondary-glow-base-alpha) + (var(--recommendation-room-focus) * var(--recommendation-secondary-glow-focus-gain)))
+      ),
+      transparent 34%
+    ),
     linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 22%, var(--color-background) 100%);
   position: relative;
   isolation: isolate;
