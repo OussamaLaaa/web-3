@@ -1,23 +1,12 @@
-import { MutableRefObject, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { CSSPlugin } from 'gsap/CSSPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { prefersReducedMotion, isMobile } from '../utils/motionUtils'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './FramedIdentity.css'
 
-gsap.registerPlugin(ScrollTrigger, CSSPlugin)
+gsap.registerPlugin(ScrollTrigger)
 
-interface FramedIdentityProps {
-  sharedSectionRef: MutableRefObject<HTMLElement | null>
-  sharedFirstItemRef: MutableRefObject<HTMLDivElement | null>
-  sharedFirstVisualRef: MutableRefObject<HTMLDivElement | null>
-}
-
-function FramedIdentity({
-  sharedSectionRef,
-  sharedFirstItemRef,
-  sharedFirstVisualRef,
-}: FramedIdentityProps) {
+function FramedIdentity() {
   const sceneRef = useRef<HTMLElement>(null)
   const frameWrapRef = useRef<HTMLDivElement>(null)
   const frameRef = useRef<HTMLElement>(null)
@@ -27,13 +16,9 @@ function FramedIdentity({
 
   useEffect(() => {
     const reducedMotion = prefersReducedMotion()
-    const mobile = isMobile()
 
     const ctx = gsap.context(() => {
       const scene = sceneRef.current
-      const featuredSection = sharedSectionRef.current
-      const firstWorkItem = sharedFirstItemRef.current
-      const firstVisual = sharedFirstVisualRef.current
 
       if (!scene || reducedMotion) {
         gsap.set(scene, { clearProps: 'all' })
@@ -54,11 +39,7 @@ function FramedIdentity({
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: scene,
-          start: 'top top',
-          end: mobile ? '+=110%' : '+=165%',
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
+          start: 'top 78%',
         },
         defaults: { ease: 'power2.out' },
       })
@@ -82,9 +63,9 @@ function FramedIdentity({
         .to(
           frameRef.current,
           {
-            scale: mobile ? 1.02 : 1.05,
-            y: mobile ? -8 : -14,
-            duration: 0.75,
+            scale: 1.02,
+            y: -8,
+            duration: 0.62,
           },
           0.12
         )
@@ -107,77 +88,17 @@ function FramedIdentity({
           0.48
         )
         .to(
-          frameWrapRef.current,
-          {
-            xPercent: mobile ? 0 : -10,
-            y: mobile ? -8 : -12,
-            scale: mobile ? 0.98 : 0.94,
-            filter: 'saturate(0.88)',
-            duration: 0.9,
-          },
-          0.64
-        )
-        .to(
           scene,
           {
-            '--identity-light-handoff': 1,
-            duration: 0.85,
+            '--identity-light-handoff': 0.45,
+            duration: 0.72,
           },
           0.66
         )
-
-      const handoffStartTime = 0.7
-      const timelineStaggerOffset = 0.02
-      let timelinePosition = handoffStartTime
-
-      if (featuredSection) {
-        tl.fromTo(
-          featuredSection,
-          { y: 100, opacity: 0.35, scale: 0.985, '--archive-handoff': 0 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            '--archive-handoff': 1,
-            duration: 1,
-            ease: 'power2.out',
-          },
-          timelinePosition
-        )
-        timelinePosition += timelineStaggerOffset
-      }
-
-      if (firstWorkItem) {
-        tl.fromTo(
-          firstWorkItem,
-          { opacity: 0, y: 80, filter: 'blur(5px)' },
-          {
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            duration: 1.1,
-          },
-          timelinePosition
-        )
-        timelinePosition += timelineStaggerOffset
-      }
-
-      if (firstVisual) {
-        tl.fromTo(
-          firstVisual,
-          { scale: 0.97, y: 10 },
-          {
-            scale: 1,
-            y: 0,
-            duration: 0.95,
-          },
-          timelinePosition
-        )
-      }
     })
 
     return () => ctx.revert()
-  }, [sharedSectionRef, sharedFirstItemRef, sharedFirstVisualRef])
+  }, [])
 
   return (
     <section className="framed-identity" ref={sceneRef}>

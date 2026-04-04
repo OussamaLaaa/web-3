@@ -1,10 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { prefersReducedMotion, isMobile } from '../utils/motionUtils'
+import { prefersReducedMotion } from '../utils/motionUtils'
 import './DoorScene.css'
-
-gsap.registerPlugin(ScrollTrigger)
 
 function DoorScene() {
   const sceneRef = useRef<HTMLElement>(null)
@@ -15,7 +12,6 @@ function DoorScene() {
 
   useEffect(() => {
     const reducedMotion = prefersReducedMotion()
-    const mobile = isMobile()
 
     const ctx = gsap.context(() => {
       const scene = sceneRef.current
@@ -26,20 +22,10 @@ function DoorScene() {
         return
       }
 
-      // Pinned cinematic sequence: darkness → workspace reveal → camera zoom
       const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: scene,
-          start: 'top top',
-          end: mobile ? '+=98%' : '+=150%',
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-        },
         defaults: { ease: 'power2.inOut' },
       })
 
-      // Start in complete darkness, gradually reveal the space
       tl.fromTo(
         atmosphereRef.current,
         { opacity: 0.46 },
@@ -73,12 +59,11 @@ function DoorScene() {
           },
           0.26
         )
-        // Camera zoom into the workspace
         .to(
           scene,
           {
-            '--door-scene-zoom': mobile ? 1.2 : 1.44,
-            duration: 0.78,
+            '--door-scene-zoom': 1.06,
+            duration: 0.52,
             ease: 'power2.inOut',
           },
           0.42
@@ -94,9 +79,8 @@ function DoorScene() {
         .to(
           scene,
           {
-            yPercent: -4,
-            opacity: 0.94,
-            duration: 0.32,
+            opacity: 0.98,
+            duration: 0.24,
           },
           0.9
         )

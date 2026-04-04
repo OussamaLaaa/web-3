@@ -1,11 +1,10 @@
-import { CSSProperties, MutableRefObject, useEffect, useRef } from 'react'
+import { CSSProperties, useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { CSSPlugin } from 'gsap/CSSPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '../utils/motionUtils'
 import './FeaturedWork.css'
 
-gsap.registerPlugin(ScrollTrigger, CSSPlugin)
+gsap.registerPlugin(ScrollTrigger)
 
 interface WorkItem {
   id: number
@@ -22,32 +21,13 @@ interface WorkItem {
   accentSoft: string
 }
 
-interface FeaturedWorkProps {
-  sharedSectionRef?: MutableRefObject<HTMLElement | null>
-  sharedFirstItemRef?: MutableRefObject<HTMLDivElement | null>
-  sharedFirstVisualRef?: MutableRefObject<HTMLDivElement | null>
-}
-
-function FeaturedWork({
-  sharedSectionRef,
-  sharedFirstItemRef,
-  sharedFirstVisualRef,
-}: FeaturedWorkProps) {
+function FeaturedWork() {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
   const sectionRef = useRef<HTMLElement>(null)
 
   const setWorkItemRef = (index: number) => (el: HTMLDivElement | null) => {
     workItemsRef.current[index] = el
-    if (index === 0 && sharedFirstItemRef) {
-      sharedFirstItemRef.current = el
-    }
-  }
-
-  const setWorkVisualRef = (index: number) => (el: HTMLDivElement | null) => {
-    if (index === 0 && sharedFirstVisualRef) {
-      sharedFirstVisualRef.current = el
-    }
   }
 
   const works: WorkItem[] = [
@@ -103,31 +83,6 @@ function FeaturedWork({
         return
       }
 
-      // DRAMATIC section entrance with atmosphere shift
-      gsap.from(sectionRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 92%',
-          end: 'top 48%',
-          scrub: 1,
-        },
-        '--work-section-brightness': 0.45,
-        '--archive-handoff': 0,
-        duration: 1.1,
-        ease: 'power2.out',
-      })
-
-      gsap.to(sectionRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 88%',
-          end: 'top 36%',
-          scrub: 1,
-        },
-        '--archive-focus': 1,
-        ease: 'none',
-      })
-
       // Section title reveal
       gsap.from(sectionTitleRef.current, {
         scrollTrigger: {
@@ -155,31 +110,12 @@ function FeaturedWork({
             delay: index * 0.12,
             ease: 'power3.out',
           })
-
-          gsap.to(item, {
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 80%',
-              end: 'top 38%',
-              scrub: 1,
-            },
-            '--artifact-active': 1,
-            ease: 'none',
-          })
         }
       })
     })
 
     return () => ctx.revert()
   }, [])
-
-  useEffect(() => {
-    if (sharedSectionRef) {
-      sharedSectionRef.current = sectionRef.current
-    }
-    // sectionRef object identity is stable; we only sync current node to the shared ref.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sharedSectionRef])
 
   return (
     <section className="featured-work" ref={sectionRef}>
@@ -229,7 +165,6 @@ function FeaturedWork({
               <div className="work-body">
                 <div
                   className="work-visual"
-                  ref={setWorkVisualRef(index)}
                 >
                   <span className="artifact-pin artifact-pin-left" aria-hidden="true" />
                   <span className="artifact-pin artifact-pin-right" aria-hidden="true" />
