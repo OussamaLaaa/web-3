@@ -226,7 +226,7 @@ function Hero() {
           0.62
         )
         .fromTo(
-          '.featured-work',
+          '.framed-identity',
           { y: 56, opacity: 0.74 },
           {
             y: 0,
@@ -237,7 +237,7 @@ function Hero() {
           0.74
         )
         .fromTo(
-          '.featured-work .work-item:first-child',
+          '.framed-identity .identity-frame-wrap',
           { opacity: 0, y: 72, filter: 'blur(4px)' },
           {
             opacity: 1,

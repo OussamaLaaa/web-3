@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useRef } from 'react'
+import { CSSProperties, MutableRefObject, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '../utils/motionUtils'
@@ -18,10 +18,33 @@ interface WorkItem {
   accentSoft: string
 }
 
-function FeaturedWork() {
+interface FeaturedWorkProps {
+  sharedSectionRef?: MutableRefObject<HTMLElement | null>
+  sharedFirstItemRef?: MutableRefObject<HTMLDivElement | null>
+  sharedFirstVisualRef?: MutableRefObject<HTMLDivElement | null>
+}
+
+function FeaturedWork({
+  sharedSectionRef,
+  sharedFirstItemRef,
+  sharedFirstVisualRef,
+}: FeaturedWorkProps) {
   const sectionTitleRef = useRef<HTMLHeadingElement>(null)
   const workItemsRef = useRef<(HTMLDivElement | null)[]>([])
   const sectionRef = useRef<HTMLElement>(null)
+
+  const setWorkItemRef = (index: number) => (el: HTMLDivElement | null) => {
+    workItemsRef.current[index] = el
+    if (index === 0 && sharedFirstItemRef) {
+      sharedFirstItemRef.current = el
+    }
+  }
+
+  const setWorkVisualRef = (index: number) => (el: HTMLDivElement | null) => {
+    if (index === 0 && sharedFirstVisualRef) {
+      sharedFirstVisualRef.current = el
+    }
+  }
 
   const works: WorkItem[] = [
     {
@@ -114,6 +137,14 @@ function FeaturedWork() {
     return () => ctx.revert()
   }, [])
 
+  useEffect(() => {
+    if (sharedSectionRef) {
+      sharedSectionRef.current = sectionRef.current
+    }
+    // sectionRef object identity is stable; we only sync current node to the shared ref.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sharedSectionRef])
+
   return (
     <section className="featured-work" ref={sectionRef}>
       <div className="featured-work-container">
@@ -125,7 +156,7 @@ function FeaturedWork() {
               <div
                 key={work.id}
                 className="work-item"
-                ref={(el) => (workItemsRef.current[index] = el)}
+                ref={setWorkItemRef(index)}
                 style={
                 {
                   '--accent': work.accent,
@@ -145,7 +176,10 @@ function FeaturedWork() {
               </div>
 
               <div className="work-body">
-                <div className="work-visual">
+                <div
+                  className="work-visual"
+                  ref={setWorkVisualRef(index)}
+                >
                   <div className="visual-grid"></div>
                   <div className="visual-beam"></div>
                   <div className="visual-band"></div>
